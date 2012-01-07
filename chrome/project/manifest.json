@@ -3,17 +3,21 @@
     "version": "1.0",
     "description": "Highlight #BannedList phrases on every page you read.",
     "browser_action": {
-        "default_icon": "icon.png",
-        "popup": "popup.html"
+        "default_icon": "icon.png"
     },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "css": ["css/bannedList.css"],
-      "js": ["js/jquery-1.7.1.min_plus_highlight.js", "js/bannedList.js"]
-    }
-  ],
-    "permissions": [
-        "http://api.flickr.com/"
-    ]
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "css": [
+                "css/bannedList.css"
+            ],
+            "js": [
+                "js/jquery-1.7.1.min_plus_highlight.js",
+                "js/bannedList.js"
+            ]
+        }
+    ],
+    "permissions": []
 }
