@@ -19,16 +19,16 @@ Johann Burkard
 
 */
 
-jQuery.fn.highlight = function(pattern) {
+jQuery.fn.highlight = function( pattern, inHiliteClassName) {
     var regex = typeof(pattern) === "string" ? new RegExp(pattern, "i") : pattern; // assume very LOOSELY pattern is regexp if not string
-    function innerHighlight(node, pattern) {
+    function innerHighlight(node, pattern, inHiliteClassName) {
         var skip = 0;
         if (node.nodeType === 3) { // 3 - Text node
             var pos = node.data.search(regex);
             if (pos >= 0 && node.data.length > 0) { // .* matching "" causes infinite loop
                 var match = node.data.match(regex); // get the match(es), but we would only handle the 1st one, hence /g is not recommended
                 var spanNode = document.createElement('span');
-                spanNode.className = 'highlight'; // set css
+                spanNode.className = inHiliteClassName; // set css
                 var middleBit = node.splitText(pos); // split to 2 nodes, node contains the pre-pos text, middleBit has the post-pos
                 var endBit = middleBit.splitText(match[0].length); // similarly split middleBit to 2 nodes
                 var middleClone = middleBit.cloneNode(true);
@@ -39,14 +39,14 @@ jQuery.fn.highlight = function(pattern) {
             }
         } else if (node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName)) { // 1 - Element node
             for (var i = 0; i < node.childNodes.length; i++) { // highlight all children
-                i += innerHighlight(node.childNodes[i], pattern); // skip highlighted ones
+                i += innerHighlight( node.childNodes[i], pattern, inHiliteClassName); // skip highlighted ones
             }
         }
         return skip;
     }
 
     return this.each(function() {
-        innerHighlight(this, pattern);
+        innerHighlight( this, pattern, inHiliteClassName);
     });
 };
 
