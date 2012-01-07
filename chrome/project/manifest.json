@@ -10,7 +10,7 @@
     {
       "matches": ["<all_urls>"],
       "css": ["css/mystyles.css"],
-      "js": ["js/jquery-1.7.1.min.js", "js/myscript.js"]
+      "js": ["js/jquery-1.7.1.min_plus_highlight.js", "js/myscript.js"]
     }
   ],
     "permissions": [

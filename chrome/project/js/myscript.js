@@ -1,21 +1,8 @@
-function getTextNodesIn(node, includeWhitespaceNodes) {
-console.log( node );
-    var textNodes = [], whitespace = /^\s*$/;
+var thePattern = '(Way (beyond|more)|Learning curve|rais(es*|ing) awareness|Celebrat(es*|ing) diversity|Inclusive|Community|Hearts and minds|Celebrity|Makeover|Lifestyle|Going forward|forward policy|Big Ask|At this moment in time|Fit for Purpose|Hard(-| |)working families|Game-chang(er|ing)|Vibrant|Progressives*|Arguably|Iconic|Parameters*|the hallmarks of|Exponentially|Incredibly|On a daily basis|At the end of the day|Organically|Political Journey|Any time soon|Economy, stupid|any way, shape or form|elephant in the room|Perfect Storm|Seal the Deal|Good Election to Lose|Let’s be clear|^The truth is|Out of the box|Paradigm|Pot, Kettle|Name and Shame|Deliverables*|Enough already|Who knew?|Epic Fail|Guilty as charged|Political hot potato|no-brainer|cynica(l|lly)|sycophantic|uncritical|willful ignorance|clearly|fundamenta(list|lly)|shameless(ly)*|(in)*significant|meaning(ful|less)|substan(ce|tial)|vital|unforgettable|inevitable|inexorable|hysterical|ludicrous|nonsensical|disgusting|leading (blogger|reason)s*|beleaguered|vulnerable moment|unthinking|knee-jerk|Ideologues*|Vultures*|Parasites*|ideological|Progressive|Regressive|Imperialis[m|t]|reactionary|fairness|unfairness|devastating|equality|slash(ed)*|reared its(| ugly) head|Beggars Belief|Body blow|Scrap heap|Guns blazing|Deafening silence|A fine art|makes no mention|endanger|thought(ful|less)|scandalous|distort(ed|ing)|prescient|pithy|unsurprisingly|gamely|lamented|laz(y|iness)|perverse(ly)*|prostrated|irrationa(l|lly)|ill-(conceived|considered|informed)|affordable|crazy|wrong-headed|Hodge-podge|Half-baked|chutzpah|wanton|self-(hatred|indulgent|satisfied)|delusional|catastroph(e|ic)|disgrace(ful)*|febrile|The(| simple) fact(| of the matter) is|A (basket|package|raft|range|sense|series) of|(Sea|Step)(-| )change|creeping privati[s|z]ation|read(ing)*(| \w*) the Riot Act|touch base|Is it just me, or|[^\'\"]The \w+ Delusion[^\'\"])';
 
-    function getTextNodes(node) {
-        if (node.nodeType == 3) {
-            if (includeWhitespaceNodes || !whitespace.test(node.nodeValue)) {
-                textNodes.push(node);
-            }
-        } else if ( node.childNodes != null) {
-            for (var i = 0, len = node.childNodes.length; i < len; ++i) {
-                getTextNodes(node.childNodes[i]);
-            }
-        }
-    }
 
-    getTextNodes(node);
-    return textNodes;
-}
-
-getTextNodesIn(  $('body')[0] );
+$(function() {
+        $('body').highlight(thePattern);
+//        $('body').highlight( '\b' + thePattern + '\b');
+        $("#remove").click(function() {$("#row").removeHighlight();});
+    });
