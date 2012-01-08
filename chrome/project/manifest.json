@@ -2,6 +2,7 @@
     "name": "#BannedList Highlighter",
     "version": "1.0",
     "description": "Highlight #BannedList phrases on every page you read.",
+    "homepage_url": "http://123.writeboard.com/pya47esrbcl89qjz/",
     "browser_action": {
         "default_icon": "icon.png"
     },
