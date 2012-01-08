@@ -122,8 +122,6 @@ var theCoreTerms = ['A (basket|package|raft|range|sense|series) of',
 'Wow factor',
 'Wreak havoc'];
 
-// '(?<!Mar)athon' doesn't work - see: http://stackoverflow.com/questions/641407/javascript-negative-lookbehind-equivalent
-
 var theLaterCoreTerms = ['Abject failure',
 'Damning indictment',
 'Devastating',
@@ -244,9 +242,7 @@ var theExtraTerms = ['Ahead of the curve',
 'Wrong-headed'];
 
 $(function() {
-    $('body').highlight( theCoreTerms.join('|'), 'highlightCore', '#BannedList entry');
-    $('body').highlight( theLaterCoreTerms.join('|'), 'highlightCore', '#BannedList entry');
-    $('body').highlight( theExtraTerms.join('|'), 'highlightExtra', '#BannedList Extras: dodgy political language');
-//  $('body').highlight( '\b' + thePattern + '\b');
-//  $("#remove").click(function() {$("#row").removeHighlight();});
+    $('body').highlight( '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry');
+    $('body').highlight( '\\b(' + theLaterCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry');
+    $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language');
 });
