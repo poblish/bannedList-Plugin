@@ -11,6 +11,9 @@
             "matches": [
                 "<all_urls>"
             ],
+            "exclude_globs": [
+                "https://gist.github.com/gists/*/edit*"
+            ],
             "css": [
                 "css/bannedList.css"
             ],
