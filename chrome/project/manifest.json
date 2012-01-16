@@ -3,6 +3,7 @@
     "version": "1.0",
     "description": "Highlight #BannedList phrases on every page you read.",
     "homepage_url": "https://github.com/poblish/bannedList-Plugin",
+    "options_page": "options/options.html",
     "icons": {
         "16": "img/icon16.png",
         "48": "img/icon48.png",

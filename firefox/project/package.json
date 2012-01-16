@@ -1,9 +1,9 @@
 {
-    "name": "project", 
-    "license": "MPL 1.1/GPL 2.0/LGPL 2.1", 
-    "author": "", 
-    "version": "0.1", 
-    "fullName": "project", 
-    "id": "jid1-fM9zwpn7QB5NAA", 
-    "description": "a basic add-on"
+    "name": "banned_list",
+    "license": "MPL 1.1/GPL 2.0/LGPL 2.1",
+    "author": "Andrew Regan & John Rentoul",
+    "version": "1.0",
+    "fullName": "BannedList Highlighter",
+    "id": "jid1-fM9zwpn7QB5NAA",
+    "description": "Highlight BannedList phrases on every page you read."
 }

@@ -70,11 +70,13 @@ optDash('Hard-working families'),
 'Hearts and minds',
 'Hodge-podge',
 'Hostage to fortune',
+reqdPrefixes('Hypocrisy',  'Breathtaking','Rank','Shameless'),
 'Iconic',
 'If I were a betting man',
 'Inclusive',
 'In conjunction with',
 'Incredibl(e|y)',
+reqdPrefixes('Indictment',  'Damning','Devastating'),
 'Inextricably link(ed)?',
 'In point of fact',
 'In (order|relation) to',
@@ -118,19 +120,25 @@ optDash('Last-ditch'),
 'Perfect Storm',
 optDash('Pipe-dream'),
 'Plan B',
+'Play(ed|ing)? a leading (part|role)( in)?',
 'Plethora',
 'Political (football|hot potato|Journey)',
 'Postcode lottery',
 'Pot, Kettle',
+'Prior to',
 'Progressive',
 'Progressives*',
 'Psychodrama',
 'Quantum leap',
+'Question mark over',
 'Rais(es*|ing) awareness',
 'Read(ing)*(| \w*) the Riot Act',
 'Real (change|people|world)',
 'Reality check',
+'(Re)?Connect with the voters',
 'Red lines',
+'Reinvent(ing)? the wheel',
+'Ring the changes',
 'Robust',
 'Root and branch',
 'Scant comfort',
@@ -143,15 +151,20 @@ optDash('(Sea|Step)-change'),
 'Simples',
 'Siren voices*',
 'Sleaze',
+'Sleepwalk(ing)? into',
 'Smell the Coffee',
 'Social mobility',
 'Spiral out of control',
 'Stakeholders*',
 'Stark contrast',
+'Step forward, (\\w+)',
 'Stinging (attack|criticism)',
 'Substantive',
 'Systemic( failure)?',
 'Takeaway point',
+'Take up the cudgels for',
+'Tak(e|ing) on board',
+'Taking(\\w+)? forward',
 'Talismanic',
 'Tectonic plates',
 'The hallmarks of',
@@ -183,13 +196,6 @@ optDash('Well-oiled machine'),
 'Wow factor',
 'Wreak havoc'];
 
-var theLaterCoreTerms = ['Abject failure',
-'Damning indictment',
-'Devastating',
-'Little local difficulty',
-'Methinks',
-'Nothing short of',
-'That is all'];
 
 var theExtraTerms = ['Arch-(Blairite|Thatcherite)',
 'Articulated* a',
@@ -274,6 +280,7 @@ optPrefixes('Landscape', 'Changed','Different'),
 'Leaps and bounds',
 'Level killing-field',
 'Listen very hard and you will hear',
+'Little local difficulty',
 optDash('Long-term vision'),
 'Ludicrous',
 'Made his mark',
@@ -281,6 +288,7 @@ optDash('Long-term vision'),
 'Map \\w+ agenda',
 'Marathon not a sprint',
 'Meaning(ful|less)',
+'Methinks',
 'Me-too approach',
 'Metastorm',
 '\'Minefield\'',
@@ -292,6 +300,7 @@ optDash('Long-term vision'),
 'Noises off',
 'Nonsensical',
 'No past to',
+'Nothing short of',
 'Objective analysis',
 'On a knife edge',
 'Ordinary families',
@@ -350,6 +359,7 @@ optDash('Something-for-something'),
 'Substan(ce|tial)',
 'Sycophantic',
 optPrefixes('Tenets?',  'Key'),
+'That is all',
 optPrefixes('The heart bleeds',  'How'),
 'The (left|right) needs (a|to)',
 'The old model of',
@@ -385,7 +395,6 @@ optPrefixes('Thoughtful',  'Ever-','Usually'),
 
 $(function() {
     $('body').highlight( '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry');
-    $('body').highlight( '\\b(' + theLaterCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry');
     $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language');
 });
 
@@ -393,17 +402,24 @@ function optDash(inStr) {
     return inStr.replace('-','(-| )');
 }
 
-function optPrefixes() {  // assume each prefix is word and needs trailing space
-    var argsArr = Array.prototype.slice.apply(arguments);
+function optPrefixes() {
+    return handlePrefixes( Array.prototype.slice.apply(arguments), true);
+}
+
+function reqdPrefixes() {
+    return handlePrefixes( Array.prototype.slice.apply(arguments), true);
+}
+
+function handlePrefixes( inArray, inIsOptional) {  // assume each prefix is word and needs trailing space
     var theStr = '(';
 
-    for ( i = 1; i < argsArr.length; i++) {
+    for ( i = 1; i < inArray.length; i++) {
         if ( i > 1) {
             theStr += '|';
         }
 
-        theStr += argsArr[i] + ' ';
+        theStr += inArray[i] + ' ';
     }
 
-    return theStr += ')?' + argsArr[0];
+    return theStr += ( inIsOptional ? ')?' : ')') + inArray[0];
 }
