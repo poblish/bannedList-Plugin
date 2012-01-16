@@ -18,14 +18,4 @@ pageMod.PageMod({
   include: ['*'],
   contentScriptWhen: "end",
   contentScriptFile: [ data.url("js/jquery-1.7.1.min_plus_highlight.js"), data.url("js/bannedList.js") ],
-/*
-  onAttach: function onAttach(worker) {
-    console.log("Attaching content scripts")
-    worker.on('message', function(data) {
-      console.log(data);
-    });
-  }
-*/
 });
-
-console.log("The add-on is running.");
