@@ -1,6 +1,9 @@
+.highlightCore, .highlightExtra, .highlightReplaced {
+    padding: 2px 3px;
+}
+
 .highlightCore, .highlightExtra {
     font-weight: bold;
-    padding: 2px;
     border: 1px dotted grey;
 }
 
@@ -10,4 +13,10 @@
 
 .highlightExtra {
     background-color: #FFE4E4;
+}
+
+.highlightReplaced {
+    /* font-weight: bold; */
+    background-color: #DFF2BF;
+    border: 1px dotted #4F8A10;
 }

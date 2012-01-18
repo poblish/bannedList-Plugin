@@ -51,12 +51,62 @@ jQuery.fn.highlight = function( pattern, inHiliteClassName, inSpanTitle) {
     });
 };
 
-jQuery.fn.removeHighlight = function() {
-    return this.find("span.highlight").each(function() {
+jQuery.fn.replaceHighlight = function( pattern, inReplacement, inHiliteClassName, inSpanTitle) {
+    var regex = typeof(pattern) === "string" ? new RegExp(pattern, "i") : pattern; // assume very LOOSELY pattern is regexp if not string
+    function innerHighlight(node, pattern, inHiliteClassName, inSpanTitle) {
+        var skip = 0;
+        if (node.nodeType === 3) { // 3 - Text node
+            var pos = node.data.search(regex);
+            if (pos >= 0 && node.data.length > 0) { // .* matching "" causes infinite loop
+                var match = node.data.match(regex); // get the match(es), but we would only handle the 1st one, hence /g is not recommended
+                var spanNode = document.createElement('span');
+                spanNode.className = inHiliteClassName;
+                spanNode.title = inSpanTitle;
+                var middleBit = node.splitText(pos); // split to 2 nodes, node contains the pre-pos text, middleBit has the post-pos
+                var endBit = middleBit.splitText(match[0].length); // similarly split middleBit to 2 nodes
+                spanNode.appendChild( document.createTextNode(inReplacement) );
+                // parentNode ie. node, now has 3 nodes by 2 splitText()s, replace the middle with the highlighted spanNode:
+                middleBit.parentNode.replaceChild(spanNode, middleBit);
+                skip = 1; // skip this middleBit, but still need to check endBit
+            }
+        } else if (node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName)) { // 1 - Element node
+            for (var i = 0; i < node.childNodes.length; i++) { // highlight all children
+                i += innerHighlight( node.childNodes[i], pattern, inHiliteClassName, inSpanTitle); // skip highlighted ones
+            }
+        }
+        return skip;
+    }
+
+    return this.each(function() {
+        innerHighlight( this, pattern, inHiliteClassName, inSpanTitle);
+    });
+};
+
+jQuery.fn.removeHighlight = function(inStyleRule) {
+    var shownWarning = false;
+
+    return this.find(inStyleRule).each(function() {
         this.parentNode.firstChild.nodeName;
-        with (this.parentNode) {
+        with (this.parentNode)
+        {
+            if (shownWarning) {
+                return;
+            }
+
+            if ( inStyleRule == 'span.highlightReplaced') {
+            	alert("Sorry, can't clear already replaced words - please refresh the page!");
+            	shownWarning = true;
+            	return;
+            }
+
             replaceChild(this.firstChild, this);
             normalize();
         }
     }).end();
 };
+
+jQuery.fn.removeHighlights = function() {
+	this.removeHighlight("span.highlightCore");
+	this.removeHighlight("span.highlightExtra");
+	this.removeHighlight("span.highlightReplaced");
+}

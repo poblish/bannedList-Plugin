@@ -385,6 +385,7 @@ optPrefixes('Thoughtful',  'Ever-','Usually'),
 'Unthinking',
 'Upkick',
 'Upskill(ing)*',
+'Vested interests?',
 'Vital',
 'Vocalise',
 'Vulnerable groups*',
@@ -399,10 +400,42 @@ optPrefixes('Thoughtful',  'Ever-','Usually'),
 'Works for the many',
 'Wrong-headed'];
 
+var theOptions = { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" };
+
+chrome.extension.onRequest.addListener(
+	function( inReq, inSender, inSendResponse) {
+		theOptions = inReq.options;
+		$('body').removeHighlights();
+		refreshBannedStuff();
+	}
+	// sendResponse({}); // snub them.
+);
+
+
 $(function() {
-    $('body').highlight( '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry');
-    $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language');
+	refreshBannedStuff();
 });
+
+function refreshBannedStuff() {
+    if ( theOptions["extras.special.goodOrBad"] == 'true') {
+        $('body').replaceHighlight( '\\b(Blair|Brown|New Labour)ites\\b', 'some Labour people', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Blairite|Brownite)\\b', 'Labour', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b((left|right)-wing of the)\\b', '!', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Apprenticeships?|Hospitals?)\\b', 'Good Things', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(British (employers|industry)|Elderly|Entrepreneurs|Families|Most vulnerable|Squeezed middle|Police|Workers|Young people)\\b', 'Good People', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Long-term?)\\b', 'Good', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Equality)\\b', 'Goodness', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Big companies|Vested interests?)\\b', 'Bad Things', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Deficit)\\b', 'Bad Thing', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Inequality?|Injustice|Unfair)\\b', 'Badness', 'highlightReplaced', '#BannedList Replacement');
+    }
+
+    $('body').highlight( '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry');
+
+    if ( theOptions["extras.politics.andrew1"] == 'true') {
+        $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language');
+    }
+}
 
 function optDash(inStr) {
     return inStr.replace('-','(-| )');
