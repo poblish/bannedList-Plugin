@@ -4,7 +4,7 @@ var theCoreTerms = ['A (basket|package|raft|range|sense|series) of',
 'A fine art',
 'Affordable',
 optDash('Age-old question'),
-'Ahead of the curve',
+'Ahead of( the curve)?',
 'Ahem',
 'A long time in politics',
 'Any time soon',
@@ -18,24 +18,34 @@ optDash('Age-old question'),
 'A truth universally acknowledged',
 'Awry',
 optDash('Back-burner'),
+'Back in the day',
+'Ballpark',
 'Bank of Mum and Dad',
+'Battle lines?',
 'Beggars Belief',
 'beleaguered',
 'Big Ask',
 'Blood on the (carpet|floor|walls)',
+reqdPrefixes('Bullet',  'Magic','Silver'),
+'By the back door',
 'Celebrat(es*|ing) diversity',
 'Celebrity',
 'Chaos',
+'Civil society',
 'Clause (Four|IV) moment',
 'Clear and present danger',
 'Community',
+'Compelling',
+'Crash and burn',
 'Crowd-*sourc(e|ing)',
 'Crystal clear',
+reqdSuffixes('Culture of',  'Blame','Excuses'),
 'Damp squib',
 'Dead hand',
 'Dead in the water',
 'Dead on arrival',
 'Deafening silence',
+'Death knell',
 'Deliverables*',
 'Dracula in charge of a blood bank',
 'Economy, stupid',
@@ -68,8 +78,11 @@ optDash('Ground-breaking'),
 'Hard-headed',
 optDash('Hard-working families'),
 'Hearts and minds',
+optDash('Heavy-lifting'),
 'Hodge-podge',
 'Hostage to fortune',
+'Hotbed',
+'Human shield',
 reqdPrefixes('Hypocrisy',  'Breathtaking','Rank','Shameless'),
 'Iconic',
 'If I were a betting man',
@@ -133,11 +146,13 @@ optDash('Pipe-dream'),
 'Question mark over',
 'Rais(es*|ing) awareness',
 'Read(ing)*(| \w*) the Riot Act',
-'Real (change|people|world)',
+'Real (change|communities|families|lives|people|world)',
 'Reality check',
 '(Re)?Connect with the voters',
 'Red lines',
 'Reinvent(ing)? the wheel',
+'Resonates?( with)?',
+optSuffixes('Ride roughshod',  'Over','Poop'),
 'Ring the changes',
 'Robust',
 'Root and branch',
@@ -149,6 +164,7 @@ optDash('(Sea|Step)-change'),
 'Serve\\w? the purpose of',
 'Signage',
 'Simples',
+'Sing(ing|s)? from the same (hymn|song) sheet',
 'Siren voices*',
 'Sleaze',
 'Sleepwalk(ing)? into',
@@ -166,6 +182,7 @@ optDash('(Sea|Step)-change'),
 'Tak(e|ing) on board',
 'Taking(\\w+)? forward',
 'Talismanic',
+'Team \\w+',
 'Tectonic plates',
 'The hallmarks of',
 'The Mother of all',
@@ -197,7 +214,8 @@ optDash('Well-oiled machine'),
 'Wreak havoc'];
 
 
-var theExtraTerms = ['Arch-(Blairite|Thatcherite)',
+var theExtraTerms = ['Alarm bells( are)? ringing',
+'Arch-(Blairite|Thatcherite)',
 'Articulated* a',
 'Backsliding',
 'Blink(ed)* in the face',
@@ -212,6 +230,7 @@ var theExtraTerms = ['Arch-(Blairite|Thatcherite)',
 'Clearly',
 'Cogent vision',
 'Coherent (alternative|strategy)',
+'Condemned to repeat \\w+',
 'Congratulations, \\w+.',
 'Corporate media',
 'Crazy',
@@ -219,6 +238,7 @@ var theExtraTerms = ['Arch-(Blairite|Thatcherite)',
 optDash('Crunch-time'),
 'Cuckoo in the \\w+ nest',
 'Cynica(l|lly)',
+'Day of reckoning',
 'Deal or No Deal',
 optPrefixes('Decency',  'Common'),
 'Decent',
@@ -236,6 +256,7 @@ optDash('Economic dead-end'),
 'Economic(ally)* incoheren(t|ce)',
 'Endanger',
 optDash('Ever-astute'),
+'Excessive',
 'Excellence',
 'Fair(er)* economy',
 'Fairness',
@@ -244,7 +265,7 @@ optDash('Ever-astute'),
 'Foot-dragging',
 'For the few',
 'Fundamental change',
-'Genuine credibility',
+reqdSuffixes('Genuine',  'Attempt','Credibility'),
 optDash('Gold-plated'),
 'Golden goose',
 optPrefixes('Good society',  'The'),
@@ -254,6 +275,8 @@ optDash('Half-baked'),
 optDash('Hard-working (majority|taxpayers?)'),
 'Have the values',
 '\'Healthier\'',
+'Hearts? ripped out',
+'Hegemonic',
 'Height of irresponsibility',
 'Here we go again',
 'Hysterical',
@@ -297,6 +320,7 @@ optDash('Long-term vision'),
 '\'Minefield\'',
 'Moral bankruptcy',
 'National mission',
+'Negative consequences?',
 'Netizen',
 'New political settlement',
 'New type of( \\w+)* (democracy|economics|economy|society)',
@@ -306,7 +330,7 @@ optDash('Long-term vision'),
 'Nothing short of',
 'Objective analysis',
 'On a knife edge',
-'Ordinary families',
+'Ordinary (families|people)',
 optPrefixes('Orthodox(y|ies)',  'Failed','Free-market','Keynesian','Past','Stale','Tired'),
 'Our culture',
 'Our \\w+ crosshairs',
@@ -328,8 +352,10 @@ optDash('Political dead-end'),
 'Puts? the public interest before',
 'Put(ting)? \\w+ at the (very )?heart of',
 'Quisling',
+'Raise.? the spectre',
 'Reach out to',
 'Reactionary',
+'Real (alternative)',
 'Reared its(| ugly) head',
 'Reciprocity',
 'Reckless',
@@ -340,6 +366,7 @@ optDash('Political dead-end'),
 'Responsible measures*',
 'Responsible middle',
 'Rolling programme',
+'Same old failed \\w+',
 'Scandalous',
 optPrefixes('Scarcely be able to believe',  'Must'),
 'Seared in(to)? my memory',
@@ -385,6 +412,7 @@ optPrefixes('Thoughtful',  'Ever-','Usually'),
 'Unthinking',
 'Upkick',
 'Upskill(ing)*',
+'Vested interests?',
 'Vital',
 'Vocalise',
 'Vulnerable groups*',
@@ -393,18 +421,41 @@ optPrefixes('Thoughtful',  'Ever-','Usually'),
 'Wanton',
 'Wellbeing',
 'Well-worn clich.',
+optPrefixes('Where we.re at( politically)?',  '(An )?Expression of'),
 'Whiff of grapeshot',
 'Willful ignorance',
 'Wiped off the value',
 'Works for the many',
 'Wrong-headed'];
 
+var theOptions = { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" };
+
 $(function() {
+	refreshBannedStuff();
+});
+
+function refreshBannedStuff() {
     $("head").append($("<link rel='stylesheet' href='css/bannedList.css' type='text/css' media='screen' />"));
 
+    if ( theOptions["extras.special.goodOrBad"] == 'true') {
+        $('body').replaceHighlight( '\\b(Blair|Brown|New Labour)ites\\b', 'some Labour people', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Blairite|Brownite)\\b', 'Labour', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b((left|right)-wing of the)\\b', '!', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Apprenticeships?|Hospitals?)\\b', 'Good Things', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(British (employers|industry)|Elderly|Entrepreneurs|Families|Most vulnerable|Squeezed middle|Police|Workers|Young people)\\b', 'Good People', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Long-term?)\\b', 'Good', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Equality)\\b', 'Goodness', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Big companies|Vested interests?)\\b', 'Bad Things', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Deficit)\\b', 'Bad Thing', 'highlightReplaced', '#BannedList Replacement');
+        $('body').replaceHighlight( '\\b(Inequality?|Injustice|Unfair)\\b', 'Badness', 'highlightReplaced', '#BannedList Replacement');
+    }
+
     $('body').highlight( '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry');
-    $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language');
-});
+
+    if ( theOptions["extras.politics.andrew1"] == 'true') {
+        $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language');
+    }
+}
 
 function optDash(inStr) {
     return inStr.replace('-','(-| )');
@@ -415,7 +466,15 @@ function optPrefixes() {
 }
 
 function reqdPrefixes() {
-    return handlePrefixes( Array.prototype.slice.apply(arguments), true);
+    return handlePrefixes( Array.prototype.slice.apply(arguments), false);
+}
+
+function optSuffixes() {
+    return handleSuffixes( Array.prototype.slice.apply(arguments), true);
+}
+
+function reqdSuffixes() {
+    return handleSuffixes( Array.prototype.slice.apply(arguments), false);
 }
 
 function handlePrefixes( inArray, inIsOptional) {  // assume each prefix is word and needs trailing space
@@ -430,4 +489,18 @@ function handlePrefixes( inArray, inIsOptional) {  // assume each prefix is word
     }
 
     return theStr += ( inIsOptional ? ')?' : ')') + inArray[0];
+}
+
+function handleSuffixes( inArray, inIsOptional) {  // assume each prefix is word and needs trailing space
+    var theStr = inArray[0] + '(';
+
+    for ( i = 1; i < inArray.length; i++) {
+        if ( i > 1) {
+            theStr += '|';
+        }
+
+        theStr += ' ' + inArray[i];
+    }
+
+    return theStr + ( inIsOptional ? ')?' : ')');
 }

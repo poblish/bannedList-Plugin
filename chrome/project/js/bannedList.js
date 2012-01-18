@@ -35,13 +35,17 @@ reqdPrefixes('Bullet',  'Magic','Silver'),
 'Clause (Four|IV) moment',
 'Clear and present danger',
 'Community',
+'Compelling',
+'Crash and burn',
 'Crowd-*sourc(e|ing)',
 'Crystal clear',
+reqdSuffixes('Culture of',  'Blame','Excuses'),
 'Damp squib',
 'Dead hand',
 'Dead in the water',
 'Dead on arrival',
 'Deafening silence',
+'Death knell',
 'Deliverables*',
 'Dracula in charge of a blood bank',
 'Economy, stupid',
@@ -148,6 +152,7 @@ optDash('Pipe-dream'),
 'Red lines',
 'Reinvent(ing)? the wheel',
 'Resonates?( with)?',
+optSuffixes('Ride roughshod',  'Over','Poop'),
 'Ring the changes',
 'Robust',
 'Root and branch',
@@ -225,6 +230,7 @@ var theExtraTerms = ['Alarm bells( are)? ringing',
 'Clearly',
 'Cogent vision',
 'Coherent (alternative|strategy)',
+'Condemned to repeat \\w+',
 'Congratulations, \\w+.',
 'Corporate media',
 'Crazy',
@@ -232,6 +238,7 @@ var theExtraTerms = ['Alarm bells( are)? ringing',
 optDash('Crunch-time'),
 'Cuckoo in the \\w+ nest',
 'Cynica(l|lly)',
+'Day of reckoning',
 'Deal or No Deal',
 optPrefixes('Decency',  'Common'),
 'Decent',
@@ -249,6 +256,7 @@ optDash('Economic dead-end'),
 'Economic(ally)* incoheren(t|ce)',
 'Endanger',
 optDash('Ever-astute'),
+'Excessive',
 'Excellence',
 'Fair(er)* economy',
 'Fairness',
@@ -257,7 +265,7 @@ optDash('Ever-astute'),
 'Foot-dragging',
 'For the few',
 'Fundamental change',
-'Genuine credibility',
+reqdSuffixes('Genuine',  'Attempt','Credibility'),
 optDash('Gold-plated'),
 'Golden goose',
 optPrefixes('Good society',  'The'),
@@ -466,7 +474,15 @@ function optPrefixes() {
 }
 
 function reqdPrefixes() {
-    return handlePrefixes( Array.prototype.slice.apply(arguments), true);
+    return handlePrefixes( Array.prototype.slice.apply(arguments), false);
+}
+
+function optSuffixes() {
+    return handleSuffixes( Array.prototype.slice.apply(arguments), true);
+}
+
+function reqdSuffixes() {
+    return handleSuffixes( Array.prototype.slice.apply(arguments), false);
 }
 
 function handlePrefixes( inArray, inIsOptional) {  // assume each prefix is word and needs trailing space
@@ -481,4 +497,18 @@ function handlePrefixes( inArray, inIsOptional) {  // assume each prefix is word
     }
 
     return theStr += ( inIsOptional ? ')?' : ')') + inArray[0];
+}
+
+function handleSuffixes( inArray, inIsOptional) {  // assume each prefix is word and needs trailing space
+    var theStr = inArray[0] + '(';
+
+    for ( i = 1; i < inArray.length; i++) {
+        if ( i > 1) {
+            theStr += '|';
+        }
+
+        theStr += ' ' + inArray[i];
+    }
+
+    return theStr + ( inIsOptional ? ')?' : ')');
 }
