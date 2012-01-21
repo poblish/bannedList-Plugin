@@ -1,13 +1,25 @@
-.highlightCore, .highlightExtra {
+.highlightCore, .highlightExtra, .highlightReplaced {
+    padding: .2em .4em;
+    border: 1px solid #CCC;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.highlightCore, .highlightExtra, .highlightReplaced {
     font-weight: bold;
-    padding: 2px;
-    border: 1px dotted grey;
 }
 
 .highlightCore {
-    background-color: #FFA2A1;
+    background-color: rgb(255,91,87);
+    background-image: -moz-linear-gradient( top, rgb(255,91,87), rgb(255,130,127));
 }
 
 .highlightExtra {
-    background-color: #FFE4E4;
+    background-color: rgb(255,187,186);
+    background-image: -moz-linear-gradient( top, rgb(255,187,186), rgb(255,209,208));
+}
+
+.highlightReplaced {
+    background-color: rgb(201,231,200);
+    background-image: -moz-linear-gradient( top, rgb(201,231,200), rgb(222,255,221));
 }

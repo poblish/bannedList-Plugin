@@ -29,10 +29,20 @@ jQuery.fn.highlight = function( pattern, inHiliteClassName, inSpanTitle) {
                 var match = node.data.match(regex); // get the match(es), but we would only handle the 1st one, hence /g is not recommended
                 var spanNode = document.createElement('span');
                 spanNode.className = inHiliteClassName;
-spanNode.style.padding = '2px';
-spanNode.style.border = '1px dotted grey';
-spanNode.style.background = '#FFA2A1';
+
+spanNode.style.padding = '.2em .4em';
+spanNode.style.border = '1px solid #CCC';
+spanNode.style.borderRadius = '4px'
 spanNode.style.fontWeight = 'bold';
+
+if ( inHiliteClassName == 'highlightCore') {
+    spanNode.style.background = 'rgb(255,91,87)';
+    spanNode.style.backgroundImage = '-moz-linear-gradient( top, rgb(255,91,87), rgb(255,130,127))';
+} else if ( inHiliteClassName == 'highlightExtra') {
+    spanNode.style.background = 'rgb(255,187,186)';
+    spanNode.style.backgroundImage = '-moz-linear-gradient( top, rgb(255,187,186), rgb(255,209,208))';
+}
+
                 spanNode.title = inSpanTitle;
                 var middleBit = node.splitText(pos); // split to 2 nodes, node contains the pre-pos text, middleBit has the post-pos
                 var endBit = middleBit.splitText(match[0].length); // similarly split middleBit to 2 nodes
