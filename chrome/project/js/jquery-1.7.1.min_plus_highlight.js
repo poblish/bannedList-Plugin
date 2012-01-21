@@ -31,12 +31,18 @@ jQuery.fn.highlight = function( pattern, inHiliteClassName, inSpanTitle) {
                 spanNode.className = inHiliteClassName;
                 spanNode.title = inSpanTitle;
                 var middleBit = node.splitText(pos); // split to 2 nodes, node contains the pre-pos text, middleBit has the post-pos
-                var endBit = middleBit.splitText(match[0].length); // similarly split middleBit to 2 nodes
-                var middleClone = middleBit.cloneNode(true);
-                spanNode.appendChild(middleClone);
-                // parentNode ie. node, now has 3 nodes by 2 splitText()s, replace the middle with the highlighted spanNode:
-                middleBit.parentNode.replaceChild(spanNode, middleBit);
-                skip = 1; // skip this middleBit, but still need to check endBit
+
+		if ( jQuery.inArray( middleBit.parentNode.className, ['highlightCore','highlightExtra','highlightReplaced']) >= 0) {  // (AGR) Check not already done!
+			// Skip
+		}
+		else {
+			var endBit = middleBit.splitText(match[0].length); // similarly split middleBit to 2 nodes
+			var middleClone = middleBit.cloneNode(true);
+			spanNode.appendChild(middleClone);
+			// parentNode ie. node, now has 3 nodes by 2 splitText()s, replace the middle with the highlighted spanNode:
+			middleBit.parentNode.replaceChild(spanNode, middleBit);
+                }
+		skip = 1; // skip this middleBit, but still need to check endBit
             }
         } else if (node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName)) { // 1 - Element node
             for (var i = 0; i < node.childNodes.length; i++) { // highlight all children
