@@ -169,7 +169,9 @@ optDash('(Sea|Step)-change'),
 'Seal the Deal',
 'Seismic shift',
 'Serve\\w? the purpose of',
+'Shred of credibility',
 'Signage',
+'Silent majority',
 'Simples',
 'Sing(ing|s)? from the same (hymn|song) sheet',
 'Siren voices*',
@@ -177,6 +179,9 @@ optDash('(Sea|Step)-change'),
 'Sleepwalk(ing)? into',
 'Smell the Coffee',
 'Social mobility',
+'Something of a',
+'Speak(ing)? truth (un)?to power',
+'Spiral of decline',
 'Spiral out of control',
 'Stakeholders*',
 'Stark contrast',
@@ -224,10 +229,12 @@ optDash('Well-oiled machine'),
 
 var theCaseInsensitiveCoreTerms = ['Team \\w+'];
 
-var theSpecialIgnoreTerms = ['Way ahead of'];
+var theSpecialIgnoreTerms = ['A spin',
+'(Points|Way) ahead of'];
 
 
-var theExtraTerms = [ reqdPrefixes('Agenda',  'Fairness'),
+var theExtraTerms = ['Abundantly clear',
+reqdPrefixes('Agenda',  'Fairness'),
 'Alarm bells( are)? ringing',
 'Arch-(Blairite|Thatcherite)',
 'Backsliding',
@@ -306,6 +313,7 @@ optDash('Hard-working (majority|taxpayers?)'),
 'Inevitable',
 'Inexorable',
 '\\w+ in sheep\'s clothing',
+reqdPrefixes('Insiders?',  'Downing Street'),
 'Insignificant',
 'Interests of the majority',
 optPrefixes('(National|Public) Interest',  'The'),
@@ -402,6 +410,7 @@ optPrefixes('Scarcely be able to believe',  'Must'),
 'Socially acceptable',
 optDash('Something-for-nothing'),
 optDash('Something-for-something'),
+reqdPrefixes('Sources?',  'Downing Street'),
 'Spin',
 'Squeeze families',
 'Squeezed middle',
@@ -451,6 +460,15 @@ optPrefixes('With a human face',  'Capitalism','Politics'),
 'Wrong-headed',
 'Year zero'];
 
+
+var theExtraHealthTerms = [
+optPrefixes('(Aid|Block|Cure|Cut|Fight|Slow|Stop)s?( \\w+)? Cancer( Risk)?',  'Could','May'),
+'Linked to( \\w+)? cancer',
+];
+
+
+/////////////////////////////////////////
+
 var theOptions = { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" };
 
 chrome.extension.onRequest.addListener(
@@ -487,6 +505,7 @@ function refreshBannedStuff() {
 
     if ( theOptions["extras.politics.andrew1"] == 'true') {
         $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
+        $('body').highlight( '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
     }
 }
 
