@@ -19,8 +19,10 @@ Johann Burkard
 
 */
 
-jQuery.fn.highlight = function( pattern, inHiliteClassName, inSpanTitle) {
-    var regex = typeof(pattern) === "string" ? new RegExp(pattern, "i") : pattern; // assume very LOOSELY pattern is regexp if not string
+var theIgnoreClassesArray = ['highlightCore','highlightExtra','highlightReplaced','highlightIgnore'];
+
+jQuery.fn.highlight = function( pattern, inHiliteClassName, inSpanTitle, inInsensitive) {
+    var regex = typeof(pattern) === "string" ? new RegExp(pattern, inInsensitive ? "i" : "") : pattern; // assume very LOOSELY pattern is regexp if not string
     function innerHighlight(node, pattern, inHiliteClassName, inSpanTitle) {
         var skip = 0;
         if (node.nodeType === 3) { // 3 - Text node
@@ -32,7 +34,7 @@ jQuery.fn.highlight = function( pattern, inHiliteClassName, inSpanTitle) {
                 spanNode.title = inSpanTitle;
                 var middleBit = node.splitText(pos); // split to 2 nodes, node contains the pre-pos text, middleBit has the post-pos
 
-		if ( jQuery.inArray( middleBit.parentNode.className, ['highlightCore','highlightExtra','highlightReplaced']) >= 0) {  // (AGR) Check not already done!
+		if ( jQuery.inArray( middleBit.parentNode.className, theIgnoreClassesArray) >= 0) {  // (AGR) Check not already done!
 			// Skip
 		}
 		else {

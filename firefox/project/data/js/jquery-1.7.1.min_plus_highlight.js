@@ -19,8 +19,10 @@ Johann Burkard
 
 */
 
-jQuery.fn.highlight = function( pattern, inHiliteClassName, inSpanTitle) {
-    var regex = typeof(pattern) === "string" ? new RegExp(pattern, "i") : pattern; // assume very LOOSELY pattern is regexp if not string
+var theIgnoreClassesArray = ['highlightCore','highlightExtra','highlightReplaced','highlightIgnore'];
+
+jQuery.fn.highlight = function( pattern, inHiliteClassName, inSpanTitle, inInsensitive) {
+    var regex = typeof(pattern) === "string" ? new RegExp(pattern, inInsensitive ? "i" : "") : pattern; // assume very LOOSELY pattern is regexp if not string
     function innerHighlight(node, pattern, inHiliteClassName, inSpanTitle) {
         var skip = 0;
         if (node.nodeType === 3) { // 3 - Text node
@@ -30,23 +32,36 @@ jQuery.fn.highlight = function( pattern, inHiliteClassName, inSpanTitle) {
                 var spanNode = document.createElement('span');
                 spanNode.className = inHiliteClassName;
 
-spanNode.style.padding = '.2em .4em';
-spanNode.style.border = '1px solid #CCC';
-spanNode.style.borderRadius = '4px'
-spanNode.style.fontWeight = 'bold';
-
 if ( inHiliteClassName == 'highlightCore') {
+    spanNode.style.padding = '.2em .4em';
+    spanNode.style.border = '1px solid #CCC';
+    spanNode.style.borderRadius = '4px'
+    spanNode.style.fontWeight = 'bold';
+
     spanNode.style.background = 'rgb(255,91,87)';
     spanNode.style.backgroundImage = '-moz-linear-gradient( top, rgb(255,91,87), rgb(255,130,127))';
 } else if ( inHiliteClassName == 'highlightExtra') {
+    spanNode.style.padding = '.2em .4em';
+    spanNode.style.border = '1px solid #CCC';
+    spanNode.style.borderRadius = '4px'
+    spanNode.style.fontWeight = 'bold';
+
     spanNode.style.background = 'rgb(255,187,186)';
     spanNode.style.backgroundImage = '-moz-linear-gradient( top, rgb(255,187,186), rgb(255,209,208))';
+} else if ( inHiliteClassName == 'highlightReplaced') {
+    spanNode.style.padding = '.2em .4em';
+    spanNode.style.border = '1px solid #CCC';
+    spanNode.style.borderRadius = '4px'
+    spanNode.style.fontWeight = 'bold';
+
+    spanNode.style.background = 'yellow';	// FIXME
+    // FIXME. panNode.style.backgroundImage = '-moz-linear-gradient( top, rgb(255,187,186), rgb(255,209,208))';
 }
 
                 spanNode.title = inSpanTitle;
                 var middleBit = node.splitText(pos); // split to 2 nodes, node contains the pre-pos text, middleBit has the post-pos
 
-		if ( jQuery.inArray( middleBit.parentNode.className, ['highlightCore','highlightExtra','highlightReplaced']) >= 0) {  // (AGR) Check not already done!
+		if ( jQuery.inArray( middleBit.parentNode.className, theIgnoreClassesArray) >= 0) {  // (AGR) Check not already done!
 			// Skip
 		}
 		else {
