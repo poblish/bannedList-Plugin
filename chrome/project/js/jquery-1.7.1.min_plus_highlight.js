@@ -46,7 +46,7 @@ jQuery.fn.highlight = function( pattern, inHiliteClassName, inSpanTitle, inInsen
                 }
 		skip = 1; // skip this middleBit, but still need to check endBit
             }
-        } else if (node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName)) { // 1 - Element node
+        } else if (node.nodeType === 1 && node.childNodes && !/(script|style|textarea)/i.test(node.tagName)) { // 1 - Element node
             for (var i = 0; i < node.childNodes.length; i++) { // highlight all children
                 i += innerHighlight( node.childNodes[i], pattern, inHiliteClassName, inSpanTitle); // skip highlighted ones
             }
@@ -77,7 +77,7 @@ jQuery.fn.replaceHighlight = function( pattern, inReplacement, inHiliteClassName
                 middleBit.parentNode.replaceChild(spanNode, middleBit);
                 skip = 1; // skip this middleBit, but still need to check endBit
             }
-        } else if (node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName)) { // 1 - Element node
+        } else if (node.nodeType === 1 && node.childNodes && !/(script|style|textarea)/i.test(node.tagName)) { // 1 - Element node
             for (var i = 0; i < node.childNodes.length; i++) { // highlight all children
                 i += innerHighlight( node.childNodes[i], pattern, inHiliteClassName, inSpanTitle); // skip highlighted ones
             }
