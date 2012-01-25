@@ -251,8 +251,7 @@ var theCaseInsensitiveCoreTerms = ['Team [A-Z]\\w+'];
 
 var theNotJustWordsTerms = ['\\b' + 'Well-worn clich(e|\\xE9)'];
 
-var theSpecialIgnoreTerms = ['A spin',
-'(Points|Pulls?|Way) Ahead of',
+var theSpecialIgnoreTerms = ['(Points|Pulls?|Way) Ahead of',
 reqdPrefixes('Clearly',  'As'),
 'Marathon',
 'Team Blog',
@@ -471,7 +470,6 @@ optDashes('Something-for-nothing'),
 optDashes('Something-for-something'),
 reqdPrefixes('Sources?',  'Downing Street'),
 'Sparked outrage',
-'Spin',
 'Squeeze families',
 'Squeezed middle',
 'Standstill commitments?',
