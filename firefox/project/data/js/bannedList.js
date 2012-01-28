@@ -26,10 +26,12 @@ optDashes('Back-burner'),
 'Bank of Mum and Dad',
 'Battle lines?',
 'Beggars Belief',
-'beleaguered',
+'Beleaguered',
 'Beyond (parody|satire)',
 'Big Ask',
 'Blood on the (carpet|floor|walls)',
+'Blueprint',
+'Blue sky thinking',
 'Bottom line',
 reqdPrefixes('Bullet',  'Magic','Silver'),
 'By the back door',
@@ -48,12 +50,14 @@ optSuffixes('Community',  'Leaders?','Representatives?'),
 'Crystal clear',
 reqdSuffixes('Culture of',  'Blame','Excuses'),
 'Damp squib',
+'Dawn of time',
 'Dead hand',
 'Dead in the water',
 'Dead on arrival',
 'Deafening silence',
 'Death knell',
 'Deliverables*',
+'Doff',
 optDashes('Dog-whistle'),
 'Downward spiral',
 'Dracula in charge of a blood bank',
@@ -253,6 +257,8 @@ reqdSuffixes('Westminster',  'Bubble','Village'),
 var theCaseInsensitiveCoreTerms = ['ConDems?( Government)?',
 'Team [A-Z]\\w+'];
 
+var theCaseInsensitiveExtraTerms = ['[A-Z]\\w+' + 'ite spin'];
+
 var theNotJustWordsTerms = ['\\b' + 'Well-worn clich(e|\\xE9)'];
 
 var theSpecialIgnoreTerms = ['(Points|Pulls?|Way) Ahead of',
@@ -288,7 +294,7 @@ optPrefixes('Business as usual',  'Go back to','Return to'),
 'Coherent (alternative|strategy)',
 'Condemned to repeat \\w+',
 'Congratulations, \\w+.',
-reqdPrefixes('Conversation',  'Contemporary','Economic','Political'),
+reqdPrefixes('Conversation',  'Contemporary','Economic','National','Political'),
 'Conversation with the public',
 'Corporate media',
 'Crazy',
@@ -333,7 +339,7 @@ reqdPrefixes('Excess',  'Runaway'),
 'For the few',
 optPrefixes('Framework', 'Critical','Policy'),
 'From another time',
-'Fundamental change',
+reqdSuffixes('Fundamental',  'Change','Debate'),
 reqdSuffixes('Genuine',  'Attempt','Credibility'),
 optDashes('Gold-plated'),
 'Golden goose',
@@ -548,18 +554,16 @@ optPrefixes('(Aid|Block|Cure|Cut|Fight|Slow|Stop)s?( \\w+)? Cancer( Risk)?',  'C
 ];
 
 
-/////////////////////////////////////////
-
-var theOptions = { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" };
+////////////////////////////////////////////////////////////////////////////////
 
 $(function() {
-	refreshBannedStuff();
+	refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" } );
 });
 
-function refreshBannedStuff() {
+function refreshBannedStuff( inOptions ) {
     $("head").append($("<link rel='stylesheet' href='css/bannedList.css' type='text/css' media='screen' />"));
 
-    if ( theOptions["extras.special.goodOrBad"] == 'true') {
+    if ( inOptions["extras.special.goodOrBad"] == 'true') {
         $('body').replaceHighlight( '\\b(Blair|Brown|New Labour)ites\\b', 'some Labour people', 'highlightReplaced', '#BannedList Replacement');
         $('body').replaceHighlight( '\\b(Blairite|Brownite)\\b', 'Labour', 'highlightReplaced', '#BannedList Replacement');
         $('body').replaceHighlight( '\\b((left|right)-wing of the)\\b', '!', 'highlightReplaced', '#BannedList Replacement');
@@ -577,8 +581,9 @@ function refreshBannedStuff() {
     $('body').highlight( '(' + theNotJustWordsTerms.join('|') + ')', 'highlightCore', '#BannedList entry', true);
     $('body').highlight( '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', true);
 
-    if ( theOptions["extras.politics.andrew1"] == 'true') {
+    if ( inOptions["extras.politics.andrew1"] == 'true') {
         $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
+        $('body').highlight( '\\b(' + theCaseInsensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
         $('body').highlight( '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
     }
 }
