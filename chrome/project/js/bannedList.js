@@ -548,26 +548,23 @@ optPrefixes('(Aid|Block|Cure|Cut|Fight|Slow|Stop)s?( \\w+)? Cancer( Risk)?',  'C
 ];
 
 
-/////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
-var theOptions = { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" };
+$(function() {
+	chrome.extension.sendRequest({ method: "getOptions"}, function(inResp) {
+	  refreshBannedStuff( inResp.options );
+	});
+});
 
 chrome.extension.onRequest.addListener(
 	function( inReq, inSender, inSendResponse) {
-		theOptions = inReq.options;
 		$('body').removeHighlights();
-		refreshBannedStuff();
+		refreshBannedStuff( inReq.options );
 	}
-	// sendResponse({}); // snub them.
 );
 
-
-$(function() {
-	refreshBannedStuff();
-});
-
-function refreshBannedStuff() {
-    if ( theOptions["extras.special.goodOrBad"] == 'true') {
+function refreshBannedStuff( inOptions ) {
+    if ( inOptions["extras.special.goodOrBad"] == 'true') {
         $('body').replaceHighlight( '\\b(Blair|Brown|New Labour)ites\\b', 'some Labour people', 'highlightReplaced', '#BannedList Replacement');
         $('body').replaceHighlight( '\\b(Blairite|Brownite)\\b', 'Labour', 'highlightReplaced', '#BannedList Replacement');
         $('body').replaceHighlight( '\\b((left|right)-wing of the)\\b', '!', 'highlightReplaced', '#BannedList Replacement');
@@ -585,7 +582,7 @@ function refreshBannedStuff() {
     $('body').highlight( '(' + theNotJustWordsTerms.join('|') + ')', 'highlightCore', '#BannedList entry', true);
     $('body').highlight( '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', true);
 
-    if ( theOptions["extras.politics.andrew1"] == 'true') {
+    if ( inOptions["extras.politics.andrew1"] == 'true') {
         $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
         $('body').highlight( '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
     }
