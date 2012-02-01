@@ -257,15 +257,13 @@ reqdSuffixes('Westminster',  'Bubble','Village'),
 var theCaseInsensitiveCoreTerms = ['ConDems?( Government)?',
 'Team [A-Z]\\w+'];
 
-var theCaseInsensitiveExtraTerms = ['[A-Z]\\w+' + 'ite spin'];
-
-var theNotJustWordsTerms = ['\\b' + 'Well-worn clich(e|\\xE9)'];
+var theNotJustWordsTerms = ['That is all\\.',
+'\\b' + 'Well-worn clich(e|\\xE9)'];
 
 var theSpecialIgnoreTerms = ['(Points|Pulls?|Way) Ahead of',
 reqdPrefixes('Clearly',  'As'),
 'Marathon',
-'Team Blog',
-'That is all\.'];
+'Team Blog'];
 
 
 var theExtraTerms = ['Abundantly clear',
@@ -548,6 +546,8 @@ optPrefixes('With a human face',  'Capitalism','Politics'),
 reqdPrefixes('Would Argue',  'Many','Some'),
 'Wrong-headed',
 'Year zero'];
+
+var theCaseInsensitiveExtraTerms = ['[A-Z]\\w+' + 'ite spin'];
 
 
 var theExtraHealthTerms = [
