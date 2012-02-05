@@ -565,16 +565,21 @@ optPrefixes('(Aid|Block|Cure|Cut|Fight|Slow|Stop)s?( \\w+)? Cancer( Risk)?',  'C
 ////////////////////////////////////////////////////////////////////////////////
 
 $(function() {
-	chrome.extension.sendRequest({ method: "getOptions"}, function(inResp) {
-	  refreshBannedStuff( inResp.options );
-	});
+    chrome.extension.sendRequest({ method: "getOptions"}, function(inResp) {
+        refreshBannedStuff( inResp.options );
+    });
 });
 
 chrome.extension.onRequest.addListener(
-	function( inReq, inSender, inSendResponse) {
-		$('body').removeHighlights();
-		refreshBannedStuff( inReq.options );
-	}
+    function( inReq, inSender, inSendResponse) {
+        if ( inReq.method == "getOptions") {
+            $('body').removeHighlights();
+            refreshBannedStuff( inReq.options );
+        } else if ( inReq.method == "showSubmitOptions") {
+            alert('Sorry, this facility is not completed yet, for... ' + inReq.json);
+            inSendResponse({ok: "true"});
+        }
+    }
 );
 
 function refreshBannedStuff( inOptions ) {

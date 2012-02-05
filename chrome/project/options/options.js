@@ -15,7 +15,7 @@ function save_options()
 	chrome.tabs.getAllInWindow(null, function(tabs) {
 		tabs.forEach(function(tab){
 			chrome.tabs.sendRequest( tab.id, {
-				options: localStorage
+				method: "getOptions", options: localStorage
 			},
 			function (response) {
 				/* alert('Got response from: ' + tab.url); */
