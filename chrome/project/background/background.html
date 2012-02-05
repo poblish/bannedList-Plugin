@@ -19,22 +19,24 @@
                     localStorage["extras.politics.andrew1"] = true;
                 }
                 sendResponse({options: localStorage});
+            } else if (request.method == "notify") {
+                var theNotif = webkitNotifications.createNotification('../img/icon48.png', request.heading, request.msg);
+                theNotif.show();
             } else {
                 sendResponse({}); // snub them.
             }
         });
 
-    function clickSubmit( inInfo, tab) {
-        var theObj = {};
-        theObj.pageUrl = inInfo.pageUrl;
-        theObj.selection = inInfo.selectionText;
+        function clickSubmit( inInfo, tab) {
+            var theObj = {};
+            theObj.pageUrl = inInfo.pageUrl;
+            theObj.selection = inInfo.selectionText;
 
-        var theJson = JSON.stringify(theObj);
-        alert('Sorry, this facility is not completed yet.');
-    }
+            var theJson = JSON.stringify(theObj);
+            alert('Sorry, this facility is not completed yet.');
+        }
 
-    var menuId = chrome.contextMenus.create({"title": 'Submit new entry...', "contexts":['selection'], "onclick": clickSubmit});
-
+        var menuId = chrome.contextMenus.create({"title": 'Submit new entry...', "contexts":['selection'], "onclick": clickSubmit});
     });
 </script>
 </html>

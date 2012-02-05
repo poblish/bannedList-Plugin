@@ -102,7 +102,7 @@ jQuery.fn.removeHighlight = function(inStyleRule) {
             }
 
             if ( inStyleRule == 'span.highlightReplaced') {
-            	alert("Sorry, can't clear already replaced words - please refresh the page!");
+    		chrome.extension.sendRequest({ method: "notify", heading: "Settings changed", msg: "Sorry, we can't restore words that have already been replaced. Please refresh the page to restore them."}, function(inResp) {});
             	shownWarning = true;
             	return;
             }
