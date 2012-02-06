@@ -576,7 +576,21 @@ chrome.extension.onRequest.addListener(
             $('body').removeHighlights();
             refreshBannedStuff( inReq.options );
         } else if ( inReq.method == "showSubmitOptions") {
-            alert('Sorry, this facility is not completed yet, for... ' + inReq.json);
+
+	$(function() {
+	    // inReq.json
+	    var NewDialog = $('<div id="MenuDialog">\
+	        <p>' + 'Sorry, this facility is not completed yet, for... ' + '</p>\
+	    </div>');
+	    NewDialog.dialog({ title: "Submit new words", modal: true, resizable: false, width: 450, height: 280,
+	        buttons: [
+	            {text: "Submit", click: function() { alert('Sorry, changes are not yet submitted.'); $(this).dialog("close"); }},
+	    	    {text: "Cancel", click: function() { $(this).dialog("close"); }}
+	        ]
+	    });
+	    return false;
+	});
+
             inSendResponse({ok: "true"});
         }
     }
