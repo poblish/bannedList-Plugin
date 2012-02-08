@@ -28,13 +28,10 @@
         });
 
         function clickSubmit( inInfo, inTab) {
-            var theObj = {};
-            theObj.pageUrl = inInfo.pageUrl;
-            theObj.selection = inInfo.selectionText;
-
 	    chrome.tabs.sendRequest( inTab.id, {
 	        method: "showSubmitOptions",
-	        json: JSON.stringify(theObj)
+	        pageUrl: inInfo.pageUrl,
+		phrase: inInfo.selectionText
 	    }, function (response) {
 	        if ( response.ok != "true") {
 	            alert('Error!');
@@ -42,7 +39,7 @@
 	    });
         }
 
-        var menuId = chrome.contextMenus.create({"title": 'Submit new entry...', "contexts":['selection'], "onclick": clickSubmit});
+        var menuId = chrome.contextMenus.create({"title": 'Submit new phrase...', "contexts":['selection'], "onclick": clickSubmit});
     });
 </script>
 </html>

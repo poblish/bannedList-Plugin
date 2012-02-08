@@ -577,24 +577,40 @@ chrome.extension.onRequest.addListener(
             refreshBannedStuff( inReq.options );
         } else if ( inReq.method == "showSubmitOptions") {
 
-	$(function() {
-	    // inReq.json
-	    var NewDialog = $('<div id="MenuDialog">\
-	        <p>' + 'Sorry, this facility is not completed yet, for... ' + '</p>\
+	  $(function() {
+	    var newDialog = $('<div id="MenuDialog">\
+	        <form action="/" id="submitPhrase">\
+	          <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
+	          <div><label for="name" style="font-weight: bold; float: left; width: 120px">Your Name:</label><input id="name" name="name" type="text" style="width: 200px" value="Andrew Regan" /></div>\
+	          <div><label for="email" style="font-weight: bold; float: left; width: 120px">Your Email:</label><input id="email" name="email" type="text" style="width: 200px" value="aregan@gmail.com" /></div>\
+	          <div><label for="terms" style="font-weight: bold; float: left; width: 120px">Submitted Phrase:</label><input id="terms" name="terms" type="text" style="width: 280px" value="' + inReq.phrase + '" /></div>\
+	        </form>\
 	    </div>');
-	    NewDialog.dialog({ title: "Submit new words", modal: true, resizable: false, width: 450, height: 280,
+	    newDialog.dialog({ title: "Submit new words", modal: true, resizable: false, width: 450, height: 280,
 	        buttons: [
-	            {text: "Submit", click: function() { alert('Sorry, changes are not yet submitted.'); $(this).dialog("close"); }},
-	    	    {text: "Cancel", click: function() { $(this).dialog("close"); }}
+	            {text: "Submit", click: function() { submitPhrase(); $(this).dialog("close"); $(this).remove(); }},
+	    	    {text: "Cancel", click: function() { $(this).dialog("close"); $(this).remove(); }}
 	        ]
 	    });
 	    return false;
-	});
+	  });
 
             inSendResponse({ok: "true"});
         }
     }
 );
+
+function submitPhrase() {
+   var theSubmittedPhrase = $("#submitPhrase").serializeArray()[3].value;  // yuk!
+   if ( theSubmittedPhrase == '') {
+	alert('Phrase may not be blank - please enter one.');
+	return;
+   }
+
+   $.post("http://www.poblish.org/", $("#submitPhrase").serialize(), function(inData) {
+        alert('Sorry, changes are not yet submitted properly [' + inData.length + ' bytes].');
+    });
+}
 
 function refreshBannedStuff( inOptions ) {
     if ( inOptions["extras.special.goodOrBad"] == 'true') {
