@@ -257,7 +257,6 @@ reqdSuffixes('Westminster',  'Bubble','Village'),
 'We will take no lessons',
 optPrefixes('What drives (him|her)',  'Not'),
 optPrefixes('What gets (him|her) up in the morning',  'Not'),
-'Who knew?',
 'Win-win',
 'Wow factor',
 'Wreak havoc'];
@@ -267,7 +266,8 @@ var theCaseInsensitiveCoreTerms = ['ConDems?( Government)?',
 'Team [A-Z]\\w+'];
 
 var theNotJustWordsTerms = ['That is all\\.',
-'\\b' + 'Well-worn clich(e|\\xE9)'];
+'\\b' + 'Well-worn clich(e|\\xE9)',
+'\\b' + 'Who knew\\?'];
 
 var theSpecialIgnoreTerms = ['(Points|Pulls?|Way) Ahead of',
 reqdPrefixes('Clearly',  'As'),
