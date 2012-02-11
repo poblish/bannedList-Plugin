@@ -18,7 +18,15 @@
                 if ( localStorage.length == 0) {    // Set defaults!
                     localStorage["extras.politics.andrew1"] = true;
                 }
-                sendResponse({method: "getOptions", options: localStorage});
+
+		if (/http.*twitter.com/.test( sender.tab.url )) {
+		    setInterval( function() {
+		        sendResponse({method: "getOptions", options: localStorage});
+		    }, 2500);
+		}
+		else /* Non Twitter can update now! */ {
+		    sendResponse({method: "getOptions", options: localStorage});
+		}
             } else if (request.method == "notify") {
                 var theNotif = webkitNotifications.createNotification('../img/icon48.png', request.heading, request.msg);
                 theNotif.show();
