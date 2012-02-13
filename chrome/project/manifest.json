@@ -25,6 +25,7 @@
             "js": [
                 "js/jquery-1.7.1.min_plus_highlight.js",
                 "js/jquery-ui-1.8.17.custom.min.js",
+                "js/contentSupport.js",
                 "js/bannedList.js"
             ]
         }
