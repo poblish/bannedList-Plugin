@@ -581,6 +581,7 @@ optPrefixes('(Aid|Block|Cure|Cut|Fight|Slow|Stop)s?( \\w+)? Cancer( Risk)?',  'C
 $(function() {
     chrome.extension.sendRequest({ method: "getOptions"}, function(inResp) {
         refreshBannedStuff( inResp.options );
+        callChurnalism( inResp.url );
     });
 });
 
@@ -619,15 +620,15 @@ function showSubmissionDialog( inReq, inSendResponse) {
 }
 
 function submitPhrase() {
-   var theSubmittedPhrase = $("#submitPhrase").serializeArray()[3].value;  // yuk!
-   if ( theSubmittedPhrase == '') {
-	alert('Phrase may not be blank - please enter one.');
-	return;
-   }
+    var theSubmittedPhrase = $("#submitPhrase").serializeArray()[3].value;  // yuk!
+    if ( theSubmittedPhrase == '') {
+        alert('Phrase may not be blank - please enter one.');
+        return;
+    }
 
-   $.post("http://www.poblish.org/", $("#submitPhrase").serialize(), function(inData) {
+    $.post("http://www.poblish.org/", $("#submitPhrase").serialize(), function(inData) {
         alert('Sorry, changes are not yet submitted properly [' + inData.length + ' bytes].');
-    });
+    }).error( function() { /* Ignore! */ });
 }
 
 function refreshBannedStuff( inOptions ) {
@@ -653,6 +654,24 @@ function refreshBannedStuff( inOptions ) {
         $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
         $('body').highlight( '\\b(' + theCaseInsensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
         $('body').highlight( '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
+    }
+}
+
+function callChurnalism( inURL ) {
+    var theText = '';
+
+    if (/http.*guardian.co.uk/.test(inURL)) {
+        theText = $('#article-body-blocks p').text();
+    }
+
+    if ( theText != '' && theText.length >= 15) {
+        $.post("http://churnalism.com/api/search/", {text: theText}, function(inData) {
+	    if ( inData.success == true) {
+	        for ( var i = 0; i < inData.articles.length; i++) {
+	            // console.log( inData.articles[i].score, inData.articles[i].source, inData.articles[i].journalisted);
+	        }
+	    }
+        }).error( function() { /* Ignore! */ });
     }
 }
 

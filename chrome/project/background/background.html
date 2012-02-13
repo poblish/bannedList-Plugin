@@ -21,11 +21,11 @@
 
 		if (/http.*twitter.com/.test( sender.tab.url )) {
 		    setInterval( function() {
-		        sendResponse({method: "getOptions", options: localStorage});
+		        sendResponse({method: "getOptions", url: sender.tab.url, options: localStorage});
 		    }, 2500);
 		}
 		else /* Non Twitter can update now! */ {
-		    sendResponse({method: "getOptions", options: localStorage});
+		    sendResponse({method: "getOptions", url: sender.tab.url, options: localStorage});
 		}
             } else if (request.method == "notify") {
                 var theNotif = webkitNotifications.createNotification('../img/icon48.png', request.heading, request.msg);
