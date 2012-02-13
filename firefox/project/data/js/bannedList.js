@@ -184,7 +184,7 @@ optSuffixes('Quantum',  'Leap'),
 'Question mark over',
 'Rais(es*|ing) awareness',
 reqdPrefixes('Raison d.etre',  'Her','His'),
-'Read(ing)*(| \w*) the Riot Act',
+'Read(ing)?(| \\w*) the Riot Act',
 'Real (change|communities|families|lives|people|world)',
 'Reality check',
 '(Re)?Connect with the voters',
@@ -220,8 +220,8 @@ optDashes('(Sea|Step)-change'),
 'Stand shoulder to shoulder with',
 'Stark contrast',
 optDashes('State-of-the-art'),
-'Step forward, (\\w+)',
-'Stinging (attack|criticism)',
+'Step forward, \\w+',
+reqdSuffixes('Stinging',  'Attack','Criticism'),
 'Substantive',
 'Systemic( failure|ally)?',
 'Takeaway point',
@@ -237,7 +237,7 @@ optDashes('State-of-the-art'),
 'The prospect of',
 'The(| simple) fact(| of the matter) is',
 'The truth is',
-'[^\'\"]The \w+ Delusion[^\'\"]',
+'The \\w+ Delusion',
 optPrefixes('Time Bomb',  'Ticking'),
 optDashes('Tipping-point'),
 'Tome',
@@ -269,7 +269,7 @@ optPrefixes('What gets (him|her) up in the morning',  'Not'),
 'Without fear or favour',
 'Wow factor',
 'Wreak havoc',
-'You couldn.t make it up\.?'];
+'You couldn.t make it up\\.?'];
 
 
 var theCaseInsensitiveCoreTerms = ['ConDems?( Government)?',
@@ -535,7 +535,7 @@ optPrefixes('Trajectory',  'Current'),
 'Trenderati',
 'Tsunami of \\w+',
 'Tumbleweed',
-'Turn[^\.,]*away[^\.,]*in[^\.,]*disgust',
+'Turn[^\\.,]*away[^\\.,]*in[^\\.,]*disgust',
 'Uncharted waters',
 'Uncritical',
 'Undeniabl(e|y)',
@@ -577,8 +577,7 @@ var theCaseInsensitiveExtraTerms = ['[A-Z]\\w+' + 'ite spin'];
 
 var theExtraHealthTerms = [
 optPrefixes('(Aid|Block|Cure|Cut|Fight|Slow|Stop)s?( \\w+)? Cancer( Risk)?',  'Could','May'),
-'Linked to( \\w+)? cancer',
-];
+'Linked to( \\w+)? cancer'];
 
 
 ////////////////////////////////////////////////////////////////////////////////
