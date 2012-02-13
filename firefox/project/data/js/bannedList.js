@@ -1,6 +1,7 @@
 var theCoreTerms = [optSuffixes('(A )?(basket|package|raft|range|sense|series) of',  'Measures?'),
 'Above my pay grade',
 '(A|C|Z)-list',
+'Across the piece',
 'Added bonus',
 'A fine art',
 'Affordable',
@@ -67,6 +68,7 @@ optDashes('Dog-whistle'),
 'Economy, stupid',
 'Elephant in the room',
 'Empower(ment)*',
+'Empty-chair',
 'Enough already',
 'Epic Fail',
 'Equality',
@@ -77,6 +79,8 @@ optDashes('Fast-forward to'),
 'Febrile',
 'Feral',
 optPrefixes('Fit for Purpose',  'Not'),
+reqdSuffixes('Flagship',  'Hospital','News','Policy','(\\w+ )?Programmes?','(\\w+ )?Stores?'),
+'Flexicurity',
 'Fog of war',
 'Foregone conclusion',
 'Forward policy',
@@ -95,6 +99,7 @@ optDashes('Ground-breaking'),
 'Guns blazing',
 'Hapless',
 'Hard-headed',
+'Hardwired?',
 optDashes('Hard-working families'),
 'Hearts and minds',
 optDashes('Heavy-lifting'),
@@ -134,6 +139,7 @@ optDashes('Low-hanging fruit'),
 reqdPrefixes('Majority',  'Deserving','Silent'),
 'Make no mistake',
 'Makeover',
+'Massive own goal',
 'Mee*t with',
 'Militate against',
 'Moment in time',
@@ -171,6 +177,7 @@ optDashes('Pipe-dream'),
 'Prior to',
 'Progressive',
 'Progressives*',
+'Psyche',
 'Psychodrama',
 optSuffixes('Quantum',  'Leap'),
 'Question mark over',
@@ -258,8 +265,10 @@ reqdSuffixes('Westminster',  'Bubble','Village'),
 optPrefixes('What drives (him|her)',  'Not'),
 optPrefixes('What gets (him|her) up in the morning',  'Not'),
 'Win-win',
+'Without fear or favour',
 'Wow factor',
-'Wreak havoc'];
+'Wreak havoc',
+'You couldn.t make it up\.?'];
 
 
 var theCaseInsensitiveCoreTerms = ['ConDems?( Government)?',
@@ -356,7 +365,6 @@ optPrefixes('Good society',  'The'),
 'Growing calls',
 optDashes('Half-baked'),
 'Hard-(left|right)',
-'Hardwired',
 reqdSuffixes('(Hard|Hard-|Hard )working',  'Britons','Majority','Many','Taxpayers?'),
 'Have the values',
 '\'Healthier\'',
@@ -576,14 +584,20 @@ $(function() {
 
 function showSubmissionDialog( inReq, inSendResponse) {
     var newDialog = $('<div id="MenuDialog">\
+    	<style type="text/css">\
+    	  label.blSubmit { font-weight: bold; float: left; width: 120px; padding: 5px 8px 0 0; }\
+    	  input.blText { width: 200px; }\
+    	  span.blGrey { color: #999; }\
+    	</style>\
 	<form action="/" id="submitPhrase">\
 	  <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
-	  <div><label for="name" style="font-weight: bold; float: left; width: 120px">Your Name:</label><input id="name" name="name" type="text" style="width: 200px" value="Andrew Regan" /></div>\
-	  <div><label for="email" style="font-weight: bold; float: left; width: 120px">Your Email:</label><input id="email" name="email" type="text" style="width: 200px" value="aregan@gmail.com" /></div>\
-	  <div><label for="terms" style="font-weight: bold; float: left; width: 120px">Submitted Phrase:</label><input id="terms" name="terms" type="text" style="width: 280px" value="' + inReq.phrase + '" /></div>\
+	  <div><label for="name" class="blSubmit">Your Name:</label><input id="name" name="name" type="text" class="blText" value="Andrew Regan" /></div>\
+	  <div><label for="email" class="blSubmit">Your Email:</label><input id="email" name="email" type="text" class="blText" value="aregan@gmail.com" /></div>\
+	  <div><label for="terms" class="blSubmit">Submitted Phrase:</label><input id="terms" name="terms" type="text" style="width: 280px" value="' + inReq.phrase + '" /></div>\
+	  <div><label for="explanation" class="blSubmit">Why should we add this? <span class="blGrey">(optional):</span></label><textarea id="explanation" name="explanation" type="text" style="width: 280px" value="" /></div>\
 	</form>\
     </div>');
-    newDialog.dialog({ title: "Submit new words", modal: true, resizable: false, width: 450, height: 280,
+    newDialog.dialog({ title: "Submit #BannedList phrase", modal: true, resizable: false, width: 450, height: 230,
 	buttons: [
 	    {text: "Submit", click: function() { submitPhrase(); $(this).dialog("close"); $(this).remove(); inSendResponse({ok: "true"}); }},
 	    {text: "Cancel", click: function() { $(this).dialog("close"); $(this).remove(); inSendResponse({ok: "true"}); }}
