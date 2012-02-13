@@ -659,11 +659,11 @@ function refreshBannedStuff( inOptions ) {
 
 function callChurnalism( inURL ) {
     var theText = '';
-
+/*
     if (/http.*guardian.co.uk/.test(inURL)) {
         theText = $('#article-body-blocks p').text();
     }
-
+*/
     if ( theText != '' && theText.length >= 15) {
         $.post("http://churnalism.com/api/search/", {text: theText}, function(inData) {
 	    if ( inData.success == true) {
