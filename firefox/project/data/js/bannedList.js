@@ -47,7 +47,7 @@ reqdPrefixes('Bullet',  'Magic','Silver'),
 'Clear and present danger',
 'Close down discussion',
 'Cognoscenti',
-optSuffixes( optPrefixes('Community',  'Gay','Scientific','Security'),  'Leaders?','Representatives?'),
+optSuffixes( optPrefixes('Community',  'Gay','Scientific','Security','The','The \\w+'),  'Leaders?','Representatives?'),
 'Compelling',
 'Connect with the (electorate|voters?)',
 'Crash and burn',
@@ -285,6 +285,7 @@ var theNotJustWordsTerms = ['That is all\\.',
 
 var theSpecialIgnoreTerms = ['(Points|Pulls?|Way) Ahead of',
 reqdPrefixes('Clearly',  'As'),
+'Hackathon',
 'Marathon',
 'Team Blog'];
 
