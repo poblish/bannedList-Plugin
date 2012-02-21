@@ -98,3 +98,11 @@ function handleSuffixes( inArray, inIsOptional) {  // assume each prefix is word
 
     return theStr + ( inIsOptional ? ')?' : ')');
 }
+
+function someWords( inMinNum, inMaxNum) {
+    if ( inMinNum > inMaxNum || inMaxNum <= 0) {
+        alert('Error: bad inputs to someWords(<min>,<max>)');
+        return '';
+    }
+    return '( \\w+){' + inMinNum + ',' + inMaxNum + '}';
+}
