@@ -288,7 +288,8 @@ var theSpecialIgnoreTerms = ['(Points|Pulls?|Way) Ahead of',
 reqdPrefixes('Clearly',  'As'),
 'Hackathon',
 'Marathon',
-'Team Blog'];
+'Team Blog',
+reqdSuffixes('Toxic', 'Chemicals?','Gas(es)?','Nuclear','Substances?') ];
 
 
 var theExtraTerms = ['Abundantly clear',
@@ -414,7 +415,7 @@ reqdPrefixes('Justice',  'Gender','Social'),
 'Kulturkampf',
 'Laid the foundations',
 'Lamented',
-optPrefixes('Landscape', 'Changed','Different'),
+reqdPrefixes('Landscape', 'Changed','Different','Economic','Political','Social'),
 'Last chance saloon',
 'Laughable',
 'Law of the jungle',
