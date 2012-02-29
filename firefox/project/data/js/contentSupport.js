@@ -52,7 +52,24 @@ function callChurnalism( inURL ) {
 }
 
 function optDashes(inStr) {
-    return inStr.replace('-','(-| )');
+    return replaceAll( inStr, '-', '(-| )');
+}
+
+function replaceAll(string,text,by) {  // http://www.irt.org/script/771.htm
+// Replaces text with by in string
+    var strLength = string.length, txtLength = text.length;
+    if ((strLength == 0) || (txtLength == 0)) return string;
+
+    var i = string.indexOf(text);
+    if ((!i) && (text != string.substring(0,txtLength))) return string;
+    if (i == -1) return string;
+
+    var newstr = string.substring(0,i) + by;
+
+    if (i+txtLength < strLength)
+        newstr += replaceAll(string.substring(i+txtLength,strLength),text,by);
+
+    return newstr;
 }
 
 function optPrefixes() {
