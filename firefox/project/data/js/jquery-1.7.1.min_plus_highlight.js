@@ -55,7 +55,7 @@ if ( inHiliteClassName == 'highlightCore') {
     spanNode.style.fontWeight = 'bold';
 
     spanNode.style.background = 'rgb(215,215,215)';
-    spanNode.style.backgroundImage = '-moz-linear-gradient( top, rgb(255,91,87), rgb(215,215,215))';
+    spanNode.style.backgroundImage = '-moz-linear-gradient( top, rgb(204,136,135), rgb(225,225,225))';
 } else if ( inHiliteClassName == 'highlightReplaced') {
     spanNode.style.padding = '.2em .4em';
     spanNode.style.border = '1px solid #CCC';
