@@ -289,7 +289,7 @@ var theNotJustWordsTerms = ['That is all\\.',
 
 var theSpecialIgnoreTerms = ['(Points|Pulls?|Way) Ahead of',
 reqdPrefixes('Clearly',  'As'),
-'Community School',
+reqdSuffixes('Community',  'Hospital','School'),
 'Hackathon',
 'Marathon',
 'Team Blog',
