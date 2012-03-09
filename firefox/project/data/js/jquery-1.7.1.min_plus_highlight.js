@@ -19,7 +19,7 @@ Johann Burkard
 
 */
 
-var theIgnoreClassesArray = ['highlightCore','highlightExtra','highlightMgmt','highlightReplaced','highlightIgnore'];
+var theIgnoreClassesArray = ['highlightCore','highlightExtra','highlightReplaced','highlightIgnore','highlightMgmt'];
 
 jQuery.fn.highlight = function( pattern, inHiliteClassName, inSpanTitle, inInsensitive) {
     var regex = typeof(pattern) === "string" ? new RegExp(pattern, inInsensitive ? "i" : "") : pattern; // assume very LOOSELY pattern is regexp if not string

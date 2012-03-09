@@ -133,6 +133,7 @@ reqdPrefixes('Hypocrisy',  'Breathtaking','Rank','Shameless'),
 'Incredibl(e|y)',
 reqdPrefixes('Indictment',  'Damning','Devastating'),
 'Inextricably link(ed)?',
+'In harm.s way',
 'In point of fact',
 'In (order|relation) to',
 'In (respect|terms) of',
@@ -207,6 +208,7 @@ optDashes('Ring-fenced?'),
 optSuffixes('Robust',  'Evidence','Frameworks?','Measures?'),
 'Rude awakening',
 'Scant comfort',
+'Scientifically proven',
 'Scrap heap',
 optDashes('(Sea|Step)-change'),
 'Seal the Deal',
@@ -290,7 +292,7 @@ var theNotJustWordsTerms = ['That is all\\.',
 
 var theSpecialIgnoreTerms = ['(Points|Pulls?|Way) Ahead of',
 reqdPrefixes('Clearly',  'As'),
-reqdSuffixes('Community',  'Hospital','School'),
+reqdSuffixes('Community',  'Hospital','Order','School'),
 'Equality Act',
 'Hackathon',
 'Marathon',
@@ -298,7 +300,8 @@ reqdSuffixes('Community',  'Hospital','School'),
 reqdSuffixes('Toxic', 'Chemicals?','Gas(es)?','Nuclear','\\w+ Radioactive','Substances?') ];
 
 
-var theManagementSpeakTerms = [ optDashes('Best-of-(brand|breed)'),
+var theManagementSpeakTerms = [ optPrefixes('Action points?',  'Key','Numerous'),
+optDashes('Best-of-(brand|breed)'),
 reqdSuffixes('Downstream',  'Costs?'),
 'Fact Pattern',
 reqdSuffixes('Forward',  'Offer','Planning','Policy'),
@@ -310,6 +313,7 @@ optDashes('Ground-breaking'),
 'Holistic',
 'Implement \\w+ commitments?',
 'Inject some clarity',
+'Key technolog(y|ies)',
 optDashes('Low-hanging fruit'),
 'Ongoing',
 'Opening salvo',
@@ -328,6 +332,7 @@ optDashes('State-of-the-art'),
 'Tak(e|ing) on board',
 'Taking(\\w+)? forward',
 optDashes('Thought-leader'),
+reqdPrefixes('Vision',  'Cogent','coherent','coherent and compelling','compelling',optDashes('Long-term')),
 'Web 2.0',
 'Webinar',
 'Wrongsided?' + someWords(0,1) + ' demographic',
@@ -363,7 +368,6 @@ optSuffixes( optDashes('Cloud-cuckoo'),  'Land'),
 'Clearly',
 'Closer? to the ground',
 'Clutch(ing)? at straws',
-'Cogent vision',
 'Coherent (alternative|strategy)',
 reqdPrefixes('Concerns',  'A few','Has','Have'),
 'Condemned to repeat \\w+',
@@ -459,6 +463,7 @@ reqdSuffixes('(Hard|Hard-|Hard )working',  'Britons','Majority','Many','Taxpayer
 reqdPrefixes('Insiders?',  'Downing Street'),
 'Insidious',
 'Insignificant',
+'Integrated transport policy',
 'Interests of the majority',
 optPrefixes('(National|Public) Interest',  'The'),
 'Internal contradictions?',
@@ -483,7 +488,6 @@ reqdSuffixes('Let.s be',  'Honest','Realistic'),
 'Listen very hard and you will hear',
 'Litmus test',
 'Little local difficulty',
-optDashes('Long-term vision'),
 'Loom large',
 'Ludicrous',
 'Lurch to the \\w+',
@@ -668,7 +672,7 @@ optPrefixes('With a human face',  'Capitalism','Politics'),
 'Wip(e|ing) the slate clean',
 'Works for the many',
 reqdPrefixes('Would Argue',  'Many','Some'),
-'Wrong-headed',
+'Wrong-headed(ness)?',
 'Year zero',
 'Zombie arguments?'];
 
@@ -719,11 +723,11 @@ function refreshBannedStuff( inOptions ) {
     $('body').highlight( '\\b(' + theSpecialIgnoreTerms.join('|') + ')\\b', 'highlightIgnore', '', true);
     $('body').highlight( '\\b(' + theCaseInsensitiveCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', false);
     $('body').highlight( '(' + theNotJustWordsTerms.join('|') + ')', 'highlightCore', '#BannedList entry', true);
+    $('body').highlight( '\\b(' + theManagementSpeakTerms.join('|') + ')\\b', 'highlightMgmt', '#BannedList Management Speak', true);
     $('body').highlight( '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', true);
 
     if ( inOptions["extras.politics.andrew1"] == 'true') {
         $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
-        $('body').highlight( '\\b(' + theManagementSpeakTerms.join('|') + ')\\b', 'highlightMgmt', '#BannedList Management Speak', true);
         $('body').highlight( '\\b(' + theCaseInsensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
         $('body').highlight( '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
     }
