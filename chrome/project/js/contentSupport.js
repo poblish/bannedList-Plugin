@@ -121,5 +121,5 @@ function someWords( inMinNum, inMaxNum) {
         alert('Error: bad inputs to someWords(<min>,<max>)');
         return '';
     }
-    return '( \\w+){' + inMinNum + ',' + inMaxNum + '}';
+    return '( \\S+){' + inMinNum + ',' + inMaxNum + '}';
 }
