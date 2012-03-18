@@ -291,7 +291,7 @@ var theCaseInsensitiveCoreTerms = ['ConDems?( Government)?',
 'Team [A-Z]\\S+'];
 
 
-var theNotJustWordsTerms = ['As a' + someWords(1,3) + ',( I.m)?',
+var theNotJustWordsTerms = ['\\b' + 'As a' + someWords(1,3) + ',( I.m)?',
 'That is all\\.',
 '\\b' + 'Well-worn clich(e|\\xE9)',
 '\\b' + 'Who knew\\?'];
