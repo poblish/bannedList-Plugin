@@ -287,11 +287,11 @@ optDashes('Wheelchair-bound'),
 'You couldn.t make it up\\.?'];
 
 
-var theCaseInsensitiveCoreTerms = ['ConDems?( Government)?',
+var theCaseSensitiveCoreTerms = ['ConDems?( Government)?',
 'Team [A-Z]\\S+'];
 
 
-var theNotJustWordsTerms = ['\\b' + 'As a' + someWords(1,3) + ',( I.m)?',
+var theCaseSensitiveNotJustWordsTerms = ['\\b' + 'As a' + someWords(1,3) + ',( I.m)?',
 'That is all\\.',
 '\\b' + 'Well-worn clich(e|\\xE9)',
 '\\b' + 'Who knew\\?'];
@@ -724,7 +724,7 @@ reqdPrefixes('Would Argue',  'Many','Some'),
 'Year zero',
 'Zombie arguments?'];
 
-var theCaseInsensitiveExtraTerms = ['[A-Z]\\S+' + 'ite spin'];
+var theCaseSensitiveExtraTerms = ['[A-Z]\\S+' + 'ite spin'];
 
 
 var theExtraHealthTerms = [
@@ -769,14 +769,14 @@ function refreshBannedStuff( inOptions ) {
     }
 
     $('body').highlight( '\\b(' + theSpecialIgnoreTerms.join('|') + ')\\b', 'highlightIgnore', '', true);
-    $('body').highlight( '\\b(' + theCaseInsensitiveCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', false);
-    $('body').highlight( '(' + theNotJustWordsTerms.join('|') + ')', 'highlightCore', '#BannedList entry', true);
+    $('body').highlight( '\\b(' + theCaseSensitiveCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', false);
+    $('body').highlight( '(' + theCaseSensitiveNotJustWordsTerms.join('|') + ')', 'highlightCore', '#BannedList entry', false);
     $('body').highlight( '\\b(' + theManagementSpeakTerms.join('|') + ')\\b', 'highlightMgmt', '#BannedList Management Speak', true);
     $('body').highlight( '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', true);
 
     if ( inOptions["extras.politics.andrew1"] == 'true') {
         $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
-        $('body').highlight( '\\b(' + theCaseInsensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
+        $('body').highlight( '\\b(' + theCaseSensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
         $('body').highlight( '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
     }
 }
