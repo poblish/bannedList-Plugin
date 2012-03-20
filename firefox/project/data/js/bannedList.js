@@ -291,7 +291,7 @@ var theCaseSensitiveCoreTerms = ['ConDems?( Government)?',
 'Team [A-Z]\\S+'];
 
 
-var theCaseSensitiveNotJustWordsTerms = ['\\b' + 'As a' + someWords(1,3) + ',( I.m)?',
+var theCaseSensitiveNotJustWordsTerms = ['\\b' + 'As a [A-Z]\\S+' + someWords(0,2) + ',( I.m)?',
 'That is all\\.',
 '\\b' + 'Well-worn clich(e|\\xE9)',
 '\\b' + 'Who knew\\?'];
@@ -715,9 +715,10 @@ optPrefixes('Where we.re at( politically)?',  '(An )?Expression of'),
 'Whip(ping)? up a storm',
 'Who will rid me of this turbulent \\S+\\??',
 'Will?ful ignorance',
-optPrefixes('With a human face',  'Capitalism','Politics'),
 'Wiped off the value',
 'Wip(e|ing) the slate clean',
+optPrefixes('With a human face',  'Capitalism','Politics'),
+'With( greater| our)? freedom( also| should)? comes?( greater)? responsibilit(y|ies)',
 'Works for the many',
 reqdPrefixes('Would Argue',  'Many','Some'),
 'Wrong-headed(ness)?',
