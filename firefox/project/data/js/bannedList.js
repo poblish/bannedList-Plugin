@@ -370,6 +370,14 @@ reqdPrefixes('Vision',  'Cogent','coherent','coherent and compelling','compellin
 ];
 
 
+var theExtraWeaselTerms = ['Could be argued',
+'For several reasons',
+reqdPrefixes('Good reasons',  'Many','Several'),
+'Some circumstances',
+'Some have argued',
+];
+
+
 var theExtraTerms = ['Abundantly clear',
 'Accelerating' + someWords(1,3) + ' change',
 'Against this backdrop',
@@ -410,7 +418,6 @@ reqdPrefixes('Contradictions?',  'Internal','Its own'),
 reqdPrefixes('Conversation',  'Contemporary','Economic','Grown-up','National','Nuanced','Political'),
 'Conversation with the public',
 'Corporate media',
-'Crazy',
 optPrefixes('Creative industries',  'The'),
 'Credibility gap',
 'Creeping (deregulation|privati[s|z]ation)',
@@ -571,6 +578,7 @@ reqdPrefixes('Old days',  'Bad','Good'),
 'Oldest trick in the (\\S+ )?book',
 'On a knife edge',
 reqdPrefixes('On the beat',  'Bobbies','Police.*'),
+'Only fair that',
 'Operationali(s|z)(e|ation)',
 'Ordinary (families|people)',
 optPrefixes('Orthodox(y|ies)',  'Economic','Failed','Free-market','Keynesian','Market','Old','Past','Right-?wing','Stale','Tired','Wrong'),
@@ -777,6 +785,7 @@ function refreshBannedStuff( inOptions ) {
     $('body').highlight( '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', true);
 
     if ( inOptions["extras.politics.andrew1"] == 'true') {
+        $('body').highlight( '\\b(' + theExtraWeaselTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: weasel terms', true);
         $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
         $('body').highlight( '\\b(' + theCaseSensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
         $('body').highlight( '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
