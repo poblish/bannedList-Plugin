@@ -21,9 +21,9 @@ Johann Burkard
 
 var theIgnoreClassesArray = ['highlightCore','highlightExtra','highlightReplaced','highlightIgnore','highlightMgmt'];
 
-jQuery.fn.highlight = function( pattern, inHiliteClassName, inSpanTitle, inInsensitive) {
+jQuery.fn.highlight = function( ioStats, pattern, inHiliteClassName, inSpanTitle, inInsensitive) {
     var regex = typeof(pattern) === "string" ? new RegExp(pattern, inInsensitive ? "i" : "") : pattern; // assume very LOOSELY pattern is regexp if not string
-    function innerHighlight(node, pattern, inHiliteClassName, inSpanTitle) {
+    function innerHighlight( node, ioStats, pattern, inHiliteClassName, inSpanTitle) {
         var skip = 0;
         if (node.nodeType === 3) { // 3 - Text node
             var pos = node.data.search(regex);
@@ -73,6 +73,19 @@ if ( inHiliteClassName == 'highlightCore') {
 			// Skip
 		}
 		else {
+			if ( ioStats != null && inHiliteClassName != 'highlightIgnore') {
+				var obj = ioStats[match[0]];
+				if ( obj == null) {
+					ioStats[match[0]] = {t: (inHiliteClassName == 'highlightCore' ? 'C': 'E'),c:1};
+					ioStats['$meta'].uniqueTerms++;
+
+				} else {
+					ioStats[match[0]].c = obj.c + 1;
+				}
+
+				ioStats['$meta'].totalMatches++;
+			}
+
 			var endBit = middleBit.splitText(match[0].length); // similarly split middleBit to 2 nodes
 			var middleClone = middleBit.cloneNode(true);
 			spanNode.appendChild(middleClone);
@@ -83,20 +96,20 @@ if ( inHiliteClassName == 'highlightCore') {
             }
         } else if (node.nodeType === 1 && node.childNodes && !/(script|style|textarea)/i.test(node.tagName)) { // 1 - Element node
             for (var i = 0; i < node.childNodes.length; i++) { // highlight all children
-                i += innerHighlight( node.childNodes[i], pattern, inHiliteClassName, inSpanTitle); // skip highlighted ones
+                i += innerHighlight( node.childNodes[i], ioStats, pattern, inHiliteClassName, inSpanTitle); // skip highlighted ones
             }
         }
         return skip;
     }
 
     return this.each(function() {
-        innerHighlight( this, pattern, inHiliteClassName, inSpanTitle);
+        innerHighlight( this, ioStats, pattern, inHiliteClassName, inSpanTitle);
     });
 };
 
 jQuery.fn.replaceHighlight = function( pattern, inReplacement, inHiliteClassName, inSpanTitle) {
     var regex = typeof(pattern) === "string" ? new RegExp(pattern, "i") : pattern; // assume very LOOSELY pattern is regexp if not string
-    function innerHighlight(node, pattern, inHiliteClassName, inSpanTitle) {
+    function innerHighlight( node, ioStats, pattern, inHiliteClassName, inSpanTitle) {
         var skip = 0;
         if (node.nodeType === 3) { // 3 - Text node
             var pos = node.data.search(regex);
@@ -114,14 +127,14 @@ jQuery.fn.replaceHighlight = function( pattern, inReplacement, inHiliteClassName
             }
         } else if (node.nodeType === 1 && node.childNodes && !/(script|style|textarea)/i.test(node.tagName)) { // 1 - Element node
             for (var i = 0; i < node.childNodes.length; i++) { // highlight all children
-                i += innerHighlight( node.childNodes[i], pattern, inHiliteClassName, inSpanTitle); // skip highlighted ones
+                i += innerHighlight( node.childNodes[i], null, pattern, inHiliteClassName, inSpanTitle); // skip highlighted ones
             }
         }
         return skip;
     }
 
     return this.each(function() {
-        innerHighlight( this, pattern, inHiliteClassName, inSpanTitle);
+        innerHighlight( this, null, pattern, inHiliteClassName, inSpanTitle);
     });
 };
 

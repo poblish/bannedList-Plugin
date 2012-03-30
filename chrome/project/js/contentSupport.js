@@ -33,6 +33,15 @@ function submitPhrase() {
     }).error( function() { /* Ignore! */ });
 }
 
+function submitAnonymousStats( inStats ) {
+    if ( inStats != null && inStats['$meta'].totalMatches > 0) {
+        var theJSON = JSON.stringify(inStats);
+	// console.log(theJSON);
+
+        // $.post("http://1.bannedlist-stats.appspot.com/receive", {stats: theJSON}, function(theResponse) { /* Ignore! */ }).error( function() { /* Ignore! */ });
+    }
+}
+
 function callChurnalism( inURL ) {
     var theText = '';
 /*
@@ -48,6 +57,15 @@ function callChurnalism( inURL ) {
 	        }
 	    }
         }).error( function() { /* Ignore! */ });
+    }
+}
+
+function getPageTitle() {
+    var theTitles = $('head title');
+    if ( theTitles.length > 0) {
+        return $.trim(theTitles[0].innerHTML);
+    } else {
+        return '???';
     }
 }
 

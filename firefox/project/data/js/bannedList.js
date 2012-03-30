@@ -342,7 +342,7 @@ optDashes('Low-hanging fruit'),
 'Organically',
 'Out of the box',
 'Overarching',
-optSuffixes('Paradigm(atic|s)?',  'Shift'),
+optPrefixes( optSuffixes('Paradigm(atic|s)?',  'Shift'),  'Dominant'),
 reqdPrefixes('Parameters?',  'Certain','Her','His','Important','Key','Main','The'),
 'Reinvent(ing)? the wheel',
 'Resonates?( with)?',
@@ -760,10 +760,17 @@ reqdPrefixes('Linked to',  'Has been','Is'),
 ////////////////////////////////////////////////////////////////////////////////
 
 $(function() {
-	refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" } );
+    if ( document.URL != 'http://www.poblish.org/downloads/TheList.html') {
+        var theStats = {};
+        theStats['$meta'] = {url: document.URL, title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
+        refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, theStats);
+        submitAnonymousStats(theStats);
+    } else {
+        refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, null);
+    }
 });
 
-function refreshBannedStuff( inOptions ) {
+function refreshBannedStuff( inOptions, ioStats) {
     $("head").append($("<link rel='stylesheet' href='css/bannedList.css' type='text/css' media='screen' />"));
 
     if ( inOptions["extras.special.goodOrBad"] == 'true') {
@@ -779,16 +786,16 @@ function refreshBannedStuff( inOptions ) {
         $('body').replaceHighlight( '\\b(Inequality?|Injustice|Unfair)\\b', 'Badness', 'highlightReplaced', '#BannedList Replacement');
     }
 
-    $('body').highlight( '\\b(' + theSpecialIgnoreTerms.join('|') + ')\\b', 'highlightIgnore', '', true);
-    $('body').highlight( '\\b(' + theCaseSensitiveCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', false);
-    $('body').highlight( '(' + theCaseSensitiveNotJustWordsTerms.join('|') + ')', 'highlightCore', '#BannedList entry', false);
-    $('body').highlight( '\\b(' + theManagementSpeakTerms.join('|') + ')\\b', 'highlightMgmt', '#BannedList Management Speak', true);
-    $('body').highlight( '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', true);
+    $('body').highlight( ioStats, '\\b(' + theSpecialIgnoreTerms.join('|') + ')\\b', 'highlightIgnore', '', true);
+    $('body').highlight( ioStats, '\\b(' + theCaseSensitiveCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', false);
+    $('body').highlight( ioStats, '(' + theCaseSensitiveNotJustWordsTerms.join('|') + ')', 'highlightCore', '#BannedList entry', false);
+    $('body').highlight( ioStats, '\\b(' + theManagementSpeakTerms.join('|') + ')\\b', 'highlightMgmt', '#BannedList Management Speak', true);
+    $('body').highlight( ioStats, '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', true);
 
     if ( inOptions["extras.politics.andrew1"] == 'true') {
-        $('body').highlight( '\\b(' + theExtraWeaselTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: weasel terms', true);
-        $('body').highlight( '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
-        $('body').highlight( '\\b(' + theCaseSensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
-        $('body').highlight( '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
+        $('body').highlight( ioStats, '\\b(' + theExtraWeaselTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: weasel terms', true);
+        $('body').highlight( ioStats, '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
+        $('body').highlight( ioStats, '\\b(' + theCaseSensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
+        $('body').highlight( ioStats, '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
     }
 }
