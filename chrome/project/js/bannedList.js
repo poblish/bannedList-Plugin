@@ -761,7 +761,7 @@ reqdPrefixes('Linked to',  'Has been','Is'),
 
 $(function() {
     chrome.extension.sendRequest({ method: "getOptions"}, function(inResp) {
-        if (/http.*(appengine.google.com*)|(bannedlist-stats*)|(poblish.org\/downloads\/TheList.html)|.google.?|.ebay.?|.ebay.?|.bing.?|.facebook.?/.test( inResp.url )) {
+        if (getIgnoreStatsPageFilterRegex().test( inResp.url )) {
             refreshBannedStuff( inResp.options, null);
         } else {
             var theStats = {};

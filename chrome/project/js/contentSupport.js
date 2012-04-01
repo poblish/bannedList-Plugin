@@ -69,6 +69,10 @@ function getPageTitle() {
     }
 }
 
+function getIgnoreStatsPageFilterRegex() {
+    return /http.*(appengine.google.com*)|(bannedlist-stats*)|(poblish.org\/downloads\/TheList.html)|.gist.github.?|.google.?|.ebay.?|.ebay.?|.bing.?|.facebook.?/;
+}
+
 function optDashes(inStr) {
     return replaceAll( inStr, '-', '(-| )');
 }

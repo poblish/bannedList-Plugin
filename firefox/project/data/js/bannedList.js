@@ -760,7 +760,7 @@ reqdPrefixes('Linked to',  'Has been','Is'),
 ////////////////////////////////////////////////////////////////////////////////
 
 $(function() {
-    if (/http.*(appengine.google.com*)|(bannedlist-stats*)|(poblish.org\/downloads\/TheList.html)|.google.?|.ebay.?|.ebay.?|.bing.?|.facebook.?/.test( document.URL )) {
+    if (getIgnoreStatsPageFilterRegex().test( document.URL )) {
         refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, null);
     } else {
         var theStats = {};
