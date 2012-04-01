@@ -38,7 +38,7 @@ function submitAnonymousStats( inStats ) {
         var theJSON = JSON.stringify(inStats);
 	// console.log(theJSON);
 
-        // $.post("http://1.bannedlist-stats.appspot.com/receive", {stats: theJSON}, function(theResponse) { /* Ignore! */ }).error( function() { /* Ignore! */ });
+        $.post("http://1.bannedlist-stats.appspot.com/receive", {stats: theJSON}, function(theResponse) { /* Ignore! */ }).error( function() { /* Ignore! */ });
     }
 }
 

@@ -760,14 +760,16 @@ reqdPrefixes('Linked to',  'Has been','Is'),
 ////////////////////////////////////////////////////////////////////////////////
 
 $(function() {
-    if ( document.URL != 'http://www.poblish.org/downloads/TheList.html') {
+    if (/http.*(appengine.google.com*)|(bannedlist-stats*)|(poblish.org\/downloads\/TheList.html)|.google.?|.ebay.?|.ebay.?|.bing.?|.facebook.?/.test( document.URL )) {
+        refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, null);
+    } else {
         var theStats = {};
         theStats['$meta'] = {url: document.URL, title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
         refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, theStats);
         submitAnonymousStats(theStats);
-    } else {
-        refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, null);
     }
+
+    callChurnalism( document.URL );
 });
 
 function refreshBannedStuff( inOptions, ioStats) {

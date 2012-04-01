@@ -761,13 +761,13 @@ reqdPrefixes('Linked to',  'Has been','Is'),
 
 $(function() {
     chrome.extension.sendRequest({ method: "getOptions"}, function(inResp) {
-        if ( inResp.url != 'http://www.poblish.org/downloads/TheList.html') {
+        if (/http.*(appengine.google.com*)|(bannedlist-stats*)|(poblish.org\/downloads\/TheList.html)|.google.?|.ebay.?|.ebay.?|.bing.?|.facebook.?/.test( inResp.url )) {
+            refreshBannedStuff( inResp.options, null);
+        } else {
             var theStats = {};
             theStats['$meta'] = {url: inResp.url, title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
             refreshBannedStuff( inResp.options, theStats);
             submitAnonymousStats(theStats);
-        } else {
-            refreshBannedStuff( inResp.options, null);
         }
 
         callChurnalism( inResp.url );
