@@ -34,7 +34,7 @@ function submitPhrase() {
 }
 
 function submitAnonymousStats( inStats ) {
-    if ( inStats != null && inStats['$meta'].totalMatches > 0) {
+    if ( inStats != null && inStats['$meta'].totalMatches >= 2) {
         var theJSON = JSON.stringify(inStats);
 	// console.log(theJSON);
 
@@ -70,7 +70,12 @@ function getPageTitle() {
 }
 
 function getIgnoreStatsPageFilterRegex() {
-    return /http.*(appengine.google.com*)|(bannedlist-stats*)|(poblish.org\/downloads\/TheList.html)|.gist.github.?|.google.?|.ebay.?|.ebay.?|.bing.?|.facebook.?/;
+    return /http.*(appengine.google.com*)|(bannedlist-stats*)|(poblish.org\/downloads\/TheList.html)|.github.?|.google.?|.ebay.?|.ebay.?|.bing.?|.facebook.?/;
+}
+
+function trimUrlForStats( inURL ) {
+    var theNewUrl = inURL.replace(/(([\\?|&]utm_source=)|#).*/, '');
+    return theNewUrl;
 }
 
 function optDashes(inStr) {

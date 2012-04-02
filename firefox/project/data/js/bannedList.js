@@ -764,7 +764,7 @@ $(function() {
         refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, null);
     } else {
         var theStats = {};
-        theStats['$meta'] = {url: document.URL, title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
+        theStats['$meta'] = {url: trimUrlForStats( document.URL ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
         refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, theStats);
         submitAnonymousStats(theStats);
     }

@@ -765,7 +765,7 @@ $(function() {
             refreshBannedStuff( inResp.options, null);
         } else {
             var theStats = {};
-            theStats['$meta'] = {url: inResp.url, title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
+            theStats['$meta'] = {url: trimUrlForStats( inResp.url ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
             refreshBannedStuff( inResp.options, theStats);
             submitAnonymousStats(theStats);
         }
