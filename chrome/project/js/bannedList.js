@@ -762,11 +762,11 @@ reqdPrefixes('Linked to',  'Has been','Is'),
 $(function() {
     chrome.extension.sendRequest({ method: "getOptions"}, function(inResp) {
         if (getIgnoreStatsPageFilterRegex().test( inResp.url )) {
-            refreshBannedStuff( inResp.options, null);
+            refreshBannedStuff( inResp.options, inResp.url, null);
         } else {
             var theStats = {};
             theStats['$meta'] = {url: trimUrlForStats( inResp.url ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
-            refreshBannedStuff( inResp.options, theStats);
+            refreshBannedStuff( inResp.options, inResp.url, theStats);
             submitAnonymousStats(theStats);
         }
 
@@ -778,14 +778,14 @@ chrome.extension.onRequest.addListener(
     function( inReq, inSender, inSendResponse) {
         if ( inReq.method == "getOptions") {
             $('body').removeHighlights();
-            refreshBannedStuff( inReq.options );
+            refreshBannedStuff( inReq.options, null, null);
         } else if ( inReq.method == "showSubmitOptions") {
             showSubmissionDialog( inReq, inSendResponse);
         }
     }
 );
 
-function refreshBannedStuff( inOptions, ioStats) {
+function refreshBannedStuff( inOptions, inDocUrl, ioStats) {
     if ( inOptions["extras.special.goodOrBad"] == 'true') {
         $('body').replaceHighlight( '\\b(Blair|Brown|New Labour)ites\\b', 'some Labour people', 'highlightReplaced', '#BannedList Replacement');
         $('body').replaceHighlight( '\\b(Blairite|Brownite)\\b', 'Labour', 'highlightReplaced', '#BannedList Replacement');
@@ -799,16 +799,16 @@ function refreshBannedStuff( inOptions, ioStats) {
         $('body').replaceHighlight( '\\b(Inequality?|Injustice|Unfair)\\b', 'Badness', 'highlightReplaced', '#BannedList Replacement');
     }
 
-    $('body').highlight( ioStats, '\\b(' + theSpecialIgnoreTerms.join('|') + ')\\b', 'highlightIgnore', '', true);
-    $('body').highlight( ioStats, '\\b(' + theCaseSensitiveCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', false);
-    $('body').highlight( ioStats, '(' + theCaseSensitiveNotJustWordsTerms.join('|') + ')', 'highlightCore', '#BannedList entry', false);
-    $('body').highlight( ioStats, '\\b(' + theManagementSpeakTerms.join('|') + ')\\b', 'highlightMgmt', '#BannedList Management Speak', true);
-    $('body').highlight( ioStats, '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', true);
+    $('body').highlight( ioStats, inDocUrl, '\\b(' + theSpecialIgnoreTerms.join('|') + ')\\b', 'highlightIgnore', '', true);
+    $('body').highlight( ioStats, inDocUrl, '\\b(' + theCaseSensitiveCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', false);
+    $('body').highlight( ioStats, inDocUrl, '(' + theCaseSensitiveNotJustWordsTerms.join('|') + ')', 'highlightCore', '#BannedList entry', false);
+    $('body').highlight( ioStats, inDocUrl, '\\b(' + theManagementSpeakTerms.join('|') + ')\\b', 'highlightMgmt', '#BannedList Management Speak', true);
+    $('body').highlight( ioStats, inDocUrl, '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', true);
 
     if ( inOptions["extras.politics.andrew1"] == 'true') {
-        $('body').highlight( ioStats, '\\b(' + theExtraWeaselTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: weasel terms', true);
-        $('body').highlight( ioStats, '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
-        $('body').highlight( ioStats, '\\b(' + theCaseSensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
-        $('body').highlight( ioStats, '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
+        $('body').highlight( ioStats, inDocUrl, '\\b(' + theExtraWeaselTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: weasel terms', true);
+        $('body').highlight( ioStats, inDocUrl, '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
+        $('body').highlight( ioStats, inDocUrl, '\\b(' + theCaseSensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
+        $('body').highlight( ioStats, inDocUrl, '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
     }
 }

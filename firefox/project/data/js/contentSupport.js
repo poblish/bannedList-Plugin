@@ -69,6 +69,22 @@ function getPageTitle() {
     }
 }
 
+function getContentStatsBlackListFor( inDocURL ) {
+    return $('div#comments');
+}
+
+function getContentStatsWhiteListFor( inDocURL ) {
+/*  if (/http.*guardian.co.uk/.test(inDocURL)) {
+        return $('#article-body-blocks p');
+    }
+
+    if (/http.*newstatesman.com/.test(inDocURL)) {
+        return $('div.article-body');
+    }
+*/
+    return null;
+}
+
 function getIgnoreStatsPageFilterRegex() {
     return /http.*(appengine.google.com*)|(bannedlist-stats*)|(poblish.org\/downloads\/TheList.html)|.github.?|.google.?|.ebay.?|.ebay.?|.bing.?|.facebook.?/;
 }

@@ -21,7 +21,11 @@ Johann Burkard
 
 var theIgnoreClassesArray = ['highlightCore','highlightExtra','highlightReplaced','highlightIgnore','highlightMgmt'];
 
-jQuery.fn.highlight = function( ioStats, pattern, inHiliteClassName, inSpanTitle, inInsensitive) {
+jQuery.fn.highlight = function( ioStats, inDocUrl, pattern, inHiliteClassName, inSpanTitle, inInsensitive) {
+
+    var theWhiteList = getContentStatsWhiteListFor(inDocUrl);
+    var theBlackList = getContentStatsBlackListFor(inDocUrl);
+
     var regex = typeof(pattern) === "string" ? new RegExp(pattern, inInsensitive ? "i" : "") : pattern; // assume very LOOSELY pattern is regexp if not string
     function innerHighlight( node, ioStats, pattern, inHiliteClassName, inSpanTitle) {
         var skip = 0;
@@ -96,7 +100,15 @@ if ( inHiliteClassName == 'highlightCore') {
             }
         } else if (node.nodeType === 1 && node.childNodes && !/(script|style|textarea)/i.test(node.tagName)) { // 1 - Element node
             for (var i = 0; i < node.childNodes.length; i++) { // highlight all children
-                i += innerHighlight( node.childNodes[i], ioStats, pattern, inHiliteClassName, inSpanTitle); // skip highlighted ones
+
+		var theStatsObjToUse = ioStats;
+
+		if (( theBlackList != null && theBlackList[0] === node.childNodes[i]) || ( theWhiteList != null && theWhiteList[0] !== node.childNodes[i])) {
+			theStatsObjToUse = null;
+			// console.log('Skipping... ', node.childNodes[i]);
+		}
+
+                i += innerHighlight( node.childNodes[i], theStatsObjToUse, pattern, inHiliteClassName, inSpanTitle); // skip highlighted ones
             }
         }
         return skip;

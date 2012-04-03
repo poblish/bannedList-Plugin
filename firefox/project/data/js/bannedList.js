@@ -761,18 +761,18 @@ reqdPrefixes('Linked to',  'Has been','Is'),
 
 $(function() {
     if (getIgnoreStatsPageFilterRegex().test( document.URL )) {
-        refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, null);
+        refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, document.URL, null);
     } else {
         var theStats = {};
         theStats['$meta'] = {url: trimUrlForStats( document.URL ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
-        refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, theStats);
+        refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, document.URL, theStats);
         submitAnonymousStats(theStats);
     }
 
     callChurnalism( document.URL );
 });
 
-function refreshBannedStuff( inOptions, ioStats) {
+function refreshBannedStuff( inOptions, inDocUrl, ioStats) {
     $("head").append($("<link rel='stylesheet' href='css/bannedList.css' type='text/css' media='screen' />"));
 
     if ( inOptions["extras.special.goodOrBad"] == 'true') {
@@ -788,16 +788,16 @@ function refreshBannedStuff( inOptions, ioStats) {
         $('body').replaceHighlight( '\\b(Inequality?|Injustice|Unfair)\\b', 'Badness', 'highlightReplaced', '#BannedList Replacement');
     }
 
-    $('body').highlight( ioStats, '\\b(' + theSpecialIgnoreTerms.join('|') + ')\\b', 'highlightIgnore', '', true);
-    $('body').highlight( ioStats, '\\b(' + theCaseSensitiveCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', false);
-    $('body').highlight( ioStats, '(' + theCaseSensitiveNotJustWordsTerms.join('|') + ')', 'highlightCore', '#BannedList entry', false);
-    $('body').highlight( ioStats, '\\b(' + theManagementSpeakTerms.join('|') + ')\\b', 'highlightMgmt', '#BannedList Management Speak', true);
-    $('body').highlight( ioStats, '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', true);
+    $('body').highlight( ioStats, inDocUrl, '\\b(' + theSpecialIgnoreTerms.join('|') + ')\\b', 'highlightIgnore', '', true);
+    $('body').highlight( ioStats, inDocUrl, '\\b(' + theCaseSensitiveCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', false);
+    $('body').highlight( ioStats, inDocUrl, '(' + theCaseSensitiveNotJustWordsTerms.join('|') + ')', 'highlightCore', '#BannedList entry', false);
+    $('body').highlight( ioStats, inDocUrl, '\\b(' + theManagementSpeakTerms.join('|') + ')\\b', 'highlightMgmt', '#BannedList Management Speak', true);
+    $('body').highlight( ioStats, inDocUrl, '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', true);
 
     if ( inOptions["extras.politics.andrew1"] == 'true') {
-        $('body').highlight( ioStats, '\\b(' + theExtraWeaselTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: weasel terms', true);
-        $('body').highlight( ioStats, '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
-        $('body').highlight( ioStats, '\\b(' + theCaseSensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
-        $('body').highlight( ioStats, '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
+        $('body').highlight( ioStats, inDocUrl, '\\b(' + theExtraWeaselTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: weasel terms', true);
+        $('body').highlight( ioStats, inDocUrl, '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
+        $('body').highlight( ioStats, inDocUrl, '\\b(' + theCaseSensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
+        $('body').highlight( ioStats, inDocUrl, '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
     }
 }
