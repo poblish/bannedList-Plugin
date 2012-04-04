@@ -68,7 +68,9 @@ jQuery.fn.highlight = function( ioStats, inDocUrl, pattern, inHiliteClassName, i
 
 		var theStatsObjToUse = ioStats;
 
-		if (( theBlackList != null && theBlackList[0] === node.childNodes[i]) || ( theWhiteList != null && theWhiteList[0] !== node.childNodes[i])) {
+		if ( theStatsObjToUse != null &&
+		    (( theBlackList != null && theBlackList[0] === node.childNodes[i]) ||
+		    ( theWhiteList != null && theWhiteList[0] !== node.childNodes[i]))) {
 			theStatsObjToUse = null;
 			// console.log('Skipping... ', node.childNodes[i]);
 		}

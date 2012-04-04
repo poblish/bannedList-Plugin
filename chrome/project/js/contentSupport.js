@@ -70,7 +70,7 @@ function getPageTitle() {
 }
 
 function getContentStatsBlackListFor( inDocURL ) {
-    return $('div#comments');
+    return $('div#comments, div#disqus_thread, div#most-popular, div#discussion-comments');
 }
 
 function getContentStatsWhiteListFor( inDocURL ) {
