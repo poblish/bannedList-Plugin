@@ -19,18 +19,42 @@
                     localStorage["extras.politics.andrew1"] = true;
                 }
 
-		if (/http.*twitter.com/.test( sender.tab.url )) {
-		    setInterval( function() {
-		        sendResponse({method: "getOptions", url: sender.tab.url, options: localStorage});
-		    }, 2500);
-		}
-		else /* Non Twitter can update now! */ {
-		    sendResponse({method: "getOptions", url: sender.tab.url, options: localStorage});
-		}
-            } else if (request.method == "notify") {
+                if (/http.*twitter.com/.test( sender.tab.url )) {
+                    setInterval( function() {
+                        sendResponse({method: "getOptions", url: sender.tab.url, options: localStorage});
+                    }, 2500);
+                }
+                else /* Non Twitter can update now! */ {
+                    sendResponse({method: "getOptions", url: sender.tab.url, options: localStorage});
+                }
+            }
+            else if (request.method == "notify") {
                 var theNotif = webkitNotifications.createNotification('../img/icon48.png', request.heading, request.msg);
                 theNotif.show();
-            } else {
+            }
+            else if (request.method == "setBadge") {
+                if ( request.score <= 0) {
+                    resetBadge(sender);
+                }
+                else {
+                    if ( request.score <= 3) {
+                        // chrome.browserAction.setBadgeBackgroundColor({ color: [255,255,0, 255], tabId: sender.tab.id});
+                    }
+                    else if ( request.score <= 8) {
+                        // chrome.browserAction.setBadgeBackgroundColor({ color: [255,127,127, 255], tabId: sender.tab.id});
+                    }
+                    else {
+                        // chrome.browserAction.setBadgeBackgroundColor({ color: [255,0,0, 255], tabId: sender.tab.id});
+                    }
+
+                    chrome.browserAction.setBadgeText({ text: '' + request.score, tabId: sender.tab.id});
+                    chrome.browserAction.setTitle({ title: 'BannedList Score for this page: ' + request.score, tabId: sender.tab.id});
+                }
+            }
+            else if (request.method == "resetBadge") {
+                resetBadge(sender);
+            }
+            else {
                 sendResponse({}); // snub them.
             }
         });
@@ -45,6 +69,11 @@
 	            alert('Error!');
 	        }
 	    });
+        }
+
+        function resetBadge(inSender) {
+    	    chrome.browserAction.setBadgeText({ text: '', tabId: inSender.tab.id});
+	    chrome.browserAction.setTitle({ title: 'BannedList Score for this page: 0', tabId: inSender.tab.id});
         }
 
         var menuId = chrome.contextMenus.create({"title": 'Submit new phrase...', "contexts":['selection'], "onclick": clickSubmit});

@@ -762,11 +762,16 @@ reqdPrefixes('Linked to',  'Has been','Is'),
 $(function() {
     chrome.extension.sendRequest({ method: "getOptions"}, function(inResp) {
         if (getIgnoreStatsPageFilterRegex().test( inResp.url )) {
+	    chrome.extension.sendRequest({ method: "resetBadge"} );
             refreshBannedStuff( inResp.options, inResp.url, null);
         } else {
             var theStats = {};
             theStats['$meta'] = {url: trimUrlForStats( inResp.url ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
             refreshBannedStuff( inResp.options, inResp.url, theStats);
+
+	    var score = Math.round( Math.pow( theStats['$meta'].uniqueTerms, 1.4) * Math.pow( theStats['$meta'].totalMatches / theStats['$meta'].uniqueTerms, 0.7) );
+	    chrome.extension.sendRequest({ method: "setBadge", score: score} );
+
             submitAnonymousStats(theStats);
         }
 
