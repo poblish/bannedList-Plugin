@@ -1,22 +1,12 @@
 <html>
-<head>
-<script src="../js/jquery-1.7.1.min_plus_highlight.js" type="text/javascript"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-    alert('hi');
-    }
+<script>
+    chrome.extension.sendRequest({ method: "getDetailsForPopup"}, function(inResp) {
+     document.getElementById('twitterUrl').href = 'https://twitter.com/intent/tweet?hashtags=' + 'BannedList' + '%2C&source=tweetbutton&text=' + encodeURIComponent('I found a page with a score of ') + inResp.score + encodeURIComponent(': ') + 'XXXX' + encodeURIComponent(' - via ') + '&url=http%3A%2F%2Fbit.ly%2FHheIf2';
+    });
+
 </script>
-</head>
 <body>
 <p>Share your Results!</p>
-<p><a href="https://twitter.com/intent/tweet?hashtags=BannedList%2C&original_referer=https%3A%2F%2Ftwitter.com%2Fabout%2Fresources%2Fbuttons&source=tweetbutton&text=I%20found%20a%20page%20with%20a%20score%20of%2012%3A%20XXXX%20-%20via&url=http%3A%2F%2Fbit.ly%2FHheIf2" target="_new">xxxx</a></p>
-
-<p><a href="https://twitter.com/intent/tweet?button_hashtag=BannedList&text=I%20found%20a%20page%20with%20a%20score%20of%2012%3A%20XXXX%20-%20via" class="twitter-hashtag-button" data-size="large" data-url="http://bit.ly/HheIf2">Tweet #BannedList</a></p>
-<script>
-document.body.style.width="500px";
-document.body.style.height="500px";
-document.getElementsByTagName("html")[0].style.width="500px";
-
-!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<p><a id="twitterUrl" href="#" target="_blank">Publish to Twitter...</a></p>
 </body>
 </html>
