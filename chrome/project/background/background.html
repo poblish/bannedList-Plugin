@@ -47,12 +47,19 @@
                         chrome.browserAction.setBadgeBackgroundColor({ color: [220,0,0, 255], tabId: sender.tab.id});
                     }
 
+                    localStorage['$stats.score'] = request.score;
+                    localStorage['$stats.url'] = request.url;
+
                     chrome.browserAction.setBadgeText({ text: '' + request.score, tabId: sender.tab.id});
                     chrome.browserAction.setTitle({ title: 'BannedList Score for this page: ' + request.score, tabId: sender.tab.id});
+                    chrome.browserAction.setPopup({ popup: 'popup/shareResults.html', tabId: sender.tab.id});
                 }
             }
             else if (request.method == "resetBadge") {
                 resetBadge(sender);
+            }
+            else if (request.method == "getDetailsForPopup") {
+                sendResponse({method: "detailsForPopupResponse", score: localStorage['$stats.score'], url: localStorage['$stats.url']});
             }
             else {
                 sendResponse({}); // snub them.
@@ -72,8 +79,9 @@
         }
 
         function resetBadge(inSender) {
-    	    chrome.browserAction.setBadgeText({ text: '', tabId: inSender.tab.id});
-	    chrome.browserAction.setTitle({ title: 'BannedList Score for this page: 0', tabId: inSender.tab.id});
+            chrome.browserAction.setBadgeText({ text: '', tabId: inSender.tab.id});
+            chrome.browserAction.setTitle({ title: 'BannedList Score for this page: 0', tabId: inSender.tab.id});
+            chrome.browserAction.setPopup({ popup: '', tabId: inSender.tab.id});
         }
 
         var menuId = chrome.contextMenus.create({"title": 'Submit new phrase...', "contexts":['selection'], "onclick": clickSubmit});

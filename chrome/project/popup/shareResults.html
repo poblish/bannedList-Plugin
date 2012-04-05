@@ -1,7 +1,9 @@
 <html>
 <script>
     chrome.extension.sendRequest({ method: "getDetailsForPopup"}, function(inResp) {
-     document.getElementById('twitterUrl').href = 'https://twitter.com/intent/tweet?hashtags=' + 'BannedList' + '%2C&source=tweetbutton&text=' + encodeURIComponent('I found a page with a score of ') + inResp.score + encodeURIComponent(': ') + 'XXXX' + encodeURIComponent(' - via ') + '&url=http%3A%2F%2Fbit.ly%2FHheIf2';
+     document.getElementById('twitterUrl').href = 'https://twitter.com/intent/tweet?hashtags=' + 'BannedList' +
+     		'%2C&source=tweetbutton&text=' + encodeURIComponent('I found a page with a score of ') + inResp.score + encodeURIComponent(': ') +
+     		inResp.url + encodeURIComponent(' - via') + '&url=' + encodeURIComponent('http://bit.ly/HheIf2');
     });
 
 </script>

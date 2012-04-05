@@ -770,7 +770,7 @@ $(function() {
             refreshBannedStuff( inResp.options, inResp.url, theStats);
 
 	    var score = Math.round( Math.pow( theStats['$meta'].uniqueTerms, 1.4) * Math.pow( theStats['$meta'].totalMatches / theStats['$meta'].uniqueTerms, 0.7) );
-	    chrome.extension.sendRequest({ method: "setBadge", score: score} );
+	    chrome.extension.sendRequest({ method: "setBadge", score: score, url: inResp.url} );
 
             submitAnonymousStats(theStats);
         }
