@@ -1,10 +1,14 @@
 <html>
 <script>
-    chrome.extension.sendRequest({ method: "getDetailsForPopup"}, function(inResp) {
-     document.getElementById('twitterUrl').href = 'https://twitter.com/intent/tweet?hashtags=' + 'BannedList' +
-     		'%2C&source=tweetbutton&text=' + encodeURIComponent('I found a page with a score of ') + inResp.score + encodeURIComponent(': ') +
-     		inResp.url + encodeURIComponent(' - via') + '&url=' + encodeURIComponent('http://bit.ly/HheIf2');
+    chrome.tabs.getSelected( null, function(selectedTab) {
+        chrome.extension.sendRequest({ method: "getDetailsForPopup", tabId: selectedTab.id}, function(inResp) {
+	     document.getElementById('twitterUrl').href = 'https://twitter.com/intent/tweet?hashtags=' + 'BannedList' +
+	        '%2C&source=tweetbutton&text=' + encodeURIComponent('I found a page with a score of ') + inResp.score + encodeURIComponent(': ') +
+	        inResp.url + encodeURIComponent(' - via') + '&url=' + encodeURIComponent('http://bit.ly/HheIf2');
+        });
     });
+
+
 
 </script>
 <body>
