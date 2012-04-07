@@ -3,11 +3,9 @@ function save_options()
 	localStorage["extras.politics.andrew1"] = $('#extras_politics_andrew1').prop("checked");
 	localStorage["extras.special.goodOrBad"] = $('#extras_special_goodOrBad').prop("checked");
 
-	// Update status to let user know options were saved.
-	var status = document.getElementById("status");
-	status.innerHTML = "Options Saved.";
+	$("#status").show();
 	setTimeout(function() {
-		status.innerHTML = "";
+		$("#status").hide();
 	}, 750);
 
 	// Contact all BannedList.js scripts...
