@@ -1,18 +1,20 @@
 function showSubmissionDialog( inReq, inSendResponse) {
     var newDialog = $('<div class="modal" id="MenuDialog">\
      	<style type="text/css">\
-    	  label.blSubmit { font-weight: bold; float: left; width: 140px; padding: 5px 8px 0 0; }\
+    	  label.blSubmit { font-weight: bold; float: left; width: 140px; padding: 5px 8px 0 0; margin-bottom: 5px; }\
     	  input.blText { width: 200px; }\
     	  span.blGrey { color: #999; }\
-          input,label,a.btn,.modal-header,h3 { font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; }\
+          input, textarea { font-size:13px; color: #555; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); -webkit-transition: border linear 0.2s, box-shadow linear 0.2s; }\
+          input,label,textarea,a.btn,.modal-header,h3 { font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; }\
           input,label,a.btn,a.close,.modal-header { text-decoration:none; }\
-          div.blLine { clear:both; text-align:left; line-height: 18px; }\
+          div.blLine { color:#333; clear:both; text-align:left; line-height: 18px; }\
+          h3.blHeader { color:#333; line-height: 27px; font-size:18px; margin:0; padding:0 }\
           input { height: 18px; }\
-          input[type=text] { line-height: 18px; }\
+          input[type=text] { line-height: 18px; margin: 0 0 9px; padding: 4px; border: 1px solid #CCC; -webkit-border-radius: 3px; border-radius: 3px; }\
     	</style>\
    	<div class="modal-header" style="text-align:left">\
     	  <a class="close" data-dismiss="modal">×</a>\
-    	  <h3 style="line-height: 27px; font-size:18px; margin:0; padding:0">Submit #BannedList phrase</h3>\
+    	  <h3 class="blHeader">Submit #BannedList phrase</h3>\
     	</div>\
 	<form action="/" class="modal-body" style="margin-bottom:0; font-size:13px;" id="submitPhrase">\
 	  <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
