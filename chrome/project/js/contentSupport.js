@@ -22,7 +22,7 @@ function showSubmissionDialog( inReq, inSendResponse) {
 	  <div class="blLine"><label for="explanation" class="blSubmit">Why should we add this? <span class="blGrey">(optional):</span></label><textarea id="explanation" name="explanation" type="text" style="width: 280px" value="" /></div>\
 	</form>\
 	<div class="modal-footer">\
-	  <a href="#" class="btn cancelSubmit">Cancel</a>\
+	  <a href="#" class="btn cancelSubmit" style="color: #333">Cancel</a>\
 	  <a href="#" class="btn btn-primary doSubmit" style="color: white">Submit</a>\
 	</div>\
     </div>');

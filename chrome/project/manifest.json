@@ -21,7 +21,7 @@
             ],
             "css": [
                 "css/bannedList.css",
-                "css/bootstrap.min.css"
+                "css/bootstrap_content.min.css"
             ],
             "js": [
                 "js/jquery-1.7.1.min_plus_highlight.js",
