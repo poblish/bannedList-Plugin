@@ -11,6 +11,7 @@
 			        inResp.url + encodeURIComponent(' - via') + '&url=' + encodeURIComponent('http://bit.ly/HheIf2'));
 		     } else {
 			 $('a#twitterUrl').addClass('disabled');
+			 $('a#twitterUrl').attr("title", 'Sorry, no BannedList results to tweet!');
 			 $('a#twitterUrl').click(function(e) { e.preventDefault(); });
 		     }
 		});
