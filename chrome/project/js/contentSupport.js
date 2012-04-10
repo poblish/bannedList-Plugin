@@ -1,31 +1,28 @@
 function showSubmissionDialog( inReq, inSendResponse) {
     var newDialog = $('<div class="modal" id="MenuDialog">\
      	<style type="text/css">\
-    	  label.blSubmit { font-weight: bold; float: left; width: 140px; padding: 5px 8px 0 0; margin-bottom: 5px; }\
-    	  input.blText { width: 200px; }\
-    	  span.blGrey { color: #999; }\
-          input, textarea { font-size:13px; color: #555; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); -webkit-transition: border linear 0.2s, box-shadow linear 0.2s; }\
-          input,label,textarea,a.btn,.modal-header,h3 { font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; }\
-          input,label,a.btn,a.close,.modal-header { text-decoration:none; }\
-          div.blLine { color:#333; clear:both; text-align:left; line-height: 18px; }\
-          h3.blHeader { color:#333; line-height: 27px; font-size:18px; margin:0; padding:0 }\
-          input { height: 18px; }\
-          input[type=text] { line-height: 18px; margin: 0 0 9px; padding: 4px; border: 1px solid #CCC; -webkit-border-radius: 3px; border-radius: 3px; }\
+            a.bannedList,a.bannedList:hover { text-decoration:none !important; }\
+            input,label,textarea,a.btn,.modal-header,h3 { font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; }\
+            label.bannedList { font-weight: bold; float: left; width: 140px; padding: 5px 8px 0 0;}\
+            input.blText { width: 200px; }\
+            span.blGrey { color: #999; }\
+            div.blLine { color:#333; clear:both; text-align:left; line-height: 18px; }\
+            h3.blHeader { color:#333; line-height: 27px; font-size:18px; margin:0; padding:0 }\
     	</style>\
    	<div class="modal-header" style="text-align:left">\
-    	  <a class="close" data-dismiss="modal">×</a>\
-    	  <h3 class="blHeader">Submit #BannedList phrase</h3>\
+    	    <a class="close bannedList" data-dismiss="modal">×</a>\
+    	    <h3 class="blHeader">Submit #BannedList phrase</h3>\
     	</div>\
-	<form action="/" class="modal-body" style="margin-bottom:0; font-size:13px;" id="submitPhrase">\
-	  <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
-	  <div class="blLine"><label for="name" class="blSubmit">Your Name:</label><input id="name" name="name" type="text" class="blText" value="Andrew Regan" /></div>\
-	  <div class="blLine"><label for="email" class="blSubmit">Your Email:</label><input id="email" name="email" type="text" class="blText" value="aregan@gmail.com" /></div>\
-	  <div class="blLine"><label for="terms" class="blSubmit">Submitted Phrase:</label><input id="terms" name="terms" type="text" style="width: 280px" value="' + inReq.phrase + '" /></div>\
-	  <div class="blLine"><label for="explanation" class="blSubmit">Why should we add this? <span class="blGrey">(optional):</span></label><textarea id="explanation" name="explanation" type="text" style="width: 280px" value="" /></div>\
+	<form action="/" class="bannedList modal-body" style="margin-bottom:0;" id="submitPhrase">\
+	    <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
+	    <div class="blLine"><label for="name" class="bannedList">Your Name:</label><input id="name" name="name" type="text" class="bannedList blText" value="Andrew Regan" /></div>\
+	    <div class="blLine"><label for="email" class="bannedList">Your Email:</label><input id="email" name="email" type="text" class="bannedList blText" value="aregan@gmail.com" /></div>\
+	    <div class="blLine"><label for="terms" class="bannedList">Submitted Phrase:</label><input id="terms" name="terms" type="text" class="bannedList" style="width: 280px" value="' + inReq.phrase + '" /></div>\
+	    <div class="blLine"><label for="explanation" class="bannedList">Why should we add this? <span class="blGrey">(optional):</span></label><textarea id="explanation" name="explanation" type="text" class="bannedList" style="width: 280px" value="" /></div>\
 	</form>\
 	<div class="modal-footer">\
-	  <a href="#" class="btn cancelSubmit" style="color: #333">Cancel</a>\
-	  <a href="#" class="btn btn-primary doSubmit" style="color: white">Submit</a>\
+	    <a href="#" class="btn bannedList cancelSubmit" style="color: #333">Cancel</a>\
+	    <a href="#" class="btn btn-primary bannedList doSubmit" style="color: white">Submit</a>\
 	</div>\
     </div>');
 
