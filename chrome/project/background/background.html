@@ -80,6 +80,8 @@
         function resetBadge(inSender) {
             chrome.browserAction.setBadgeText({ text: '', tabId: inSender.tab.id});
             chrome.browserAction.setTitle({ title: 'BannedList Score for this page: 0', tabId: inSender.tab.id});
+            localStorage.removeItem('$stats.' + inSender.tab.id + '.score');
+            localStorage.removeItem('$stats.' + inSender.tab.id + '.url');
         }
 
         var menuId = chrome.contextMenus.create({"title": 'Submit new phrase...', "contexts":['selection'], "onclick": clickSubmit});
