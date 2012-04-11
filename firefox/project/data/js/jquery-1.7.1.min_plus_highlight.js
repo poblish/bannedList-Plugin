@@ -78,13 +78,23 @@ if ( inHiliteClassName == 'highlightCore') {
 		}
 		else {
 			if ( ioStats != null && inHiliteClassName != 'highlightIgnore') {
-				var obj = ioStats[match[0]];
-				if ( obj == null) {
-					ioStats[match[0]] = {t: (inHiliteClassName == 'highlightCore' ? 'C': 'E'),c:1};
-					ioStats['$meta'].uniqueTerms++;
+				var theLCaseMatch = match[0].toLowerCase();
+				var keyToUse = match[0];
 
+				for ( eachExistingTerm in ioStats) {
+				    if (eachExistingTerm.toLowerCase() == theLCaseMatch) {
+				        // console.log("Use '" + eachExistingTerm + "' instead of '" + keyToUse + "'");
+				        keyToUse = eachExistingTerm;
+				        break;
+				    }
+				}
+
+				var obj = ioStats[keyToUse];
+				if ( obj == null) {
+				    ioStats[keyToUse] = {t: (inHiliteClassName == 'highlightCore' ? 'C': 'E'),c:1};
+				    ioStats['$meta'].uniqueTerms++;
 				} else {
-					ioStats[match[0]].c = obj.c + 1;
+				    ioStats[keyToUse].c = obj.c + 1;
 				}
 
 				ioStats['$meta'].totalMatches++;
@@ -103,7 +113,9 @@ if ( inHiliteClassName == 'highlightCore') {
 
 		var theStatsObjToUse = ioStats;
 
-		if (( theBlackList != null && theBlackList[0] === node.childNodes[i]) || ( theWhiteList != null && theWhiteList[0] !== node.childNodes[i])) {
+		if ( theStatsObjToUse != null &&
+		    (( theBlackList != null && theBlackList[0] === node.childNodes[i]) ||
+		    ( theWhiteList != null && theWhiteList[0] !== node.childNodes[i]))) {
 			theStatsObjToUse = null;
 			// console.log('Skipping... ', node.childNodes[i]);
 		}

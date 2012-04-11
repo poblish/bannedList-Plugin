@@ -1,23 +1,46 @@
 function showSubmissionDialog( inReq, inSendResponse) {
-    var newDialog = $('<div id="MenuDialog">\
-    	<style type="text/css">\
-    	  label.blSubmit { font-weight: bold; float: left; width: 120px; padding: 5px 8px 0 0; }\
-    	  input.blText { width: 200px; }\
-    	  span.blGrey { color: #999; }\
+    var newDialog = $('<div class="modal" id="MenuDialog">\
+     	<style type="text/css">\
+            a.bannedList,a.bannedList:hover { text-decoration:none !important; }\
+            input,label,textarea,a.btn,.modal-header,h3 { font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; }\
+            label.bannedList { font-weight: bold; float: left; width: 140px; padding: 5px 8px 0 0;}\
+            input.blText { width: 200px; }\
+            span.blGrey { color: #999; }\
+            div.blLine { color:#333; clear:both; text-align:left; line-height: 18px; }\
+            h3.blHeader { color:#333; line-height: 27px; font-size:18px; margin:0; padding:0 }\
     	</style>\
-	<form action="/" id="submitPhrase">\
-	  <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
-	  <div><label for="name" class="blSubmit">Your Name:</label><input id="name" name="name" type="text" class="blText" value="Andrew Regan" /></div>\
-	  <div><label for="email" class="blSubmit">Your Email:</label><input id="email" name="email" type="text" class="blText" value="aregan@gmail.com" /></div>\
-	  <div><label for="terms" class="blSubmit">Submitted Phrase:</label><input id="terms" name="terms" type="text" style="width: 280px" value="' + inReq.phrase + '" /></div>\
-	  <div><label for="explanation" class="blSubmit">Why should we add this? <span class="blGrey">(optional):</span></label><textarea id="explanation" name="explanation" type="text" style="width: 280px" value="" /></div>\
+   	<div class="modal-header" style="text-align:left">\
+    	    <a class="close bannedList" data-dismiss="modal">×</a>\
+    	    <h3 class="blHeader">Submit #BannedList phrase</h3>\
+    	</div>\
+	<form action="/" class="bannedList modal-body" style="margin-bottom:0;" id="submitPhrase">\
+	    <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
+	    <div class="blLine"><label for="name" class="bannedList">Your Name:</label><input id="name" name="name" type="text" class="bannedList blText" value="Andrew Regan" /></div>\
+	    <div class="blLine"><label for="email" class="bannedList">Your Email:</label><input id="email" name="email" type="text" class="bannedList blText" value="aregan@gmail.com" /></div>\
+	    <div class="blLine"><label for="terms" class="bannedList">Submitted Phrase:</label><input id="terms" name="terms" type="text" class="bannedList" style="width: 280px" value="' + inReq.phrase + '" /></div>\
+	    <div class="blLine"><label for="explanation" class="bannedList">Why should we add this? <span class="blGrey">(optional):</span></label><textarea id="explanation" name="explanation" type="text" class="bannedList" style="width: 280px" value="" /></div>\
 	</form>\
+	<div class="modal-footer">\
+	    <a href="#" class="btn bannedList cancelSubmit" style="color: #333">Cancel</a>\
+	    <a href="#" class="btn btn-primary bannedList doSubmit" style="color: white">Submit</a>\
+	</div>\
     </div>');
-    newDialog.dialog({ title: "Submit #BannedList phrase", modal: true, resizable: false, width: 450, height: 230,
-	buttons: [
-	    {text: "Submit", click: function() { submitPhrase(); $(this).dialog("close"); $(this).remove(); inSendResponse({ok: "true"}); }},
-	    {text: "Cancel", click: function() { $(this).dialog("close"); $(this).remove(); inSendResponse({ok: "true"}); }}
-	]
+
+    newDialog.modal('show');
+
+    newDialog.on("click", function(event){
+        var theTarget = $(event.target);
+        if (theTarget.hasClass('doSubmit') || theTarget.hasClass('cancelSubmit')) {
+            if (theTarget.hasClass('doSubmit')) {
+                if (!submitPhrase()) {
+                    return;
+                }
+            }
+
+            newDialog.modal('hide');
+            newDialog.remove();
+            inSendResponse({ok: "true"});
+        }
     });
 }
 
@@ -25,16 +48,18 @@ function submitPhrase() {
     var theSubmittedPhrase = $("#submitPhrase").serializeArray()[3].value;  // yuk!
     if ( theSubmittedPhrase == '') {
         alert('Phrase may not be blank - please enter one.');
-        return;
+        return false;
     }
 
     $.post("http://www.poblish.org/", $("#submitPhrase").serialize(), function(inData) {
         alert('Sorry, changes are not yet submitted properly [' + inData.length + ' bytes].');
     }).error( function() { /* Ignore! */ });
+
+    return true;
 }
 
-function submitAnonymousStats( inStats ) {
-    if ( inStats != null && inStats['$meta'].totalMatches >= 2) {
+function submitAnonymousStats( inStats, inStatsScore) {
+    if ( inStats != null && inStatsScore >= 10) {
         var theJSON = JSON.stringify(inStats);
 	// console.log(theJSON);
 
@@ -70,7 +95,8 @@ function getPageTitle() {
 }
 
 function getContentStatsBlackListFor( inDocURL ) {
-    return $('div#comments');
+    // FIXME Think we can only support *one* of these DIVs per page!
+    return $('div#comments, div#disqus_thread, div#most-popular, div#sidebar, div#all-comments, div#discussion-comments, div#beta');
 }
 
 function getContentStatsWhiteListFor( inDocURL ) {
