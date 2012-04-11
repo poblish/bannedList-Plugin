@@ -58,8 +58,8 @@ function submitPhrase() {
     return true;
 }
 
-function submitAnonymousStats( inStats ) {
-    if ( inStats != null && inStats['$meta'].totalMatches >= 10) {
+function submitAnonymousStats( inStats, inStatsScore) {
+    if ( inStats != null && inStatsScore >= 10) {
         var theJSON = JSON.stringify(inStats);
 	// console.log(theJSON);
 
