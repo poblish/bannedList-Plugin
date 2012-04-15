@@ -51,8 +51,8 @@ function submitPhrase() {
         return false;
     }
 
-    $.post("http://www.poblish.org/", $("#submitPhrase").serialize(), function(inData) {
-        alert('Sorry, changes are not yet submitted properly [' + inData.length + ' bytes].');
+    $.post("http://1.bannedlist-stats.appspot.com/newTerms", {inputs: JSON.stringify( $("#submitPhrase").serializeObject() )}, function(inData) {
+        alert('Thank you for your submission!');
     }).error( function() { /* Ignore! */ });
 
     return true;
@@ -123,6 +123,23 @@ function trimUrlForStats( inURL ) {
 function optDashes(inStr) {
     return replaceAll( inStr, '-', '(-| )');
 }
+
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
 
 function replaceAll(string,text,by) {  // http://www.irt.org/script/771.htm
 // Replaces text with by in string
