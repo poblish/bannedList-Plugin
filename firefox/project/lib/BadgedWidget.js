@@ -91,13 +91,11 @@ const BadgedWidget = Trait.compose({
   _makeContentURL: function _makeContentURL(imageURL, badge) {
     let str =
       'data:text/html,<html><body style="margin:0; padding:0;">' +
-      '<div style="position: relative;">' +
+      '<div style="cursor:pointer; position: relative;">' +
       '<img src="' + imageURL + '">' +
-      '<span style="font-size: 0.6em; font-weight: bold; position: absolute; bottom: 0; right: 0; padding: 0; margin: 0;">' +
-      (badge.text || '') + '</span>' +
-      '<span style="font-size: 0.6em; background-color: ' + (badge.color || '') + ';' +
-      'position: absolute; bottom: 0; right: 0; opacity: ' + (badge.opacity || '') + '; padding: 0; margin: 0; -moz-border-radius: 0.3em;">' +
-      (badge.text || '') + '</span>' +
+      '<span style="font-size: 0.7em; position: absolute; bottom: 0; left: 19px; padding: 0; margin: 0;">' + (badge.text || '') + '</span>' +
+      '<span style="font-family:Tahoma,Arial,sans-serif; font-size: 0.65em; font-weight: bold; color: ' + (badge.textColor || 'black') + '; background-color: ' + (badge.color || '') + ';' +
+          'position: absolute; bottom: 1px; left: 19px; opacity: ' + (badge.opacity || '') + '; padding: 0px 4px; margin: 0; -moz-border-radius: 4px;">' + (badge.text || '') + '</span>' +
       '</div>' +
       '</body></html>';
     return str;
