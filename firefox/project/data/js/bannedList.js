@@ -249,6 +249,7 @@ reqdSuffixes('Stinging',  'Attack','Criticism'),
 'The(| simple) fact(| of the matter) is',
 'The truth( of the matter)? is',
 'The \\S+ Delusion',
+'Tick(ing|s)? all the( right)? boxes',
 optPrefixes('Time Bomb',  'Ticking'),
 optDashes('Tipping-point'),
 'Tome',
@@ -299,7 +300,6 @@ var theCaseSensitiveNotJustWordsTerms = ['\\b' + 'As a [A-Z]\\S+' + someWords(0,
 
 
 var theSpecialIgnoreTerms = ['(Points|Pulls?|Way) Ahead of',
-reqdPrefixes('Clearly',  'As'),
 reqdSuffixes('Community',  'Hospital','Order','School'),
 'Equality Act',
 'Hackathon',
@@ -417,7 +417,7 @@ optPrefixes('Business as usual',  'Go back to','Return to'),
 reqdPrefixes('Clarity',  'Gain','Get'),
 optSuffixes( optDashes('Cloud-cuckoo'),  'Land'),
 'Clear (blue|red) water',
-'Clearly',
+/* 'Clearly', */
 'Closer? to the ground',
 'Clutch(ing)? at straws',
 'Coherent (alternative|strategy)',
@@ -442,6 +442,7 @@ optDashes('Crunch-time'),
 optDashes('Death-spiral'),
 optPrefixes('Decency',  'Common'),
 'Decent',
+optPrefixes('Decent people',  'All'),
 'Decimat(e|ing)',
 'Defend(ing)* the indefensible',
 'Defining moment',
@@ -519,6 +520,7 @@ reqdPrefixes('Ideology',  'Misguided'),
 '\\S+ In a hole, stop digging',
 'In hock to',
 'In (many|numerous|several) ways',
+'In politics, as in \\S+',
 'In the name of ideology',
 'In the \\S+ worldview',
 'Increasingly noted',
@@ -670,7 +672,7 @@ reqdPrefixes('Shibboleths?',  'Economic','Free-market','Market','Old'),
 'Shock and awe',
 'Shrill calls',
 'Shutting the stable door after the horse has bolted',
-'Significant',
+/* 'Significant', */
 optPrefixes('Silence( (of|on)' + someWords(1,3) + ')? speaks volumes',  'Her','His','The','Their'),
 'Slap in the face',
 'Slash-and-burn',
@@ -776,7 +778,7 @@ reqdPrefixes('Linked to',  'Has been','Is'),
 ////////////////////////////////////////////////////////////////////////////////
 
 $(function() {
-    if (getIgnoreStatsPageFilterRegex().test( document.URL )) {
+    if ( /* DEBUG... getIgnoreStatsPageFilterRegex().test( document.URL ) */ false) {
         refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, document.URL, null);
     } else {
         var theStats = {};
@@ -784,6 +786,7 @@ $(function() {
         refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, document.URL, theStats);
 
 	var score = Math.round( Math.pow( theStats['$meta'].uniqueTerms, 1.4) * Math.pow( theStats['$meta'].totalMatches / theStats['$meta'].uniqueTerms, 0.7) );
+        self.port.emit("setBadge", {score: score, url: document.URL});
 
         submitAnonymousStats( theStats, score);
     }
