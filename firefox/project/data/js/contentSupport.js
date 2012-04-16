@@ -1,3 +1,8 @@
+self.port.on("myAddonEvent", function(myAddonEventPayload) {
+  // console.log('myAddonEvent GOT ' + myAddonEventPayload);
+  // showSubmissionDialog({},{});
+});
+
 function showSubmissionDialog( inReq, inSendResponse) {
     var newDialog = $('<div class="modal" id="MenuDialog">\
      	<style type="text/css">\

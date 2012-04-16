@@ -56,7 +56,7 @@ optDashes('Cast-iron guarantees?'),
 'Clear and present danger',
 'Close down discussion',
 'Cognoscenti',
-optSuffixes( optPrefixes('Communit(y|ies)',  'Asian','Black','BME','Diverse','Ethnic','Gay','Harmonious','Minority','Muslim','Positive','Real','Scientific','Security','The','The \\S+','(The )?Wider \\S+','Vulnerable',optDashes('Working-class')),  'Cohesion','Leaders?','Partner(ship)?s?','Representatives?','Tensions?'),
+optSuffixes( optPrefixes('Communit(y|ies)',  'Asian','Black','BME','Diverse','Ethnic','Gay','Harmonious','Minority','Muslim','Positive','Real','Scientific','Security','Strong','The','The \\S+','(The )?Wider \\S+','Vulnerable',optDashes('Working-class')),  'Cohesion','Leaders?','Partner(ship)?s?','Representatives?','Tensions?'),
 'Compelling',
 'Confined to a wheelchair',
 'Connect with the (electorate|voters?)',
@@ -201,7 +201,7 @@ reqdPrefixes('Radar',  '(Below|Under)' + someWords(1,2)),
 'Rais(es*|ing) awareness',
 reqdPrefixes('Raison d.etre',  'Her','His'),
 'Read(ing)?(| \\S*) the Riot Act',
-'Real (change|families|lives|people|world)',
+'Real (change|choice|families|lives|people|world)',
 'Reality check',
 optSuffixes('(Re)?arranging( the)? deckchairs',  'On the \\S'),
 '(Re)?Connect with the voters',
@@ -313,6 +313,7 @@ reqdSuffixes('Toxic', 'Chemicals?','Gas(es)?','Nuclear','\\S+ Radioactive','Subs
 
 var theManagementSpeakTerms = [ optPrefixes('Action points?',  'Key','Numerous'),
 optSuffixes('Adjective-rich',  'Answers'),
+'Articulate (this|that) message',
 optDashes('Best-of-(brand|breed)'),
 'Build on these (strengths)',
 reqdSuffixes('Creat(e|ing) a',  'Place that','Space where'),
@@ -344,6 +345,7 @@ optDashes('Low-hanging fruit'),
 'Ongoing',
 'Organically',
 'Out of the box',
+optDashes('Outside-the-box'),
 'Overarching',
 optPrefixes( optSuffixes('Paradigm(atic|s)?',  'Shift'),  'Dominant'),
 reqdPrefixes('Parameters?',  'Certain','Her','His','Important','Key','Main','The'),
@@ -422,6 +424,7 @@ optSuffixes( optDashes('Cloud-cuckoo'),  'Land'),
 'Clutch(ing)? at straws',
 'Coherent (alternative|strategy)',
 reqdPrefixes('Concerns',  'A few','Has','Have'),
+'Concrete solutions?',
 'Condemned to repeat \\S+',
 'Congratulations, \\S+.',
 'Constant vigilance',
@@ -498,6 +501,7 @@ optDashes('Half-baked'),
 optDashes('Hard-pressed families'),
 reqdSuffixes('(Hard|Hard-|Hard )working',  'Britons','Majority','Many','Taxpayers?'),
 '(Has|Have) to go further',
+reqdPrefixes('(Has|Have) (Her|His|Their) views',  'He','She','They'),
 'Have the values',
 '\'Healthier\'',
 'Hearts? ripped out',
@@ -667,7 +671,7 @@ optPrefixes('Scarcely be able to believe',  'Must'),
 'Set to continue',
 'Shameless(ly)*',
 'Shape a new deal',
-reqdPrefixes('Shibboleths?',  'Economic','Free-market','Market','Old'),
+optPrefixes('Shibboleths?',  'Economic','Free-market','Market','Old'),
 'Ship of state',
 'Shock and awe',
 'Shrill calls',
@@ -778,20 +782,28 @@ reqdPrefixes('Linked to',  'Has been','Is'),
 ////////////////////////////////////////////////////////////////////////////////
 
 $(function() {
-    if ( /* DEBUG... getIgnoreStatsPageFilterRegex().test( document.URL ) */ false) {
-        refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, document.URL, null);
-    } else {
-        var theStats = {};
-        theStats['$meta'] = {url: trimUrlForStats( document.URL ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
-        refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, document.URL, theStats);
+    var isValidPage;
+    try {
+        isValidPage = ( window.frameElement === null);  // @ http://bit.ly/HSY9TI
+    } catch (e) { isValidPage = false; /* These are always bogus! */ }
 
-	var score = Math.round( Math.pow( theStats['$meta'].uniqueTerms, 1.4) * Math.pow( theStats['$meta'].totalMatches / theStats['$meta'].uniqueTerms, 0.7) );
-        self.port.emit("setBadge", {score: score, url: document.URL});
+    if (isValidPage) {
+        if ( /* DEBUG... getIgnoreStatsPageFilterRegex().test( document.URL ) */ false) {
+            self.port.emit("resetBadge", {});
+            refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, document.URL, null);
+        } else {
+            var theStats = {};
+            theStats['$meta'] = {url: trimUrlForStats( document.URL ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
+            refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, document.URL, theStats);
 
-        submitAnonymousStats( theStats, score);
+            var score = Math.round( Math.pow( theStats['$meta'].uniqueTerms, 1.4) * Math.pow( theStats['$meta'].totalMatches / theStats['$meta'].uniqueTerms, 0.7) );
+            self.port.emit("setBadge", {score: score, url: document.URL});
+
+            submitAnonymousStats( theStats, score);
+        }
+
+        callChurnalism( document.URL );
     }
-
-    callChurnalism( document.URL );
 });
 
 function refreshBannedStuff( inOptions, inDocUrl, ioStats) {

@@ -35,41 +35,6 @@ jQuery.fn.highlight = function( ioStats, inDocUrl, pattern, inHiliteClassName, i
                 var match = node.data.match(regex); // get the match(es), but we would only handle the 1st one, hence /g is not recommended
                 var spanNode = document.createElement('span');
                 spanNode.className = inHiliteClassName;
-
-if ( inHiliteClassName == 'highlightCore') {
-    spanNode.style.padding = '.2em .4em';
-    spanNode.style.border = '1px solid #CCC';
-    spanNode.style.borderRadius = '4px'
-    spanNode.style.fontWeight = 'bold';
-
-    spanNode.style.background = 'rgb(255,91,87)';
-    spanNode.style.backgroundImage = '-moz-linear-gradient( top, rgb(255,91,87), rgb(255,130,127))';
-} else if ( inHiliteClassName == 'highlightExtra') {
-    spanNode.style.padding = '.2em .4em';
-    spanNode.style.border = '1px solid #CCC';
-    spanNode.style.borderRadius = '4px'
-    spanNode.style.fontWeight = 'bold';
-
-    spanNode.style.background = 'rgb(255,187,186)';
-    spanNode.style.backgroundImage = '-moz-linear-gradient( top, rgb(255,187,186), rgb(255,209,208))';
-} else if ( inHiliteClassName == 'highlightMgmt') {
-    spanNode.style.padding = '.2em .4em';
-    spanNode.style.border = '1px solid #CCC';
-    spanNode.style.borderRadius = '4px'
-    spanNode.style.fontWeight = 'bold';
-
-    spanNode.style.background = 'rgb(215,215,215)';
-    spanNode.style.backgroundImage = '-moz-linear-gradient( top, rgb(204,136,135), rgb(225,225,225))';
-} else if ( inHiliteClassName == 'highlightReplaced') {
-    spanNode.style.padding = '.2em .4em';
-    spanNode.style.border = '1px solid #CCC';
-    spanNode.style.borderRadius = '4px'
-    spanNode.style.fontWeight = 'bold';
-
-    spanNode.style.background = 'yellow';	// FIXME
-    // FIXME. panNode.style.backgroundImage = '-moz-linear-gradient( top, rgb(255,187,186), rgb(255,209,208))';
-}
-
                 spanNode.title = inSpanTitle;
                 var middleBit = node.splitText(pos); // split to 2 nodes, node contains the pre-pos text, middleBit has the post-pos
 
