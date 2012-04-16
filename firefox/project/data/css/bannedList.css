@@ -1,11 +1,11 @@
-.highlightCore, .highlightExtra, .highlightReplaced {
+.highlightCore, .highlightExtra, .highlightReplaced, .highlightMgmt {
     padding: .2em .4em;
     border: 1px solid #CCC;
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
 
-.highlightCore, .highlightExtra, .highlightReplaced {
+.highlightCore, .highlightExtra, .highlightReplaced, .highlightMgmt {
     font-weight: bold;
 }
 
@@ -22,4 +22,9 @@
 .highlightReplaced {
     background-color: rgb(201,231,200);
     background-image: -moz-linear-gradient( top, rgb(201,231,200), rgb(222,255,221));
+}
+
+.highlightMgmt {
+    background-color: rgb(215,215,215);
+    background-image: -moz-linear-gradient( top, rgb(204,136,135), rgb(225,225,225));
 }
