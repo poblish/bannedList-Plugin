@@ -52,7 +52,27 @@ function submitBannedListEntry( inItem ) {
 var theResultsPanel = require("panel").Panel({
   width: 320,
   height: 290,
-  contentURL: data.url("popup/shareResults.html")
+  contentScriptFile: data.url("js/jquery-1.7.1.min_plus_highlight.js"),    // Needed for JQuery '$' to work below.
+  contentScript: "self.port.on( 'updatePanel', function(inStats) { /* console.log('In updatePanel...'); */ " +
+		"    if ( inStats.score > 0 && inStats.url != null) {" +
+		"         $('a#twitterUrl').attr('href', 'https://twitter.com/intent/tweet?hashtags=' + 'BannedList' +" +
+		"	        '%2C&source=tweetbutton&text=' + encodeURIComponent('I found a page with a score of ') + inStats.score + encodeURIComponent(': ') +" +
+		"	        inStats.url + encodeURIComponent(' - via') + '&url=' + encodeURIComponent('http://bit.ly/HheIf2'));" +
+		"         $('a#twitterUrl').removeClass('disabled');" +    // Remove any 'disabled' class we added in the past
+		"         $('a#twitterUrl').off('click');" +		   // Remove any 'preventDefault' handlers we added if disabled in the past
+		"     } else {" +
+		"         $('a#twitterUrl').addClass('disabled');" +
+		"         $('a#twitterUrl').attr( 'title', 'Sorry, no BannedList results to tweet!');" +
+		"         $('a#twitterUrl').click( function(e) { e.preventDefault(); });" +  // i.e. do *nothing* when clicked
+		"    }" +
+		"    $('a').click( function() { self.postMessage('closeButton'); });" +
+		"});",
+  contentURL: data.url("popup/shareResults.html"),
+  onMessage: function(message) {
+    if ( message == "closeButton") {
+      theResultsPanel.hide();
+    }
+  }
 });
 
 var widget = badges.BadgedWidget({
@@ -71,12 +91,12 @@ var pageMod = require("page-mod");
 pageMod.PageMod({
   include: ['*'],
   contentScriptWhen: "end",
-  // contentScript: ["console.log(document.URL)"],
   contentScriptFile: [ data.url("js/jquery-1.7.1.min_plus_highlight.js"), data.url("js/contentSupport.js"), data.url("js/bannedList.js"), data.url("js/bootstrap.min.js") ],
   onAttach: function onAttach( worker, mod) {
 
     worker.port.on("resetBadge", function() {
 	widget.badge = { text: '', color: '', textColor: 'white', opacity: k_WidgetBadgeOpacity };
+        theResultsPanel.port.emit( "updatePanel", {score: 0, url: null});
     });
 
     worker.port.emit("myAddonEvent", "Hello");
@@ -100,7 +120,9 @@ pageMod.PageMod({
                 }
 	}
 
-	widget.badge = { text: theScoreText, color: theBackColor, textColor: 'white', opacity: k_WidgetBadgeOpacity };
+        widget.badge = { text: theScoreText, color: theBackColor, textColor: 'white', opacity: k_WidgetBadgeOpacity };
+
+        theResultsPanel.port.emit( "updatePanel", inStats);
     });
   }
 });
@@ -114,7 +136,7 @@ function loadStyles( addon, styles) {
   styles.forEach( function(fileName) {
     // console.log('Trying... ' + "css/" + fileName + ".css");
     let resURI = data.url("css/" + fileName + ".css");
-    let fileURI = ios.newURI( resURI, null, null); // data.url("css/" + fileName + ".css");	// addon.getResourceURI("css/" + fileName + ".css");
+    let fileURI = ios.newURI( resURI, null, null);
     // console.log('Loading... ' + fileURI);
     sss.loadAndRegisterSheet( fileURI, sss.USER_SHEET);
     console.log('Loaded ' + resURI + ' OK!');
