@@ -316,6 +316,7 @@ optSuffixes('Adjective-rich',  'Answers'),
 'Articulate (this|that) message',
 optDashes('Best-of-(brand|breed)'),
 'Build on these (strengths)',
+'Coordinative leadership',
 reqdSuffixes('Creat(e|ing) a',  'Place that','Space where'),
 'Deliverables?',
 reqdPrefixes('Direction', 'Strategic'),
@@ -350,6 +351,7 @@ optDashes('Outside-the-box'),
 optPrefixes( optSuffixes('Paradigm(atic|s)?',  'Shift'),  'Dominant'),
 reqdPrefixes('Parameters?',  'Certain','Her','His','Important','Key','Main','The'),
 'Pluss?ification',
+'Reactive incrementalism',
 'Reinvent(ing)? the wheel',
 'Resonates?( with)?',
 'Root and branch',
@@ -796,7 +798,8 @@ $(function() {
             theStats['$meta'] = {url: trimUrlForStats( document.URL ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
             refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, document.URL, theStats);
 
-            var score = Math.round( Math.pow( theStats['$meta'].uniqueTerms, 1.4) * Math.pow( theStats['$meta'].totalMatches / theStats['$meta'].uniqueTerms, 0.7) );
+            var unqs = theStats['$meta'].uniqueTerms;
+            var score = ( unqs == 0) ? 0 : Math.round( Math.pow( unqs, 1.4) * Math.pow( theStats['$meta'].totalMatches / unqs, 0.7) );
             self.port.emit("setBadge", {score: score, url: document.URL});
 
             submitAnonymousStats( theStats, score);
