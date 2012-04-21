@@ -791,7 +791,7 @@ $(function() {
 
     if (isValidPage) {
         if ( /* DEBUG... getIgnoreStatsPageFilterRegex().test( document.URL ) */ false) {
-            self.port.emit("resetBadge", {});
+            self.port.emit("resetBadge", document.URL);
             refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, document.URL, null);
         } else {
             var theStats = {};

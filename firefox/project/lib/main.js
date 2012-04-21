@@ -25,14 +25,11 @@ var theSubmitMenuIten = contextMenu.Item({
     contentScriptFile: data.url("js/jquery-1.7.1.min_plus_highlight.js"),
     contentScript: 'self.on("click", function (node,data) {' +
                    '  var text = window.getSelection().toString();' +
-                   'console.log( "Using " + self + " / " + data);' +
-                  '  self.postMessage(text);' +
-             //       '  self.port.emit("myAddonEvent", "SENT");' +
+                   '  self.postMessage(text);' +
                    '});',
 
     onMessage: function (item) {
-      self.port.emit("myAddonEvent", "SENT");
-      // submitBannedListEntry(item);
+      showSubmissionDialog({},{});
     }
   });
 
@@ -87,6 +84,48 @@ var widget = badges.BadgedWidget({
 
 ////////////////////////////////////////////////////////////////////////////////
 
+var ss = require("simple-storage");
+ss.storage.tabBadgeData = {};  // Yes (I think...), initialise each time the app starts / FF starts
+ss.storage.tabStatsData = {};  // Yes (I think...), initialise each time the app starts / FF starts
+
+////////////////////////////////////////////////////////////////////////////////
+
+var tabs = require("tabs");
+
+tabs.on('activate', function(tab) {
+  var theBadgeData = ss.storage.tabBadgeData[ tab.url ];
+  var theBadgeDataToUse = ( theBadgeData != null) ? theBadgeData : getEmptyBadgeRecord();
+  var theStats = ss.storage.tabStatsData[ tab.url ];
+  var theStatsToUse = ( theStats != null) ? theStats : getEmptyStatsRecord();
+
+  // console.log('Tab ' + tab + ' activated, with badge ' + theBadgeDataToUse + ' and stats: ' + theStatsToUse);
+
+  updateBadgeAndPanelForTab( tab.url, theBadgeDataToUse, theStatsToUse);
+});
+
+function getEmptyBadgeRecord() {
+  return { text: '', color: '', textColor: 'white', opacity: k_WidgetBadgeOpacity };
+}
+
+function getEmptyStatsRecord() {
+  return {score: 0, url: null};
+}
+
+function setBadgeDetailsForTab( inUrl, inBadgeData, inStats) {
+  ss.storage.tabBadgeData[inUrl] = inBadgeData;
+  ss.storage.tabStatsData[inUrl] = inStats;
+
+  updateBadgeAndPanelForTab( inUrl, inBadgeData, inStats);
+}
+
+function updateBadgeAndPanelForTab( inUrl, inBadgeData, inStats) {
+  // console.log('Updating panel for "' + inUrl + '" to use URL "' + inStats.url + '"');
+  widget.badge = inBadgeData;
+  theResultsPanel.port.emit( "updatePanel", inStats);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 var pageMod = require("page-mod");
 pageMod.PageMod({
   include: ['*'],
@@ -94,12 +133,9 @@ pageMod.PageMod({
   contentScriptFile: [ data.url("js/jquery-1.7.1.min_plus_highlight.js"), data.url("js/contentSupport.js"), data.url("js/bannedList.js"), data.url("js/bootstrap.min.js") ],
   onAttach: function onAttach( worker, mod) {
 
-    worker.port.on("resetBadge", function() {
-	widget.badge = { text: '', color: '', textColor: 'white', opacity: k_WidgetBadgeOpacity };
-        theResultsPanel.port.emit( "updatePanel", {score: 0, url: null});
+    worker.port.on("resetBadge", function(inUrl) {
+	setBadgeDetailsForTab( inUrl, getEmptyBadgeRecord(), getEmptyStatsRecord());
     });
-
-    worker.port.emit("myAddonEvent", "Hello");
 
     worker.port.on("setBadge", function(inStats) {
 
@@ -120,12 +156,56 @@ pageMod.PageMod({
                 }
 	}
 
-        widget.badge = { text: theScoreText, color: theBackColor, textColor: 'white', opacity: k_WidgetBadgeOpacity };
-
-        theResultsPanel.port.emit( "updatePanel", inStats);
+        setBadgeDetailsForTab( inStats.url, { text: theScoreText, color: theBackColor, textColor: 'white', opacity: k_WidgetBadgeOpacity }, inStats);
     });
   }
 });
+
+function showSubmissionDialog( inReq, inSendResponse) {
+    var newDialog = $('<div class="modal" id="MenuDialog">\
+     	<style type="text/css">\
+            a.bannedList,a.bannedList:hover { text-decoration:none !important; }\
+            input,label,textarea,a.btn,.modal-header,h3 { font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; }\
+            label.bannedList { font-weight: bold; float: left; width: 140px; padding: 5px 8px 0 0;}\
+            input.blText { width: 200px; }\
+            span.blGrey { color: #999; }\
+            div.blLine { color:#333; clear:both; text-align:left; line-height: 18px; }\
+            h3.blHeader { color:#333; line-height: 27px; font-size:18px; margin:0; padding:0 }\
+    	</style>\
+   	<div class="modal-header" style="text-align:left">\
+    	    <a class="close bannedList" data-dismiss="modal">×</a>\
+    	    <h3 class="blHeader">Submit #BannedList phrase</h3>\
+    	</div>\
+	<form action="/" class="bannedList modal-body" style="margin-bottom:0;" id="submitPhrase">\
+	    <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
+	    <div class="blLine"><label for="name" class="bannedList">Your Name:</label><input id="name" name="name" type="text" class="bannedList blText" value="Andrew Regan" /></div>\
+	    <div class="blLine"><label for="email" class="bannedList">Your Email:</label><input id="email" name="email" type="text" class="bannedList blText" value="aregan@gmail.com" /></div>\
+	    <div class="blLine"><label for="terms" class="bannedList">Submitted Phrase:</label><input id="terms" name="terms" type="text" class="bannedList" style="width: 280px" value="' + inReq.phrase + '" /></div>\
+	    <div class="blLine"><label for="explanation" class="bannedList">Why should we add this? <span class="blGrey">(optional):</span></label><textarea id="explanation" name="explanation" type="text" class="bannedList" style="width: 280px" value="" /></div>\
+	</form>\
+	<div class="modal-footer">\
+	    <a href="#" class="btn bannedList cancelSubmit" style="color: #333">Cancel</a>\
+	    <a href="#" class="btn btn-primary bannedList doSubmit" style="color: white">Submit</a>\
+	</div>\
+    </div>');
+
+    newDialog.modal('show');
+
+    newDialog.on("click", function(event){
+        var theTarget = $(event.target);
+        if (theTarget.hasClass('doSubmit') || theTarget.hasClass('cancelSubmit')) {
+            if (theTarget.hasClass('doSubmit')) {
+                if (!submitPhrase()) {
+                    return;
+                }
+            }
+
+            newDialog.modal('hide');
+            newDialog.remove();
+            inSendResponse({ok: "true"});
+        }
+    });
+}
 
 /*******************************************************************************
 *******************************************************************************/
