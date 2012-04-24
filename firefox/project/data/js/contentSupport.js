@@ -1,4 +1,54 @@
-function submitPhrase() {
+self.on("click", function(node,data) {
+    showSubmissionDialog( self, { pageUrl: document.URL, phrase: window.getSelection().toString()}, function (response) { if ( response.ok != "true") { alert('Error!'); } });
+})
+
+function showSubmissionDialog( inEventHandler, inReq, inSendResponse) {
+    var newDialog = $('<div class="modal" id="MenuDialog">\
+     	<style type="text/css">\
+            a.bannedList,a.bannedList:hover { text-decoration:none !important; }\
+            input,label,textarea,a.btn,.modal-header,h3 { font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; }\
+            label.bannedList { font-weight: bold; float: left; width: 140px; padding: 5px 8px 0 0;}\
+            input.blText { width: 200px; }\
+            span.blGrey { color: #999; }\
+            div.blLine { color:#333; clear:both; text-align:left; line-height: 18px; }\
+            h3.blHeader { color:#333; line-height: 27px; letter-spacing: normal !important; font-size:18px; margin:0; padding:0 }\
+    	</style>\
+   	<div class="modal-header" style="text-align:left">\
+    	    <a class="close bannedList" data-dismiss="modal">×</a>\
+    	    <h3 class="blHeader">Submit #BannedList phrase</h3>\
+    	</div>\
+	<form action="/" class="bannedList modal-body" style="margin-bottom:0;" id="submitPhrase">\
+	    <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
+	    <div class="blLine"><label for="name" class="bannedList">Your Name:</label><input id="name" name="name" type="text" class="bannedList blText" value="Andrew Regan" /></div>\
+	    <div class="blLine"><label for="email" class="bannedList">Your Email:</label><input id="email" name="email" type="text" class="bannedList blText" value="aregan@gmail.com" /></div>\
+	    <div class="blLine"><label for="terms" class="bannedList">Submitted Phrase:</label><input id="terms" name="terms" type="text" class="bannedList" style="width: 280px" value="' + inReq.phrase + '" /></div>\
+	    <div class="blLine"><label for="explanation" class="bannedList">Why should we add this? <span class="blGrey">(optional):</span></label><textarea id="explanation" name="explanation" type="text" class="bannedList" style="width: 280px" value="" /></div>\
+	</form>\
+	<div class="modal-footer">\
+	    <a href="#" class="btn bannedList cancelSubmit" style="color: #333">Cancel</a>\
+	    <a href="#" class="btn btn-primary bannedList doSubmit" style="color: white">Submit</a>\
+	</div>\
+    </div>');
+
+    newDialog.modal('show');
+
+    newDialog.on("click", function(event) {
+        var theTarget = $(event.target);
+        if (theTarget.hasClass('doSubmit') || theTarget.hasClass('cancelSubmit')) {
+            if (theTarget.hasClass('doSubmit')) {
+                if (!submitPhrase(inEventHandler)) {
+                    return;
+                }
+            }
+
+            newDialog.modal('hide');
+            newDialog.remove();
+            inSendResponse({ok: "true"});
+        }
+    });
+}
+
+function submitPhrase( inEventHandler ) {
     var theSubmittedPhrase = $("#submitPhrase").serializeArray()[3].value;  // yuk!
     if ( theSubmittedPhrase == '') {
         alert('Phrase may not be blank - please enter one.');
@@ -6,8 +56,8 @@ function submitPhrase() {
     }
 
     $.post("http://1.bannedlist-stats.appspot.com/newTerms", {inputs: JSON.stringify( $("#submitPhrase").serializeObject() )}, function(inData) {
-        alert('Thank you for your submission!');
-    }).error( function() { /* Ignore! */ });
+        inEventHandler.postMessage({ kind:'submittedNotif', msg: 'Thank you for your submission'});
+    }).error( function(err) { /* FIXME. Why does every request error in FF 11 ? */ inEventHandler.postMessage({ kind:'submittedNotif', msg: 'Thank you for your submission'}); });
 
     return true;
 }

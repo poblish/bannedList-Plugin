@@ -4,11 +4,14 @@ Cu.import("resource://gre/modules/AddonManager.jsm");  // Import so we can get t
 const { Trait } = require("traits");
 const widgets = require("widget");
 const badges = require("BadgedWidget");
+
 const k_WidgetBadgeOpacity = '1';
 
-var data = require('self').data;
+var self = require("self");
+var data = self.data;
+var notifications = require("notifications");
 
-AddonManager.getAddonByID( /* Our Id from 'package.json': */ 'jid1-fM9zwpn7QB5NAA', function(addon) {
+AddonManager.getAddonByID( /* Our Id: */ self.id, function(addon) {
     loadStyles( addon, ["bannedList","bootstrap_content.min"]);
 });
 
@@ -21,28 +24,13 @@ var theSubmitMenuIten = contextMenu.Item({
     image: data.url("img/icon16.png"),
     // Show this item when a selection exists.
     context: contextMenu.SelectionContext(),
-    // When this item is clicked, post a message back with the selection
-    contentScriptFile: data.url("js/jquery-1.7.1.min_plus_highlight.js"),
-    contentScript: 'self.on("click", function (node,data) {' +
-                   '  var text = window.getSelection().toString();' +
-                   '  self.postMessage(text);' +
-                   '});',
-
-    onMessage: function (item) {
-      showSubmissionDialog({},{});
+    contentScriptFile: [ data.url("js/jquery-1.7.1.min_plus_highlight.js"), data.url("js/bootstrap.min.js"), /* onClick method is in... */ data.url("js/contentSupport.js") ],
+    onMessage: function(inMsg) {
+        if ( inMsg.kind == 'submittedNotif') {
+	    notifications.notify({ title: "#BannedList says...", text: inMsg.msg, data: "", onClick: function (data) {} });
+	}
     }
-  });
-
-////////////////////////////////////////////////////////////////////////////////
-
-function submitBannedListEntry( inItem ) {
-    console.log('looking up "' + inItem + '"');
-    try {
-        showSubmissionDialog( { pageUrl: '*** FIXME ***'}, {});
-    } catch (e) {
-        console.log(e); // 'ERROR!');
-    }
-}
+});
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -50,7 +38,7 @@ var theResultsPanel = require("panel").Panel({
   width: 320,
   height: 290,
   contentScriptFile: data.url("js/jquery-1.7.1.min_plus_highlight.js"),    // Needed for JQuery '$' to work below.
-  contentScript: "self.port.on( 'updatePanel', function(inStats) { /* console.log('In updatePanel...'); */ " +
+  contentScript: "self.port.on( 'updatePanel', function(inStats) {" +
 		"    if ( inStats.score > 0 && inStats.url != null) {" +
 		"         $('a#twitterUrl').attr('href', 'https://twitter.com/intent/tweet?hashtags=' + 'BannedList' +" +
 		"	        '%2C&source=tweetbutton&text=' + encodeURIComponent('I found a page with a score of ') + inStats.score + encodeURIComponent(': ') +" +
@@ -80,8 +68,6 @@ var widget = badges.BadgedWidget({
   width: 50
 });
 
-// widget.badge = { text: '', color: 'rgb(220,0,0)', textColor: 'white', opacity: k_WidgetBadgeOpacity };
-
 ////////////////////////////////////////////////////////////////////////////////
 
 var ss = require("simple-storage");
@@ -91,7 +77,6 @@ ss.storage.tabStatsData = {};  // Yes (I think...), initialise each time the app
 ////////////////////////////////////////////////////////////////////////////////
 
 var tabs = require("tabs");
-
 tabs.on('activate', function(tab) {
   var theBadgeData = ss.storage.tabBadgeData[ tab.url ];
   var theBadgeDataToUse = ( theBadgeData != null) ? theBadgeData : getEmptyBadgeRecord();
@@ -157,55 +142,9 @@ pageMod.PageMod({
 	}
 
         setBadgeDetailsForTab( inStats.url, { text: theScoreText, color: theBackColor, textColor: 'white', opacity: k_WidgetBadgeOpacity }, inStats);
-    });
+    })
   }
 });
-
-function showSubmissionDialog( inReq, inSendResponse) {
-    var newDialog = $('<div class="modal" id="MenuDialog">\
-     	<style type="text/css">\
-            a.bannedList,a.bannedList:hover { text-decoration:none !important; }\
-            input,label,textarea,a.btn,.modal-header,h3 { font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; }\
-            label.bannedList { font-weight: bold; float: left; width: 140px; padding: 5px 8px 0 0;}\
-            input.blText { width: 200px; }\
-            span.blGrey { color: #999; }\
-            div.blLine { color:#333; clear:both; text-align:left; line-height: 18px; }\
-            h3.blHeader { color:#333; line-height: 27px; font-size:18px; margin:0; padding:0 }\
-    	</style>\
-   	<div class="modal-header" style="text-align:left">\
-    	    <a class="close bannedList" data-dismiss="modal">×</a>\
-    	    <h3 class="blHeader">Submit #BannedList phrase</h3>\
-    	</div>\
-	<form action="/" class="bannedList modal-body" style="margin-bottom:0;" id="submitPhrase">\
-	    <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
-	    <div class="blLine"><label for="name" class="bannedList">Your Name:</label><input id="name" name="name" type="text" class="bannedList blText" value="Andrew Regan" /></div>\
-	    <div class="blLine"><label for="email" class="bannedList">Your Email:</label><input id="email" name="email" type="text" class="bannedList blText" value="aregan@gmail.com" /></div>\
-	    <div class="blLine"><label for="terms" class="bannedList">Submitted Phrase:</label><input id="terms" name="terms" type="text" class="bannedList" style="width: 280px" value="' + inReq.phrase + '" /></div>\
-	    <div class="blLine"><label for="explanation" class="bannedList">Why should we add this? <span class="blGrey">(optional):</span></label><textarea id="explanation" name="explanation" type="text" class="bannedList" style="width: 280px" value="" /></div>\
-	</form>\
-	<div class="modal-footer">\
-	    <a href="#" class="btn bannedList cancelSubmit" style="color: #333">Cancel</a>\
-	    <a href="#" class="btn btn-primary bannedList doSubmit" style="color: white">Submit</a>\
-	</div>\
-    </div>');
-
-    newDialog.modal('show');
-
-    newDialog.on("click", function(event){
-        var theTarget = $(event.target);
-        if (theTarget.hasClass('doSubmit') || theTarget.hasClass('cancelSubmit')) {
-            if (theTarget.hasClass('doSubmit')) {
-                if (!submitPhrase()) {
-                    return;
-                }
-            }
-
-            newDialog.modal('hide');
-            newDialog.remove();
-            inSendResponse({ok: "true"});
-        }
-    });
-}
 
 /*******************************************************************************
 *******************************************************************************/
