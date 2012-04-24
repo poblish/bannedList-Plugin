@@ -1,8 +1,8 @@
 .highlightCore, .highlightExtra, .highlightReplaced, .highlightMgmt {
-    padding: .2em .4em;
-    border: 1px solid #CCC;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+    padding: 3.2px 6.4px !important;
+    border: 1px solid #CCC !important;
+    -moz-border-radius: 4px !important;
+    border-radius: 4px !important;
 }
 
 .highlightCore, .highlightExtra, .highlightReplaced, .highlightMgmt {
@@ -11,20 +11,20 @@
 
 .highlightCore {
     background-color: rgb(255,91,87);
-    background-image: -moz-linear-gradient( top, rgb(255,91,87), rgb(255,130,127));
+    background-image: -moz-linear-gradient( top, rgb(255,91,87), rgb(255,130,127)) !important;
 }
 
 .highlightExtra {
     background-color: rgb(255,187,186);
-    background-image: -moz-linear-gradient( top, rgb(255,187,186), rgb(255,209,208));
+    background-image: -moz-linear-gradient( top, rgb(255,187,186), rgb(255,209,208)) !important;
 }
 
 .highlightReplaced {
     background-color: rgb(201,231,200);
-    background-image: -moz-linear-gradient( top, rgb(201,231,200), rgb(222,255,221));
+    background-image: -moz-linear-gradient( top, rgb(201,231,200), rgb(222,255,221)) !important;
 }
 
 .highlightMgmt {
     background-color: rgb(215,215,215);
-    background-image: -moz-linear-gradient( top, rgb(204,136,135), rgb(225,225,225));
+    background-image: -moz-linear-gradient( top, rgb(204,136,135), rgb(225,225,225)) !important;
 }
