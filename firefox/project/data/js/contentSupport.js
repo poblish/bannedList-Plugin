@@ -62,13 +62,21 @@ function submitPhrase( inEventHandler ) {
     return true;
 }
 
-function submitAnonymousStats( inStats, inStatsScore) {
-    if ( inStats != null && inStatsScore >= 10) {
-        var theJSON = JSON.stringify(inStats);
-	// console.log(theJSON);
-
-        $.post("http://1.bannedlist-stats.appspot.com/receive", {stats: theJSON}, function(theResponse) { /* Ignore! */ }).error( function() { /* Ignore! */ });
+function submitAnonymousStats( ioStats, inStatsScore) {
+    if ( ioStats != null && inStatsScore >= 10) {
+        getJournalistedInfo( document.URL, /* Got results: */ function(jResults) {
+            ioStats['$journalisted'] = jResults;
+            doSubmitAnonymousStats(ioStats);
+            // alert('success');
+        }, /* No results: */ function() {
+            doSubmitAnonymousStats(ioStats);
+            // alert('FAILURE');
+        });
     }
+}
+
+function doSubmitAnonymousStats( ioStats ) {
+    $.post("http://1.bannedlist-stats.appspot.com/receive", {stats: JSON.stringify(ioStats)}, function(theResponse) { /* Ignore! */ }).error( function() { /* Ignore! */ });
 }
 
 function callChurnalism( inURL ) {
@@ -87,6 +95,36 @@ function callChurnalism( inURL ) {
 	    }
         }).error( function() { /* Ignore! */ });
     }
+}
+
+function getJournalistedInfo( inURL, inSuccessHandler, inFailureHandler) {
+    $.get("http://journalisted.com/api/getArticles", { url: inURL, output: "js" })
+//      .success( function(data) { /* Never succeeds */ } )
+//      .done( function(data) { /* Never called */ } )
+        .error( function(xhr) {
+            try {
+                if ( xhr.status == 200) {  // Actually fine
+                    var theRespObj = jQuery.parseJSON(xhr.responseText);
+                    if ( theRespObj.status == 0) {
+                        var theResultsObj = theRespObj.results[0];
+                        delete theResultsObj.permalink;    // don't need this
+                        delete theResultsObj.description;  // don't need this
+                        // var theJournoName = theResultsObj.journos[0].prettyname;
+                        // console.log( theResultsObj );
+
+                        if ( inSuccessHandler != null) {
+                            inSuccessHandler(theResultsObj);
+                        }
+
+                        return theResultsObj;
+                    }
+                }
+            } catch (e) { /* Just ignore */ }
+
+            if ( inFailureHandler != null) {
+                inFailureHandler();
+            }
+        });
 }
 
 function getPageTitle() {
