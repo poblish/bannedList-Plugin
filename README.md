@@ -2,6 +2,7 @@
 
 Use this project to build the Chrome and Firefox versions of the plugin.
 
+
 Test-cases
 -----------
 
