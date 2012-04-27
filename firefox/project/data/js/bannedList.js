@@ -820,8 +820,6 @@ function processPage( inOptions ) {
 }
 
 function refreshBannedStuff( inOptions, inDocUrl, ioStats) {
-    $("head").append($("<link rel='stylesheet' href='css/bannedList.css' type='text/css' media='screen' />"));
-
     if ( inOptions["extras.special.goodOrBad"] == 'true') {
         $('body').replaceHighlight( '\\b(Blair|Brown|New Labour)ites\\b', 'some Labour people', 'highlightReplaced', '#BannedList Replacement');
         $('body').replaceHighlight( '\\b(Blairite|Brownite)\\b', 'Labour', 'highlightReplaced', '#BannedList Replacement');
