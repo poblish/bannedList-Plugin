@@ -85,6 +85,24 @@ function callChurnalism( inURL ) {
     }
 }
 
+function callJournalisted() {
+    $.get("http://journalisted.com/api/getArticles", { url: "http://www.thetimes.co.uk/tto/business/economics/article3303653.ece", output: "js" })
+//      .success( function(data) { /* Never succeeds */ } )
+//      .done( function(data) { /* Never called */ } )
+        .error( function(xhr) {
+            try {
+                if ( xhr.status == 200) {  // Actually fine
+        	    var theResultsObj = jQuery.parseJSON(xhr.responseText).results[0];
+        	    var theJournoName = theResultsObj.journos[0].prettyname;
+        	    console.log( theResultsObj, theJournoName);
+                }
+            } catch (e) { /* Just ignore */ }
+        });
+
+//    $.ajax({ url: "http://journalisted.com/api/getArticles", data:{ url: "http://www.thetimes.co.uk/tto/business/economics/article3303653.ece", output: "js" }, dataType: "jsonp", jsonp: "jsonp", jsonpCallback: "hello"})
+  //      .done( function() { alert('done') } );
+}
+
 function getPageTitle() {
     var theTitles = $('head title');
     if ( theTitles.length > 0) {
