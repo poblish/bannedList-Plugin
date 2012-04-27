@@ -21,11 +21,11 @@
 
                 if (/http.*twitter.com/.test( sender.tab.url )) {
                     setInterval( function() {
-                        sendResponse({method: "getOptions", url: sender.tab.url, options: localStorage});
+                        sendResponse({method: "getOptions", /* url: sender.tab.url, */ options: localStorage});
                     }, 2500);
                 }
                 else /* Non Twitter can update now! */ {
-                    sendResponse({method: "getOptions", url: sender.tab.url, options: localStorage});
+                    sendResponse({method: "getOptions", /* url: sender.tab.url, */ options: localStorage});
                 }
             }
             else if (request.method == "notify") {
