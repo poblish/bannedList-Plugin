@@ -791,21 +791,7 @@ reqdPrefixes('Linked to',  'Has been','Is'),
 
 $(function() {
     chrome.extension.sendRequest({ method: "getOptions"}, function(inResp) {
-        if (getIgnoreStatsPageFilterRegex().test( inResp.url )) {
-	    chrome.extension.sendRequest({ method: "resetBadge"} );
-            refreshBannedStuff( inResp.options, inResp.url, null);
-        } else {
-            var theStats = {};
-            theStats['$meta'] = {url: trimUrlForStats( inResp.url ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
-            refreshBannedStuff( inResp.options, inResp.url, theStats);
-
-	    var score = Math.round( Math.pow( theStats['$meta'].uniqueTerms, 1.4) * Math.pow( theStats['$meta'].totalMatches / theStats['$meta'].uniqueTerms, 0.7) );
-	    chrome.extension.sendRequest({ method: "setBadge", score: score, url: inResp.url} );
-
-            submitAnonymousStats( theStats, score);
-        }
-
-        callChurnalism( inResp.url );
+        processPage( inResp.options );
     });
 });
 
@@ -819,6 +805,25 @@ chrome.extension.onRequest.addListener(
         }
     }
 );
+
+function processPage( inOptions ) {
+    if (getIgnoreStatsPageFilterRegex().test( document.URL )) {
+        chrome.extension.sendRequest({ method: "resetBadge"} );
+        refreshBannedStuff( inOptions, document.URL, null);
+    } else {
+        var theStats = {};
+        theStats['$meta'] = {url: trimUrlForStats( document.URL ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
+        refreshBannedStuff( inOptions, document.URL, theStats);
+
+        var unqs = theStats['$meta'].uniqueTerms;
+        var score = ( unqs == 0) ? 0 : Math.round( Math.pow( unqs, 1.4) * Math.pow( theStats['$meta'].totalMatches / unqs, 0.7) );
+        chrome.extension.sendRequest({ method: "setBadge", score: score, url: document.URL});
+
+        submitAnonymousStats( theStats, score);
+    }
+
+    callChurnalism( document.URL );
+}
 
 function refreshBannedStuff( inOptions, inDocUrl, ioStats) {
     if ( inOptions["extras.special.goodOrBad"] == 'true') {

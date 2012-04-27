@@ -796,24 +796,28 @@ $(function() {
     } catch (e) { isValidPage = false; /* These are always bogus! */ }
 
     if (isValidPage) {
-        if ( /* DEBUG... getIgnoreStatsPageFilterRegex().test( document.URL ) */ false) {
-            self.port.emit("resetBadge", document.URL);
-            refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, document.URL, null);
-        } else {
-            var theStats = {};
-            theStats['$meta'] = {url: trimUrlForStats( document.URL ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
-            refreshBannedStuff( { /* Dodgy defaults... */ "extras.politics.andrew1" : "true" }, document.URL, theStats);
-
-            var unqs = theStats['$meta'].uniqueTerms;
-            var score = ( unqs == 0) ? 0 : Math.round( Math.pow( unqs, 1.4) * Math.pow( theStats['$meta'].totalMatches / unqs, 0.7) );
-            self.port.emit("setBadge", {score: score, url: document.URL});
-
-            submitAnonymousStats( theStats, score);
-        }
-
-        callChurnalism( document.URL );
+        processPage({ /* Dodgy defaults... */ "extras.politics.andrew1" : "true" });
     }
 });
+
+function processPage( inOptions ) {
+    if (getIgnoreStatsPageFilterRegex().test( document.URL )) {
+        self.port.emit("resetBadge", document.URL);
+        refreshBannedStuff( inOptions, document.URL, null);
+    } else {
+        var theStats = {};
+        theStats['$meta'] = {url: trimUrlForStats( document.URL ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
+        refreshBannedStuff( inOptions, document.URL, theStats);
+
+        var unqs = theStats['$meta'].uniqueTerms;
+        var score = ( unqs == 0) ? 0 : Math.round( Math.pow( unqs, 1.4) * Math.pow( theStats['$meta'].totalMatches / unqs, 0.7) );
+        self.port.emit("setBadge", {score: score, url: document.URL});
+
+        submitAnonymousStats( theStats, score);
+    }
+
+    callChurnalism( document.URL );
+}
 
 function refreshBannedStuff( inOptions, inDocUrl, ioStats) {
     $("head").append($("<link rel='stylesheet' href='css/bannedList.css' type='text/css' media='screen' />"));
