@@ -1,4 +1,4 @@
-*BannedList Plugin* - a browser add-on for followers of John Rentoul's Banned List (#BannedList)
+**BannedList Plugin** - a browser add-on for followers of [John Rentoul's Banned List](http://www.bannedlist.co.uk) (#BannedList)
 
 Use this project to build the Chrome and Firefox versions of the plugin.
 
