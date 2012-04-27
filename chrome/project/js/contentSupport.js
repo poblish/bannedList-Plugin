@@ -28,7 +28,7 @@ function showSubmissionDialog( inReq, inSendResponse) {
 
     newDialog.modal('show');
 
-    newDialog.on("click", function(event){
+    newDialog.on("click", function(event) {
         var theTarget = $(event.target);
         if (theTarget.hasClass('doSubmit') || theTarget.hasClass('cancelSubmit')) {
             if (theTarget.hasClass('doSubmit')) {
