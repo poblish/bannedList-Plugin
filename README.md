@@ -7,6 +7,7 @@ Test-cases
 -----------
 
 * http://www.poblish.org/downloads/TheList.html (the biggest and best)
+* http://www.lssu.edu/banished/complete_list.php
 * https://gist.github.com/1580203
 * https://gist.github.com/1580192
 * https://gist.github.com/1584824
