@@ -92,9 +92,12 @@ function callJournalisted( inURL ) {
         .error( function(xhr) {
             try {
                 if ( xhr.status == 200) {  // Actually fine
-        	    var theResultsObj = jQuery.parseJSON(xhr.responseText).results[0];
-        	    var theJournoName = theResultsObj.journos[0].prettyname;
-        	    console.log( theResultsObj, theJournoName);
+        	    var theRespObj = jQuery.parseJSON(xhr.responseText);
+        	    if ( theRespObj.status == 0) {
+        	        var theResultsObj = theRespObj.results[0];
+        	        var theJournoName = theResultsObj.journos[0].prettyname;
+        	        console.log( theResultsObj, theJournoName);
+        	    }
                 }
             } catch (e) { /* Just ignore */ }
         });
