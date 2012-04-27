@@ -85,8 +85,8 @@ function callChurnalism( inURL ) {
     }
 }
 
-function callJournalisted() {
-    $.get("http://journalisted.com/api/getArticles", { url: "http://www.thetimes.co.uk/tto/business/economics/article3303653.ece", output: "js" })
+function callJournalisted( inURL ) {
+    $.get("http://journalisted.com/api/getArticles", { url: inURL, output: "js" })
 //      .success( function(data) { /* Never succeeds */ } )
 //      .done( function(data) { /* Never called */ } )
         .error( function(xhr) {
@@ -98,9 +98,6 @@ function callJournalisted() {
                 }
             } catch (e) { /* Just ignore */ }
         });
-
-//    $.ajax({ url: "http://journalisted.com/api/getArticles", data:{ url: "http://www.thetimes.co.uk/tto/business/economics/article3303653.ece", output: "js" }, dataType: "jsonp", jsonp: "jsonp", jsonpCallback: "hello"})
-  //      .done( function() { alert('done') } );
 }
 
 function getPageTitle() {
