@@ -1,5 +1,9 @@
+*BannedList Plugin* - a browser add-on for followers of John Rentoul's Banned List (#BannedList)
+
+Use this project to build the Chrome and Firefox versions of the plugin.
+
 Test-cases
-===========
+-----------
 
 http://www.poblish.org/downloads/TheList.html
 https://gist.github.com/1580203
@@ -15,6 +19,6 @@ http://www.alistapart.com/articles/artistic-distance/
 http://www.guardian.co.uk/local-government-network/2012/mar/29/uk-riots-resilience-community-tensions
 
 Issues and Bugs
-================
+----------------
 
 https://github.com/poblish/bannedList-Plugin/issues
