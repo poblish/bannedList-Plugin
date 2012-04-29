@@ -150,7 +150,7 @@ function getContentStatsWhiteListFor( inDocURL ) {
 }
 
 function getIgnoreStatsPageFilterRegex() {
-    return /http.*(appengine.google.com*)|(bannedlist-stats*)|(poblish.org\/downloads\/TheList.html)|.github.?|.google.?|.ebay.?|.ebay.?|.bing.?|.facebook.?/;
+    return /http.*(appengine.google.com*)|(bannedlist-stats*)|(poblish.org\/downloads\/TheList.html)|.github.?|.google.?|.amazon.?|.ebay.?|.bing.?|.facebook.?/;
 }
 
 function trimUrlForStats( inURL ) {
