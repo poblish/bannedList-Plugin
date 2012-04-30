@@ -7,7 +7,7 @@
 		chrome.extension.sendRequest({ method: "getDetailsForPopup", tabId: selectedTab.id}, function(inResp) {
 		     if ( inResp.url != null) {
 			 $('a#twitterUrl').attr("href", 'https://twitter.com/intent/tweet?hashtags=' + 'BannedList' +
-			        '%2C&source=tweetbutton&text=' + encodeURIComponent('I found a page with a score of ') + inResp.score + encodeURIComponent(': ') +
+			        '%2C&source=tweetbutton&text=' + encodeURIComponent('I found a page with a #BannedList score of ') + inResp.score + encodeURIComponent(': ') +
 			        inResp.url + encodeURIComponent(' - via') + '&url=' + encodeURIComponent('http://bit.ly/HheIf2'));
 		     } else {
 			 $('a#twitterUrl').addClass('disabled');
@@ -25,6 +25,6 @@
 <p style="margin: 15px 0"><a class="btn btn-large btn-primary" id="twitterUrl" href="#" target="_blank" style="width:190px">Share results on Twitter...</a></p>
 <p><a class="btn" href="http://www.bannedlist.co.uk" target="_blank" style="width:200px">BannedList Home</a></p>
 <p><a class="btn" href="http://www.amazon.co.uk/The-Banned-List-manifesto-against/dp/1907642420/" target="_blank" style="width:200px">Buy <em>The Banned List</em> on Amazon</a></p>
-<p><a class="btn" href="https://github.com/poblish/bannedList-Plugin" target="_blank" style="width:200px">Contribute on Github...</a></p>			
+<p><a class="btn" href="https://github.com/poblish/bannedList-Plugin" target="_blank" style="width:200px">Contribute on Github...</a></p>
 </body>
 </html>

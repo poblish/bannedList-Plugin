@@ -41,7 +41,7 @@ var theResultsPanel = require("panel").Panel({
   contentScript: "self.port.on( 'updatePanel', function(inStats) {" +
 		"    if ( inStats.score > 0 && inStats.url != null) {" +
 		"         $('a#twitterUrl').attr('href', 'https://twitter.com/intent/tweet?hashtags=' + 'BannedList' +" +
-		"	        '%2C&source=tweetbutton&text=' + encodeURIComponent('I found a page with a score of ') + inStats.score + encodeURIComponent(': ') +" +
+		"	        '%2C&source=tweetbutton&text=' + encodeURIComponent('I found a page with a #BannedList score of ') + inStats.score + encodeURIComponent(': ') +" +
 		"	        inStats.url + encodeURIComponent(' - via') + '&url=' + encodeURIComponent('http://bit.ly/HheIf2'));" +
 		"         $('a#twitterUrl').removeClass('disabled');" +    // Remove any 'disabled' class we added in the past
 		"         $('a#twitterUrl').off('click');" +		   // Remove any 'preventDefault' handlers we added if disabled in the past
