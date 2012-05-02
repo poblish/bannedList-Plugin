@@ -59,7 +59,7 @@ function submitPhrase() {
 }
 
 function submitAnonymousStats( ioStats, inStatsScore) {
-    if ( ioStats != null && inStatsScore >= 10) {
+    if ( ioStats != null && inStatsScore >= 10 && /^https?.*/.test( document.URL )) {
         getJournalistedInfo( document.URL, /* Got results: */ function(jResults) {
             ioStats['$journalisted'] = jResults;
             doSubmitAnonymousStats(ioStats);
