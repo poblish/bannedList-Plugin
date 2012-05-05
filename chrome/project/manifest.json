@@ -24,6 +24,7 @@
                 "css/bootstrap_content.min.css"
             ],
             "js": [
+                "js/bl-classes.js",
                 "js/jquery-1.7.1.min_plus_highlight.js",
                 "js/bootstrap.min.js",
                 "js/contentSupport.js",

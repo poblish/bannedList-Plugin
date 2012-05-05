@@ -487,6 +487,7 @@ optPrefixes('Decent people',  'All'),
 'Deserve nothing less',
 'Detoxify',
 'Different kind of emphasis',
+reqdPrefixes('Discourse',  'Prevailing'),
 'Disgrace(ful)*',
 'Disgusting',
 'Distort(ed|ing)',
@@ -695,7 +696,7 @@ reqdPrefixes('Reception',  'Lukewarm'),
 'Rolling programme',
 'Rootedness',
 'Rubs? salt into the wound',
-'Sacrificed? on the altar',
+'Sacrificed? (on|upon) the altar',
 optSuffixes('Sacrificial lambs?',  'To the slaughter'),
 'Same old failed \\S+',
 'Say it again',
@@ -796,6 +797,7 @@ optPrefixes('Where we.re at( politically)?',  '(An )?Expression of'),
 'Whiff of grapeshot',
 'Whip(ping)? up a storm',
 'Whither \\S+\?',
+'Wholesale destruction',
 'Who will rid me of this turbulent \\S+\\??',
 'Will?ful ignorance',
 'Wiped off the value',
@@ -817,6 +819,23 @@ optPrefixes('(Aid|Block|Cure|Cut|Fight|Slow|Stop)s?( \\S+)? Cancer( Risk)?',  'C
 reqdPrefixes('Linked to',  'Has been','Is'),
 'Linked to( \\S+)? cancer'];
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+var coreTerms = [
+    new BannedListTermSet({terms: theSpecialIgnoreTerms, className:'highlightIgnore', title:''}),
+    new BannedListTermSet({terms: theCaseSensitiveCoreTerms, className:'highlightCore', title:'#BannedList entry', caseInsensitive:false}),
+    new BannedListTermSet({terms: theCaseSensitiveNotJustWordsTerms, caseInsensitive:false, ignoreWordBoundaries:true, className:'highlightCore', title:'#BannedList entry'}),
+    new BannedListTermSet({terms: theManagementSpeakTerms, className:'highlightMgmt', title:'#BannedList Management Speak'}),
+    new BannedListTermSet({terms: theCoreTerms, className:'highlightCore', title:'#BannedList entry'})
+];
+
+var extraTerms = [
+    new BannedListTermSet({terms: theExtraTerms, className:'highlightExtra', title:'#BannedList Extras: dodgy political language'}),
+    new BannedListTermSet({terms: theExtraWeaselTerms, className:'highlightExtra', title:'#BannedList Extras: weasel terms'}),
+    new BannedListTermSet({terms: theExtraHealthTerms, className:'highlightExtra', title:'#BannedList Extras: dodgy Health language'}),
+    new BannedListTermSet({terms: theCaseSensitiveExtraTerms, className:'highlightExtra', title:'#BannedList Extras: dodgy political language', caseInsensitive:false})
+];
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -870,16 +889,13 @@ function refreshBannedStuff( inOptions, inDocUrl, ioStats) {
         $('body').replaceHighlight( '\\b(Inequality?|Injustice|Unfair)\\b', 'Badness', 'highlightReplaced', '#BannedList Replacement');
     }
 
-    $('body').highlight( ioStats, inDocUrl, '\\b(' + theSpecialIgnoreTerms.join('|') + ')\\b', 'highlightIgnore', '', true);
-    $('body').highlight( ioStats, inDocUrl, '\\b(' + theCaseSensitiveCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', false);
-    $('body').highlight( ioStats, inDocUrl, '(' + theCaseSensitiveNotJustWordsTerms.join('|') + ')', 'highlightCore', '#BannedList entry', false);
-    $('body').highlight( ioStats, inDocUrl, '\\b(' + theManagementSpeakTerms.join('|') + ')\\b', 'highlightMgmt', '#BannedList Management Speak', true);
-    $('body').highlight( ioStats, inDocUrl, '\\b(' + theCoreTerms.join('|') + ')\\b', 'highlightCore', '#BannedList entry', true);
+    for ( var i = 0; i < coreTerms.length; i++) {
+        $('body').highlight( ioStats, inDocUrl, coreTerms[i]);
+    }
 
     if ( inOptions["extras.politics.andrew1"] == 'true') {
-        $('body').highlight( ioStats, inDocUrl, '\\b(' + theExtraWeaselTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: weasel terms', true);
-        $('body').highlight( ioStats, inDocUrl, '\\b(' + theExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', true);
-        $('body').highlight( ioStats, inDocUrl, '\\b(' + theCaseSensitiveExtraTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy political language', false);
-        $('body').highlight( ioStats, inDocUrl, '\\b(' + theExtraHealthTerms.join('|') + ')\\b', 'highlightExtra', '#BannedList Extras: dodgy Health language', true);
+        for ( var i = 0; i < extraTerms.length; i++) {
+            $('body').highlight( ioStats, inDocUrl, extraTerms[i]);
+        }
     }
 }
