@@ -115,7 +115,7 @@ var pageMod = require("page-mod");
 pageMod.PageMod({
   include: ['*'],
   contentScriptWhen: "end",
-  contentScriptFile: [ data.url("js/jquery-1.7.1.min_plus_highlight.js"), data.url("js/contentSupport.js"), data.url("js/bannedList.js"), data.url("js/bootstrap.min.js") ],
+  contentScriptFile: [ data.url("js/bl-classes.js"), data.url("js/jquery-1.7.1.min_plus_highlight.js"), data.url("js/contentSupport.js"), data.url("js/bannedList.js"), data.url("js/bootstrap.min.js") ],
   onAttach: function onAttach( worker, mod) {
 
     worker.port.on("resetBadge", function(inUrl) {

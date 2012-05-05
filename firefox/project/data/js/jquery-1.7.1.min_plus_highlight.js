@@ -21,28 +21,27 @@ Johann Burkard
 
 var theIgnoreClassesArray = ['highlightCore','highlightExtra','highlightReplaced','highlightIgnore','highlightMgmt'];
 
-jQuery.fn.highlight = function( ioStats, inDocUrl, pattern, inHiliteClassName, inSpanTitle, inInsensitive) {
+jQuery.fn.highlight = function( ioStats, inDocUrl, inTermsGroup) {
 
     var theWhiteList = getContentStatsWhiteListFor(inDocUrl);
     var theBlackList = getContentStatsBlackListFor(inDocUrl);
 
-    var regex = typeof(pattern) === "string" ? new RegExp(pattern, inInsensitive ? "i" : "") : pattern; // assume very LOOSELY pattern is regexp if not string
-    function innerHighlight( node, ioStats, pattern, inHiliteClassName, inSpanTitle) {
+    function innerHighlight( node, ioStats) {
         var skip = 0;
         if (node.nodeType === 3) { // 3 - Text node
-            var pos = node.data.search(regex);
+            var pos = node.data.search( inTermsGroup.getRegex() );
             if (pos >= 0 && node.data.length > 0) { // .* matching "" causes infinite loop
-                var match = node.data.match(regex); // get the match(es), but we would only handle the 1st one, hence /g is not recommended
+                var match = node.data.match( inTermsGroup.getRegex() ); // get the match(es), but we would only handle the 1st one, hence /g is not recommended
                 var spanNode = document.createElement('span');
-                spanNode.className = inHiliteClassName;
-                spanNode.title = inSpanTitle;
+                spanNode.className = inTermsGroup.getHighlightClass();
+                spanNode.title = inTermsGroup.getSpanTitle();
                 var middleBit = node.splitText(pos); // split to 2 nodes, node contains the pre-pos text, middleBit has the post-pos
 
 		if ( jQuery.inArray( middleBit.parentNode.className, theIgnoreClassesArray) >= 0) {  // (AGR) Check not already done!
 			// Skip
 		}
 		else {
-			if ( ioStats != null && inHiliteClassName != 'highlightIgnore') {
+			if ( ioStats != null && inTermsGroup.getHighlightClass() != 'highlightIgnore') {
 				var theLCaseMatch = match[0].toLowerCase();
 				var keyToUse = match[0];
 
@@ -56,7 +55,7 @@ jQuery.fn.highlight = function( ioStats, inDocUrl, pattern, inHiliteClassName, i
 
 				var obj = ioStats[keyToUse];
 				if ( obj == null) {
-				    ioStats[keyToUse] = {t: (inHiliteClassName == 'highlightCore' ? 'C': 'E'),c:1};
+				    ioStats[keyToUse] = {t: ( inTermsGroup.getHighlightClass() == 'highlightCore' ? 'C': 'E'),c:1};
 				    ioStats['$meta'].uniqueTerms++;
 				} else {
 				    ioStats[keyToUse].c = obj.c + 1;
@@ -85,14 +84,14 @@ jQuery.fn.highlight = function( ioStats, inDocUrl, pattern, inHiliteClassName, i
 			// console.log('Skipping... ', node.childNodes[i]);
 		}
 
-                i += innerHighlight( node.childNodes[i], theStatsObjToUse, pattern, inHiliteClassName, inSpanTitle); // skip highlighted ones
+                i += innerHighlight( node.childNodes[i], theStatsObjToUse); // skip highlighted ones
             }
         }
         return skip;
     }
 
     return this.each(function() {
-        innerHighlight( this, ioStats, pattern, inHiliteClassName, inSpanTitle);
+        innerHighlight( this, ioStats);
     });
 };
 
