@@ -138,7 +138,7 @@ function getPageTitle() {
 
 function getContentStatsBlackListFor( inDocURL ) {
     // FIXME Think we can only support *one* of these DIVs per page!
-    return $('div#comments, div#disqus_thread, div#most-popular, div#sidebar, div#all-comments, div#discussion-comments, div#beta');
+    return $('div#comments, div#disqus_thread, div#most-popular, div#sidebar, div#all-comments, div#discussion-comments, div#beta, div#promo');
 }
 
 function getContentStatsWhiteListFor( inDocURL ) {
