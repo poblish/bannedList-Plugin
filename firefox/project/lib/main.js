@@ -35,8 +35,8 @@ var theSubmitMenuIten = contextMenu.Item({
 ////////////////////////////////////////////////////////////////////////////////
 
 var theResultsPanel = require("panel").Panel({
-  width: 320,
-  height: 290,
+  width: 430,
+  height: 355,
   contentScriptFile: data.url("js/jquery-1.7.1.min_plus_highlight.js"),    // Needed for JQuery '$' to work below.
   contentScript: "self.port.on( 'updatePanel', function(inStats) {" +
 		"    if ( inStats.score > 0 && inStats.url != null) {" +
