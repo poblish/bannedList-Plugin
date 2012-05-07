@@ -137,7 +137,7 @@ function getPageTitle() {
 }
 
 function getContentStatsBlackListFor( inDocURL ) {
-    return $('div#comments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#all-comments, div#discussion-comments, div#beta, div#promo');
+    return $('div#comments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#sidebar-first, div#all-comments, div#discussion-comments, div#beta, div#promo, section#comments-area');
 }
 
 function getContentStatsWhiteListFor( inDocURL ) {
