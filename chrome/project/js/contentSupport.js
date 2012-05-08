@@ -133,7 +133,7 @@ function getPageTitle() {
 }
 
 function getContentStatsBlackListFor( inDocURL ) {
-    return $('div#comments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#sidebar-first, div#all-comments, div#discussion-comments, div#beta, div#promo, section#comments-area');
+    return $('div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#beta, div#promo, section#comments-area');
 }
 
 function getContentStatsWhiteListFor( inDocURL ) {
@@ -149,7 +149,7 @@ function getContentStatsWhiteListFor( inDocURL ) {
 }
 
 function getIgnoreStatsPageFilterRegex() {
-    return /http.*(appengine.google.com*)|(bannedlist-stats*)|(poblish.org\/downloads\/TheList.html)|.github.?|.google.?|.amazon.?|.ebay.?|.bing.?|.facebook.?|stackoverflow.com/;
+    return /https?:\/\/(www\.)?(.*\.)?(poblish.org\/downloads\/TheList|amazon|appengine\.google|bannedlist-stats|bing|ebay|facebook|github|google|stackoverflow)\./;
 }
 
 function trimUrlForStats( inURL ) {
