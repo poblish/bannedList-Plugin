@@ -1,5 +1,5 @@
-const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
-Cu.import("resource://gre/modules/AddonManager.jsm");  // Import so we can get the Addon object that allows us to load CSS
+var {Cc, Cu, Ci} = require("chrome");
+let AddonManager = Cu.import("resource://gre/modules/AddonManager.jsm").AddonManager;  // Import so we can get the Addon object that allows us to load CSS
 
 const { Trait } = require("traits");
 const widgets = require("widget");
@@ -109,6 +109,11 @@ function updateBadgeAndPanelForTab( inUrl, inBadgeData, inStats) {
   theResultsPanel.port.emit( "updatePanel", inStats);
 }
 
+////////////////////////////////////////////////////////////////////////////////  Need local DNS access to resolve remote host -> IP
+
+var threadManager = Cc["@mozilla.org/thread-manager;1"].getService(Ci.nsIThreadManager);
+var dnsService = Cc["@mozilla.org/network/dns-service;1"].createInstance(Ci.nsIDNSService);
+
 ////////////////////////////////////////////////////////////////////////////////
 
 var pageMod = require("page-mod");
@@ -120,6 +125,21 @@ pageMod.PageMod({
 
     worker.port.on("resetBadge", function(inUrl) {
 	setBadgeDetailsForTab( inUrl, getEmptyBadgeRecord(), getEmptyStatsRecord());
+    });
+
+    worker.port.on( 'verifyRemoteIpForDomain', function(inDomain) {
+
+        var theDnsListener = {
+          onLookupComplete: function( request, record, status) {
+            if (Components.isSuccessCode(status)) {
+                worker.port.emit( 'receivedRemoteIp', record.getNextAddrAsString());
+            } else {
+                // console.log("Lookup failed");
+            }
+          }
+        };
+
+        dnsService.asyncResolve( inDomain, 0, theDnsListener, threadManager.currentThread);
     });
 
     worker.port.on("setBadge", function(inStats) {
