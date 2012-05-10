@@ -171,12 +171,10 @@ function ipToLong( inIpStr ) {
 }
 
 function isIntranetIpStr( inIpStr ) {
-console.log(inIpStr);
     return isIntranetIpVal( ipToLong(inIpStr) );
 }
 
 function isIntranetIpVal( inIpVal ) {
-console.log(inIpVal);
     return (( inIpVal >= 167772160 && inIpVal <= 184549375) ||     // 10.0.0.0 ... 10.255.255.255
             ( inIpVal >= 2886729728 && inIpVal <= 2887778303) ||   // 172.16.0.0 ... 172.31.255.255
             ( inIpVal >= 3232235520 && inIpVal <= 3232301055));    // 192.168.0.0 ... 192.168.255.255
