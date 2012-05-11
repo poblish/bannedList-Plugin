@@ -189,6 +189,7 @@ function getHostname( inUrl ) {
     var m = ((inUrl||'')+'').match(/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/);  // See: http://stackoverflow.com/a/441995/954442
     return m ? m[4] : null;
 }
+
 function trimUrlForStats( inURL ) {
     var theNewUrl = inURL.replace(/(([\\?|&]utm_source=)|#).*/, '');
     return theNewUrl;

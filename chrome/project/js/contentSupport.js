@@ -152,6 +152,26 @@ function getIgnoreStatsPageFilterRegex() {
     return /https?:\/\/(www\.)?(.*\.)?(poblish.org\/downloads\/TheList|amazon|appengine\.google|bannedlist-stats|bing|ebay|facebook|github|google|stackoverflow)\./;
 }
 
+function ipToLong( inIpStr ) {
+    var d = inIpStr.split('.');
+    return ((((((+d[0])*256)+(+d[1]))*256)+(+d[2]))*256)+(+d[3]);
+}
+
+function isIntranetIpStr( inIpStr ) {
+    return isIntranetIpVal( ipToLong(inIpStr) );
+}
+
+function isIntranetIpVal( inIpVal ) {
+    return (( inIpVal >= 167772160 && inIpVal <= 184549375) ||     // 10.0.0.0 ... 10.255.255.255
+            ( inIpVal >= 2886729728 && inIpVal <= 2887778303) ||   // 172.16.0.0 ... 172.31.255.255
+            ( inIpVal >= 3232235520 && inIpVal <= 3232301055));    // 192.168.0.0 ... 192.168.255.255
+}
+
+function getHostname( inUrl ) {
+    var m = ((inUrl||'')+'').match(/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/);  // See: http://stackoverflow.com/a/441995/954442
+    return m ? m[4] : null;
+}
+
 function trimUrlForStats( inURL ) {
     var theNewUrl = inURL.replace(/(([\\?|&]utm_source=)|#).*/, '');
     return theNewUrl;
