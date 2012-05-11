@@ -79,7 +79,6 @@ function submitPhrase( inEventHandler ) {
 }
 
 function submitAnonymousStats( ioStats, inStatsScore) {
-
     if ( ioStats != null && inStatsScore >= 10 && /^https?.*/.test( document.URL )) {
         var theDomain = getHostname( document.URL );
         if ( theDomain != null) {
