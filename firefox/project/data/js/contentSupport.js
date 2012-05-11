@@ -2,8 +2,20 @@ self.on("click", function(node,data) {
     showSubmissionDialog( self, { pageUrl: document.URL, phrase: window.getSelection().toString()}, function (response) { if ( response.ok != "true") { alert('Error!'); } });
 })
 
-self.port.on( "receivedRemoteIp", function(inIp) {
-    console.log("Retrieved IP address: " + inIp + ' / ' + isIntranetIpStr(inIp));
+self.port.on( "receivedRemoteIp", function(inResults) {
+    var isIntranetIp = isIntranetIpStr( inResults.ip );
+    console.log("Retrieved IP address: " + inResults.ip + ' / ' + isIntranetIp);
+
+    if (!isIntranetIp) {
+        getJournalistedInfo( document.URL, /* Got results: */ function(jResults) {
+            inResults.stats['$journalisted'] = jResults;
+            doSubmitAnonymousStats( inResults.stats );
+            // alert('success');
+        }, /* No results: */ function() {
+            doSubmitAnonymousStats( inResults.stats );
+            // alert('FAILURE');
+        });
+    }
 })
 
 function showSubmissionDialog( inEventHandler, inReq, inSendResponse) {
@@ -67,20 +79,14 @@ function submitPhrase( inEventHandler ) {
 }
 
 function submitAnonymousStats( ioStats, inStatsScore) {
-    var theDomain = getHostname( document.URL );
-    if ( theDomain != null) {
-        self.port.emit("verifyRemoteIpForDomain", theDomain);
-    }
 
     if ( ioStats != null && inStatsScore >= 10 && /^https?.*/.test( document.URL )) {
-        getJournalistedInfo( document.URL, /* Got results: */ function(jResults) {
-            ioStats['$journalisted'] = jResults;
-            doSubmitAnonymousStats(ioStats);
-            // alert('success');
-        }, /* No results: */ function() {
-            doSubmitAnonymousStats(ioStats);
-            // alert('FAILURE');
-        });
+        var theDomain = getHostname( document.URL );
+        if ( theDomain != null) {
+            self.port.emit("verifyRemoteIpForDomain", {domain: theDomain, stats: ioStats});
+        } else {
+            // Something pretty wrong here!
+        }
     }
 }
 

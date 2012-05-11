@@ -127,19 +127,19 @@ pageMod.PageMod({
 	setBadgeDetailsForTab( inUrl, getEmptyBadgeRecord(), getEmptyStatsRecord());
     });
 
-    worker.port.on( 'verifyRemoteIpForDomain', function(inDomain) {
+    worker.port.on( 'verifyRemoteIpForDomain', function(inRec) {
 
         var theDnsListener = {
           onLookupComplete: function( request, record, status) {
             if (Components.isSuccessCode(status)) {
-                worker.port.emit( 'receivedRemoteIp', record.getNextAddrAsString());
+                worker.port.emit( 'receivedRemoteIp', {ip: record.getNextAddrAsString(), stats: inRec.stats});
             } else {
                 // console.log("Lookup failed");
             }
           }
         };
 
-        dnsService.asyncResolve( inDomain, 0, theDnsListener, threadManager.currentThread);
+        dnsService.asyncResolve( inRec.domain, 0, theDnsListener, threadManager.currentThread);
     });
 
     worker.port.on("setBadge", function(inStats) {
