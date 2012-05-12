@@ -60,14 +60,19 @@ function submitPhrase() {
 
 function submitAnonymousStats( ioStats, inStatsScore) {
     if ( ioStats != null && inStatsScore >= 10 && /^https?.*/.test( document.URL )) {
-        getJournalistedInfo( document.URL, /* Got results: */ function(jResults) {
-            ioStats['$journalisted'] = jResults;
-            doSubmitAnonymousStats(ioStats);
-            // alert('success');
-        }, /* No results: */ function() {
-            doSubmitAnonymousStats(ioStats);
-            // alert('FAILURE');
-        });
+
+        getSmartIpResults( document.URL, /* Non-intranet IP, or lookup failure: */ function() {
+
+            getJournalistedInfo( document.URL, /* Got results: */ function(jResults) {
+                ioStats['$journalisted'] = jResults;
+                doSubmitAnonymousStats(ioStats);
+                // alert('success');
+            }, /* No results: */ function() {
+                doSubmitAnonymousStats(ioStats);
+                // alert('FAILURE');
+            });
+
+        }, /* Was an Intranet IP: */ function(inIP) { /* Skip submission */ });
     }
 }
 
@@ -91,6 +96,28 @@ function callChurnalism( inURL ) {
 	    }
         }).error( function() { /* Ignore! */ });
     }
+}
+
+function getSmartIpResults( inURL, inOKIpHandler, inIntranetIpHandler) {
+    var theDomain = getHostname( inURL );
+
+    $.get("http://smart-ip.net/geoip-json/" + encodeURIComponent(theDomain))
+        .error( function(xhr) { /* OK, ignore and allow submission */ } )
+        .success( function(results) {
+            try {
+                if ( results.host != null && isIntranetIpStr( results.host )) {
+                    if ( inIntranetIpHandler != null) {
+                        inIntranetIpHandler( results.host );
+                    }
+
+                    return results.host;
+                }
+            } catch (e) { /* Just ignore */ }
+
+            if ( inOKIpHandler != null) {
+                inOKIpHandler();
+            }
+        });
 }
 
 function getJournalistedInfo( inURL, inSuccessHandler, inFailureHandler) {
@@ -133,7 +160,7 @@ function getPageTitle() {
 }
 
 function getContentStatsBlackListFor( inDocURL ) {
-    return $('div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#beta, div#promo, section#comments-area');
+    return $('div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#beta, div#promo, div#secondaryColumn, section#comments-area');
 }
 
 function getContentStatsWhiteListFor( inDocURL ) {
