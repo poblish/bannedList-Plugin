@@ -1,0 +1,40 @@
+<html>
+<head>
+	<script src="http://www.google.com/jsapi?key=ABQIAAAA9gYUJx5NxNbOP4U1ohK-axSZq2dMH-UFu2wMfyVWBkKOmS8BWRR4e21z_mw1jDSURFmya9xVHrk4hQ" type="text/javascript"></script>
+	<script type="text/javascript">google.load("jquery", "1.7.1");</script>
+</head>
+<body>
+<div id="sidebar">div#sidebar</div>
+<div id="discussion-comments">div#discussion-comments</div>
+<div id="comments">div#comments</div>
+<div id="ignore">div#ignore</div>
+<div id="beta">div#beta</div>
+<div class="foo test">div.test</div>
+<div id="disqus_thread">div#disqus_thread</div>
+
+<script type="text/javascript">
+function getContentStatsBlackListFor( inDocURL ) {
+    return $('div#comments, div#disqus_thread, div#most-popular, div#sidebar, div#all-comments, div#discussion-comments, div#beta, div.test');
+}
+
+    var theBlackList = getContentStatsBlackListFor('');
+
+    $('body').each(function(y) {
+        testNode( this );
+    });
+
+    function testNode( node )
+    {
+    	if ( theBlackList != null && $(node).is(theBlackList)) {
+    		console.log( node.id );
+    		$(node).css("background-color","red");
+    	}
+
+        for (var i = 0; i < node.childNodes.length; i++) {
+	    testNode( node.childNodes[i] );
+        }
+     }
+</script>
+
+</body>
+</html>

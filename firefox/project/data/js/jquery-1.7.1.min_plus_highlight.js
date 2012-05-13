@@ -27,7 +27,6 @@ jQuery.fn.highlight = function( ioStats, inDocUrl, inTermsGroup) {
     var theBlackList = getContentStatsBlackListFor(inDocUrl);
 
     function innerHighlight( node, ioStats) {
-        var useBlackOrWhiteList = ( ioStats != null && ( theBlackList != null || theWhiteList != null));
         var skip = 0;
         if (node.nodeType === 3) { // 3 - Text node
             var pos = node.data.search( inTermsGroup.getRegex() );
@@ -76,18 +75,22 @@ jQuery.fn.highlight = function( ioStats, inDocUrl, inTermsGroup) {
         } else if (node.nodeType === 1 && node.childNodes && !/(script|style|textarea)/i.test(node.tagName)) { // 1 - Element node
             for (var i = 0; i < node.childNodes.length; i++) { // highlight all children
 
+                var theJQNode = $(node.childNodes[i]);
+
+                if ( theJQNode.css('display') === 'none' /* && theJQNode.css('z-index') > 0 */) {
+                    continue;	// Skip what we believe to be a panel that only appears when you hover over it.
+                }
+
+                //////////////////////////////////////////////////////////////////  Handle stats-submission black/white-listing
+
                 var theStatsObjToUse = ioStats;
 
-                if (useBlackOrWhiteList) {
-                    var theJQNode = $(node.childNodes[i]);
-
-                    if ( theWhiteList != null && theJQNode.is(theWhiteList)) {
-                        // OK
-                    }
-                    else if ( theBlackList != null && theJQNode.is(theBlackList)) {
-                        theStatsObjToUse = null;
-                    }
-		}
+                if ( theWhiteList != null && theJQNode.is(theWhiteList)) {
+                    // OK
+                }
+                else if ( theBlackList != null && theJQNode.is(theBlackList)) {
+                    theStatsObjToUse = null;
+                }
 
                 i += innerHighlight( node.childNodes[i], theStatsObjToUse); // skip highlighted ones
             }
