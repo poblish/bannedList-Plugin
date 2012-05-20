@@ -160,7 +160,7 @@ function getPageTitle() {
 }
 
 function getContentStatsBlackListFor( inDocURL ) {
-    return $('div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#reader-comments, div#beta, div#bottom, div#promo, div#secondaryColumn, section#comments-area');
+    return $('div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#reader-comments, div#beta, div#bottom, div#departments, div#promo, div#secondaryColumn, section#comments-area');
 }
 
 function getContentStatsWhiteListFor( inDocURL ) {
