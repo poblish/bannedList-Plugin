@@ -50,6 +50,7 @@ optDashes('Cast-iron guarantees?'),
 'Celebrat(es*|ing) diversity',
 'Celebrity',
 'Chaos',
+'Chillax(ed)?',
 'Circular firing squad',
 'Civil society',
 'Clause (Four|IV) moment',
@@ -316,6 +317,10 @@ var theCaseSensitiveCoreTerms = ['ConDems?( Government)?',
 'Team [A-Z]\\S+'];
 
 
+var theNotJustWordsTerms = [ optPrefixes('.?Son of the manse.?',  'Dour'),
+];
+
+
 var theCaseSensitiveNotJustWordsTerms = ['\\b' + 'As a [A-Z]\\S+' + someWords(0,2) + ',( I.m)?',
 'It is what it is\\.',
 'It was not meant to be like this\\.',
@@ -427,6 +432,7 @@ reqdPrefixes('Good reasons',  'Many','Several'),
 'Negative consequences?',
 'Negative impact on \\S+',
 'Negatively affect(ed)?',
+'Not inconceivable',
 'Not inconsequential',
 optPrefixes('One thing is certain',  'Only'),
 'Research has shown',
@@ -851,6 +857,7 @@ reqdPrefixes('Linked to',  'Has been','Is'),
 var coreTerms = [
     new BannedListTermSet({terms: theSpecialIgnoreTerms, className:'highlightIgnore', title:''}),
     new BannedListTermSet({terms: theCaseSensitiveCoreTerms, className:'highlightCore', title:'#BannedList entry', caseInsensitive:false}),
+    new BannedListTermSet({terms: theNotJustWordsTerms, ignoreWordBoundaries:true, className:'highlightCore', title:'#BannedList entry'}),
     new BannedListTermSet({terms: theCaseSensitiveNotJustWordsTerms, caseInsensitive:false, ignoreWordBoundaries:true, className:'highlightCore', title:'#BannedList entry'}),
     new BannedListTermSet({terms: theManagementSpeakTerms, className:'highlightMgmt', title:'#BannedList Management Speak'}),
     new BannedListTermSet({terms: theCoreTerms, className:'highlightCore', title:'#BannedList entry'})
