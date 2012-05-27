@@ -77,10 +77,12 @@ jQuery.fn.highlight = function( ioStats, inDocUrl, inTermsGroup) {
 
                 var theJQNode = $(node.childNodes[i]);
 
-                if ( theJQNode.css('display') === 'none' /* && theJQNode.css('z-index') > 0 */) {
-                    continue;	// Skip what we believe to be a panel that only appears when you hover over it.
-                }
-
+/*              try { // Comment-out for now. See http://bit.ly/JZfHlp et al
+                    if ( theJQNode.css('display') === 'none' /* && theJQNode.css('z-index') > 0 * /) {
+                        continue;	// Skip what we believe to be a panel that only appears when you hover over it.
+                    }
+                } catch (e) { console.log('Error ' + e + ' for ' + theJQNode); }
+*/
                 //////////////////////////////////////////////////////////////////  Handle stats-submission black/white-listing
 
                 var theStatsObjToUse = ioStats;
