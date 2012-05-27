@@ -1,0 +1,9 @@
+Brief summary:
+==============
+Automatically highlights entries from John Rentoul's "The Banned List" on any page. It gives you a score for each page you visit, lets you Tweet the results to your followers, and even makes it easy to submit new suggestions to the list.
+
+Detailed description:
+=====================
+Automatically highlights entries from John Rentoul's "The Banned List" (http://amzn.to/bannedList) on any page. It gives you a score for each page you visit, lets you Tweet the results to your followers, and even makes it easy to submit new suggestions to the list.
+
+"Let me be clear. This book does not contain a raft of measures to address issues around the abuse of the English language. It is not a forward offering to proactively strategise a blue sky solution utilising key deliverables. Nor does it articulate a compelling and coherent vision for the coming period. The fact of the matter is, we need a step change in the way that we communicate if we are to avoid a spiral of decline.It is time to draw a line in the sand and consign certain linguistic atrocities to the dustbin of history.Welcome to The Banned List.The Banned List began with five cliches, and has grown steadily ever since. Here its creator, John Rentoul, sets out the need for such a list and argues the case for clear writing. He looks at the lure of the cliche and how jargon from different walks of life has made its way into the language everyone uses. Cloudy, meaningless words and tired, hackneyed phrases are not merely annoying, they make it harder for us to communicate.The solution is simple, however. The Banned List shows you the traps to avoid and the rules to bear in mind when writing or speaking clearly and simply. It also contains The List in full. Keep it close to hand and you cannot go wrong. It's not rocket science."
