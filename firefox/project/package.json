@@ -2,7 +2,7 @@
     "name": "banned_list",
     "license": "MPL 1.1/GPL 2.0/LGPL 2.1",
     "author": "Andrew Regan & John Rentoul",
-    "version": "1.0.0.2",
+    "version": "1.0.0.4",
     "fullName": "BannedList Highlighter",
     "id": "jid1-fM9zwpn7QB5NAA",
     "description": "Highlight BannedList phrases on every page you read."

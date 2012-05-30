@@ -343,6 +343,7 @@ reqdSuffixes('Community',  'Hospital','Order','School'),
 'Hackathon',
 'Jonathon',
 'Marathon',
+'Sense of' + someWords(0,1) + ' humour',
 'Team Blog',
 reqdSuffixes('Toxic', 'Chemicals?','Gas(es)?','Nuclear','\\S+ Radioactive','Substances?'),
 'Was met with'
