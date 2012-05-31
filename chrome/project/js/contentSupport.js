@@ -164,7 +164,7 @@ function getContentStatsBlackListFor( inDocURL ) {
         return $('div.beta, div#js-comments');
     }
 
-    return $('div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#reader-comments, div#beta, div#bottom, div#departments, div#promo, div#secondaryColumn, ul#menus, li.cat-item, section#comments-area');
+    return $('div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#reader-comments, div#beta, div#bottom, div#departments, div#promo, div#secondaryColumn, div#breadcrumb, div#related, ul#menus, ul.sf-menu, .primary-links, li.cat-item, section#comments-area');
 }
 
 function getContentStatsWhiteListFor( inDocURL ) {
