@@ -324,6 +324,7 @@ var theCaseSensitiveCoreTerms = ['ConDems?( Government)?',
 
 
 var theNotJustWordsTerms = [ optPrefixes('.?Son of the manse.?',  'Dour'),
+'on speed\.'
 ];
 
 
@@ -804,6 +805,7 @@ reqdPrefixes('Capitalis(m|ts?)', optDashes('Gung-ho'),'Predatory','Vulture'),
 'Cynica(l|lly)',
 'Defend(ing)* the indefensible',
 'Delusional',
+'Disaster Capitalism',
 'Distort(ed|ing)',
 'Disgrace(ful)*',
 'Disgusting',
@@ -821,11 +823,12 @@ optDashes('Half-baked'),
 'Hard-(left|right)',
 'Height of irresponsibility',
 'Here we go again',
+'High priests of \\S+',
 'Hold(ing)? the \\S+ to ransom',
 'Homosexualists?',
 'Hysterical',
 optDashes('Ideologically-driven'),
-optPrefixes('Ideologues?',  'Economic','Free-market'),
+optPrefixes('Ideologues?',  'Economic',optDashes('Free-market')),
 reqdPrefixes('Ideology',  'Misguided'),
 'Ill-(conceived|considered|founded|informed)',
 'Immoral',
