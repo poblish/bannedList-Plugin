@@ -446,6 +446,7 @@ reqdPrefixes('Good reasons',  'Many','Several'),
 optSuffixes('It goes without saying',  'That'),
 'Key argument',
 reqdPrefixes('Linked to',  'Has been','Is'),
+'More than comparable.* (to|with)',
 'Negative consequences?',
 'Negative impact on \\S+',
 'Negatively affect(ed)?',
@@ -890,7 +891,9 @@ optPrefixes('(Aid|Block|Cure|Cut|Fight|Slow|Stop)s?( \\S+)? Cancer( Risk)?',  'C
 'At risk from',
 optPrefixes('(Her |His |The |Their )?' + 'Battles? with cancer',  'Los(e|ing|t)','Win(ning)?','Won'),
 'Battling cancer',
-'Linked to( \\S+)? cancer'];
+'Linked to( \\S+)? cancer',
+reqdPrefixes('Save (more than|over|up to) \\S+ lives( a year)?',  'Could','May','Would')
+];
 
 
 ////////////////////////////////////////////////////////////////////////////////
