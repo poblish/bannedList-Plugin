@@ -168,7 +168,7 @@ function getContentStatsBlackListFor( inDocURL ) {
         return $('div#conversation, div#discussion, div.contentPod');
     }
 
-    return $('div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#r_sidebar, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#reader-comments, div#beta, div#bottom, div#departments, div#promo, div#secondaryColumn, div#breadcrumb, div#related, ul#menus, ul.sf-menu, .primary-links, .widget-container, .commentContainer, .rightbox, .top-index-stories, div.sidebar, div.widget-content, div.comment, div#comments-wrapper, li.cat-item, ol.commentlist, section#comments-area');
+    return $('header, footer, div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#r_sidebar, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#reader-comments, div#beta, div#bottom, div#departments, div#promo, div#secondaryColumn, div#breadcrumb, div#related, ul#menus, ul.sf-menu, .primary-links, .widget-container, .commentContainer, .rightbox, .top-index-stories, div.sidebar, div.widget-content, div.comment, div#comments-wrapper, li.cat-item, ol.commentlist, section#comments-area');
 }
 
 function getContentStatsWhiteListFor( inDocURL ) {
