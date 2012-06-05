@@ -814,7 +814,7 @@ reqdPrefixes('Capitalis(m|ts?)', optDashes('Gung-ho'),'Predatory','Vulture'),
 'Disaster Capitalism',
 'Distort(ed|ing)',
 'Disgrace(ful)*',
-'Disgusting',
+/* 'Disgusting', */
 'Dodgy',
 optPrefixes('Dogma',  'Economic','Left-?wing','Monetarist','Neo-?liberal','Right-?wing','Socialist'),
 'Draconian',
