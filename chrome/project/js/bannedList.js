@@ -73,6 +73,7 @@ reqdSuffixes('Culture of',  'Blame','Excuses'),
 'Dead on arrival',
 'Deafening silence',
 'Death knell',
+'Decruit',
 'Demoni(s|z)(ation|e|ed|ing)',
 'Dialogue of the deaf',
 optPrefixes('(Capitalism.s|His|Her|Labour(.s)?|My|Our|Their|Tor(y|ies.)|\\S+ Party(.s)?) DNA',  'In','Not in'),
@@ -355,6 +356,9 @@ reqdSuffixes('Toxic', 'Chemicals?','Gas(es)?','Nuclear','\\S+ Radioactive','Subs
 ];
 
 
+var theEducationSpeakTerms = [ 'Learnacy' ];
+
+
 var theManagementSpeakTerms = [ optPrefixes('Action points?',  'Key','Numerous'),
 optSuffixes('Adjective-rich',  'Answers'),
 'Articulate (this|that) message',
@@ -366,6 +370,7 @@ reqdSuffixes('Creat(e|ing) a',  'Place that','Space where'),
 'Deliverables?',
 reqdPrefixes('Direction', 'Strategic'),
 reqdSuffixes('Downstream',  'Costs?'),
+'Empathies',
 'Extract adjectives',
 'Five point plan',
 reqdSuffixes('Forward',  'Offer','Planning','Policy'),
@@ -489,6 +494,7 @@ optPrefixes('Baseline',  'Firm'),
 'Blink(ed)* in the face',
 'Blood money',
 'Body (blow|politic)',
+'Bow down before',
 'Brighton Rocks',
 'Broad swathes?',
 'Broad sweep of history',
@@ -645,6 +651,7 @@ reqdSuffixes('Morally',  'Bankrupt','Important'),
 'No past to',
 reqdPrefixes('Nostrums?',  'Fundamentalist'),
 'Nothing short of',
+'Not waving but drowning',
 'Objective analysis',
 '(\\S+s|People) of all (colou?rs|hues)',
 reqdPrefixes('Of colou?r',  'Man','Men','People','Woman','Women'),
@@ -790,6 +797,7 @@ optPrefixes('With a human face',  'Capitalism','Politics'),
 'With( greater| our)? freedom( also| should)? comes?( greater)? responsibilit(y|ies)',
 'Won.t happen by accident',
 'Works for the many',
+optSuffixes('Worship at the altar of',  'Commercialism','Technology'),
 'Year zero',
 'Young people'];
 
@@ -915,6 +923,7 @@ var coreTerms = [
     new BannedListTermSet({terms: theNotJustWordsTerms, ignoreWordBoundaries:true, className:'highlightCore', title:'#BannedList entry'}),
     new BannedListTermSet({terms: theCaseSensitiveNotJustWordsTerms, caseInsensitive:false, ignoreWordBoundaries:true, className:'highlightCore', title:'#BannedList entry'}),
     new BannedListTermSet({terms: theManagementSpeakTerms, className:'highlightMgmt', title:'#BannedList Management Speak'}),
+    new BannedListTermSet({terms: theEducationSpeakTerms, className:'highlightMgmt', title:'#BannedList Education Speak'}),
     new BannedListTermSet({terms: theCoreTerms, className:'highlightCore', title:'#BannedList entry'})
 ];
 
