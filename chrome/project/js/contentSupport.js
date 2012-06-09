@@ -188,7 +188,7 @@ function getContentStatsWhiteListFor( inDocURL ) {
 }
 
 function getIgnoreStatsPageFilterRegex() {
-    return /https?:\/\/(www\.)?(.*\.)?(poblish.org\/downloads\/TheList|amazon|appengine\.google|bannedlist-stats|bing|ebay|facebook|github|google|stackoverflow)\./;
+    return /https?:\/\/(www\.)?(.*\.)?(poblish.org\/downloads\/TheList|amazon|appengine\.google|bannedlist-stats|bing|ebay|facebook|github|google|stackoverflow|.*betting)\./;
 }
 
 function ipToLong( inIpStr ) {
