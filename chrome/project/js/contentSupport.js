@@ -305,3 +305,11 @@ function someWords( inMinNum, inMaxNum) {
     }
     return '( \\S+){' + inMinNum + ',' + inMaxNum + '}';
 }
+
+function andOr( in1stWord, in2ndWord) {
+    return '(' +  in1stWord + ' and ' + in2ndWord + '|' + in1stWord + '|' + in2ndWord + ')';
+}
+
+function andOrEither( in1stWord, in2ndWord) {
+    return '(' +  in1stWord + ' and ' + in2ndWord + '|' + in2ndWord + ' and ' + in1stWord + '|' + in1stWord + '|' + in2ndWord + ')';
+}
