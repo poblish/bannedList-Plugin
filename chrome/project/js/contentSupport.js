@@ -160,6 +160,10 @@ function getPageTitle() {
 }
 
 function getContentStatsBlackListFor( inDocURL ) {
+    if (/huffingtonpost\.com/.test(inDocURL)) {
+        return $('div#top_nav, .footer_nav, .comment_item, .hp-slideshow');
+    }
+
     if (/dailymail.co.uk/.test(inDocURL)) {
         return $('div.beta, div#js-comments');
     }
