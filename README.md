@@ -9,6 +9,7 @@ Test-cases
 * http://www.poblish.org/downloads/TheList.html (the biggest and best)
 * http://www.lssu.edu/banished/complete_list.php
 * http://managementconsulted.com/core-content/dictionary/
+* http://www.sustainablebrands.com/news_and_views/articles/beyond-behavior-change
 * https://gist.github.com/1580203
 * https://gist.github.com/1580192
 * https://gist.github.com/1584824
@@ -20,6 +21,7 @@ Test-cases
 * http://www.g20-g8.com/g8-g20/g20/english/for-the-press/news-releases/g20-leaders-summit-final-communique.1554.html
 * http://www.alistapart.com/articles/artistic-distance/
 * http://www.guardian.co.uk/local-government-network/2012/mar/29/uk-riots-resilience-community-tensions
+* http://wordlywisdom.net/Tautology%3A-Doubletalk.php
 
 Issues and Bugs
 ----------------
