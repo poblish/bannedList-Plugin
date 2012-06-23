@@ -59,7 +59,7 @@ function submitPhrase() {
 }
 
 function submitAnonymousStats( ioStats, inStatsScore) {
-    if ( ioStats != null && inStatsScore >= 10 && /^https?.*/.test( document.URL )) {
+    if ( ioStats != null && inStatsScore >= 10) {
 
         getSmartIpResults( document.URL, /* Non-intranet IP, or lookup failure: */ function() {
 
@@ -191,8 +191,17 @@ function getContentStatsWhiteListFor( inDocURL ) {
     return null;
 }
 
+function shouldNotSubmitStatsFor( inURL ) {
+    return ( /^https?.*/.test(inURL) === false || getIgnoreStatsPageFilterRegex().test(inURL) || getIgnoreStatsPageFilterRegexForParams().test(inURL));
+}
+
 function getIgnoreStatsPageFilterRegex() {
     return /https?:\/\/(www\.)?(.*\.)?(poblish.org\/downloads\/TheList|amazon|appengine\.google|bannedlist-stats|bing|ebay|facebook|github|google|stackoverflow|wikipedia|.*betting)\./;
+}
+
+// Don't submit Stats if any of these params are present
+function getIgnoreStatsPageFilterRegexForParams() {
+    return /(\?s)=/;
 }
 
 function ipToLong( inIpStr ) {

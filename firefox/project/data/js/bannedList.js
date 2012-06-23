@@ -1013,7 +1013,7 @@ $(function() {
 });
 
 function processPage( inOptions ) {
-    if (getIgnoreStatsPageFilterRegex().test( document.URL )) {
+    if (shouldNotSubmitStatsFor( document.URL )) {
         self.port.emit("resetBadge", document.URL);
         refreshBannedStuff( inOptions, document.URL, null);
     } else {

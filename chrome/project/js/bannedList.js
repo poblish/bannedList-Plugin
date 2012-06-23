@@ -1019,7 +1019,7 @@ chrome.extension.onRequest.addListener(
 );
 
 function processPage( inOptions ) {
-    if (getIgnoreStatsPageFilterRegex().test( document.URL )) {
+    if (shouldNotSubmitStatsFor( document.URL )) {
         chrome.extension.sendRequest({ method: "resetBadge"} );
         refreshBannedStuff( inOptions, document.URL, null);
     } else {
