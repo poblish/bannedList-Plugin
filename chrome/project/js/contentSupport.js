@@ -196,7 +196,7 @@ function shouldNotSubmitStatsFor( inURL ) {
 }
 
 function getIgnoreStatsPageFilterRegex() {
-    return /https?:\/\/(www\.)?(.*\.)?(poblish.org\/downloads\/TheList|amazon|appengine\.google|bannedlist-stats|bing|ebay|facebook|github|google|stackoverflow|wikipedia|.*betting)\./;
+    return /https?:\/\/(www\.)?(.*\.)?(poblish.org\/downloads\/TheList|amazon|appengine\.google|bannedlist-stats|bing|ebay|facebook|github|google|imdb|lovefilm|stackoverflow|wikipedia|.*betting)\./;
 }
 
 // Don't submit Stats if any of these params are present
