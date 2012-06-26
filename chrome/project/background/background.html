@@ -84,7 +84,31 @@
             localStorage.removeItem('$stats.' + inSender.tab.id + '.url');
         }
 
-        var menuId = chrome.contextMenus.create({"title": 'Submit #BannedList phrase...', "contexts":['selection'], "onclick": clickSubmit});
+        if ( localStorage['displayTermCount'] == null) {
+            localStorage['displayTermCount'] = 'false';
+        }
+
+        var theHOVal = localStorage['highlightOptions'];
+        var optValues = ['h_all', 'h_first', 'u_all', 'disable'];
+
+        var menuId = chrome.contextMenus.create({"title": 'Submit phrase "%s"...', "contexts":['selection'], "onclick": clickSubmit});
+        chrome.contextMenus.create({"type": 'separator', "contexts":['page','selection']});
+        var firstHighlightMenuId = chrome.contextMenus.create({"title": 'Highlight all matches', "type": 'radio', "checked": (theHOVal === optValues[0]), "contexts":['page','selection'], "onclick": setHighlightOptions});
+        chrome.contextMenus.create({"title": 'Highlight first match, underline the rest', "type": 'radio', "checked": (theHOVal == null || theHOVal === optValues[1]), "contexts":['page','selection'], "onclick": setHighlightOptions});
+        chrome.contextMenus.create({"title": 'Underline all matches', "type": 'radio', "checked": (theHOVal === optValues[2]), "contexts":['page','selection'], "onclick": setHighlightOptions});
+        chrome.contextMenus.create({"title": 'Disable all highlighting', "type": 'radio', "checked": (theHOVal === optValues[3]), "contexts":['page','selection'], "onclick": setHighlightOptions});
+//      chrome.contextMenus.create({"type": 'separator', "contexts":['page','selection']});
+//      chrome.contextMenus.create({"title": 'Display count for each term?', "type": 'checkbox', "checked": ( localStorage['displayTermCount'] === 'true'), "contexts":['page','selection'], "onclick": toggleDisplayTermCounts});
+
+        function setHighlightOptions( inInfo, inTab) {
+            localStorage['highlightOptions'] = optValues[ inInfo.menuItemId - firstHighlightMenuId ];
+            chrome.tabs.sendRequest( inTab.id, {method: "getOptions", options: localStorage}, function (response) {});
+        }
+
+        function toggleDisplayTermCounts( inInfo, inTab) {
+            localStorage['displayTermCount'] = !inInfo.wasChecked;
+            chrome.tabs.sendRequest( inTab.id, {method: "getOptions", options: localStorage}, function (response) {});
+        }
     });
 </script>
 </html>

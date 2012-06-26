@@ -1,12 +1,8 @@
-.highlightCore, .highlightExtra, .highlightReplaced, .highlightMgmt {
-    padding: .2em .4em;
-    border: 1px solid #CCC;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
-}
-
-.highlightCore, .highlightExtra, .highlightReplaced, .highlightMgmt {
+.highlightCore, .highlightExtra, .highlightReplaced, .highlightMgmt, .highlightShutUp {
     font-weight: bold;
+    padding: .2em .5em;
+    border: 1px solid #CCC;
+    border-radius: 8px;
 }
 
 .highlightCore {
@@ -25,6 +21,53 @@
 }
 
 .highlightMgmt {
-    background-color: rgb(215,215,215);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(204,136,135)), to(rgb(225,225,225)));
+    background-color: #C0C0C0; /* rgb(215,215,215);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(204,136,135)), to(rgb(225,225,225))); */
+}
+
+.highlightShutUp {
+    background-color: rgb(255,195,0); /* rgb(215,215,215);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(204,136,135)), to(rgb(225,225,225))); */
+}
+
+/**********/
+
+.highlightCore_ul, .highlightExtra_ul, .highlightReplaced_ul, .highlightMgmt_ul, .highlightShutUp_ul {
+    font-weight: bold;
+    border-bottom: 2px solid;
+}
+
+.highlightCore_ul {
+    border-bottom-color: rgb(255,91,87);
+}
+
+.highlightExtra_ul {
+    border-bottom-color: rgb(255,187,186);
+}
+
+.highlightReplaced_ul {
+    border-bottom-color: rgb(201,231,200);
+}
+
+.highlightMgmt_ul {
+    border-bottom-color: #C0C0C0; /* rgb(204,136,135); */
+}
+
+.highlightShutUp_ul {
+    border-bottom-color: rgb(255,195,0);
+}
+
+
+/**********/
+
+.blob {
+    border-radius: 16px;
+    background-color: rgb(128,151,189);
+    color: white;
+    font-weight: bold;
+    font-style: normal;
+    margin: 0 0 0 6px;
+    padding: 2px 5px;
+    font-family: tahoma;
+    font-size: 11px;
 }

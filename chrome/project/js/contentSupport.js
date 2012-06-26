@@ -229,6 +229,50 @@ function trimUrlForStats( inURL ) {
     return theNewUrl;
 }
 
+function adjustAssocArrayKeyCase( inArray, inKeyToFind) {
+    var theLCaseMatch = inKeyToFind.toLowerCase();
+
+    for ( eachExistingTerm in inArray) {
+        if (eachExistingTerm.toLowerCase() === theLCaseMatch) {
+            // console.log("Use '" + theLCaseMatch + "' instead of '" + inKeyToFind + "'");
+            return eachExistingTerm;
+        }
+    }
+
+    return inKeyToFind;
+}
+
+function insertTermCounts( inHistory, inOptions ) {
+    // console.log( inOptions['highlightOptions'] === 'h_first', inOptions['displayTermCount'] === 'true');
+
+    var highlightFirstMode = inOptions['highlightOptions'] === 'h_first';
+    if ( highlightFirstMode || inOptions['displayTermCount'] === 'true')
+    {
+        for ( eachHistWord in inHistory) {
+            var cnt = inHistory[eachHistWord].c;
+            // console.log(cnt);
+
+            if (( highlightFirstMode && cnt <= 1) || ( !highlightFirstMode && cnt <= 0)) {
+                continue;
+            }
+
+            var blobObj = document.createElement('span'); // $( document.createElement('span') ); blobObj.text('Hi');
+
+            if (highlightFirstMode) {
+                blobObj.innerHTML = '+' + ( cnt - 1); // Use '+1' for 'h_first'
+                blobObj.title = ( cnt - 1) + ' more like this';
+           } else {
+                blobObj.innerHTML = '' + cnt;
+                blobObj.title = '' + cnt + ' of these';
+            }
+
+            blobObj.className = 'blob';
+
+            inHistory[eachHistWord].node.appendChild(blobObj);
+        }
+    }
+}
+
 function optDashes(inStr) {
     return replaceAll( inStr, '-', '(-| )');
 }

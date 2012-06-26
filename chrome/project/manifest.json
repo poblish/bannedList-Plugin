@@ -1,6 +1,6 @@
 {
     "name": "#BannedList Highlighter",
-    "version": "1.0.0.12",
+    "version": "1.0.1.0",
     "description": "Highlight #BannedList phrases on every page you read.",
     "homepage_url": "https://chrome.google.com/webstore/detail/apegapfgkokdcmhlmofcbcplefcpflin",
     "options_page": "options/options.html",

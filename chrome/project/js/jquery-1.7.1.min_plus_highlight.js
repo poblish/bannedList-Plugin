@@ -19,41 +19,65 @@ Johann Burkard
 
 */
 
-var theIgnoreClassesArray = ['highlightCore','highlightExtra','highlightReplaced','highlightIgnore','highlightMgmt'];
+var theIgnoreClassesArray = ['highlightCore','highlightExtra','highlightReplaced','highlightIgnore','highlightMgmt','highlightShutUp'];
 
-jQuery.fn.highlight = function( ioStats, inDocUrl, inTermsGroup) {
+jQuery.fn.highlight = function( ioStats, ioHistory, inDocUrl, inTermsGroup, inOptions) {
 
     var theWhiteList = getContentStatsWhiteListFor(inDocUrl);
     var theBlackList = getContentStatsBlackListFor(inDocUrl);
+    var theHighlightOption = inOptions['highlightOptions'];
+    var isHighlightFirstMode = theHighlightOption === 'h_first';
+    var wantTermTracking = ( ioHistory != null && ( inOptions['displayTermCount'] === 'true' || isHighlightFirstMode));
 
-    function innerHighlight( node, ioStats) {
+    function innerHighlight( node, ioStats, ioHistory, inHighlightOption) {
         var skip = 0;
         if (node.nodeType === 3) { // 3 - Text node
             var pos = node.data.search( inTermsGroup.getRegex() );
             if (pos >= 0 && node.data.length > 0) { // .* matching "" causes infinite loop
                 var match = node.data.match( inTermsGroup.getRegex() ); // get the match(es), but we would only handle the 1st one, hence /g is not recommended
-                var spanNode = document.createElement('span');
-                spanNode.className = inTermsGroup.getHighlightClass();
-                spanNode.title = inTermsGroup.getSpanTitle();
                 var middleBit = node.splitText(pos); // split to 2 nodes, node contains the pre-pos text, middleBit has the post-pos
 
 		if ( jQuery.inArray( middleBit.parentNode.className, theIgnoreClassesArray) >= 0) {  // (AGR) Check not already done!
 			// Skip
 		}
 		else {
-			if ( ioStats != null && inTermsGroup.getHighlightClass() != 'highlightIgnore') {
-				var theLCaseMatch = match[0].toLowerCase();
-				var keyToUse = match[0];
+                        var spanNode = document.createElement('span');
 
-				for ( eachExistingTerm in ioStats) {
-				    if (eachExistingTerm.toLowerCase() == theLCaseMatch) {
-				        // console.log("Use '" + eachExistingTerm + "' instead of '" + keyToUse + "'");
-				        keyToUse = eachExistingTerm;
-				        break;
-				    }
-				}
+                        if (wantTermTracking) {
+                                var histKeyToUse = adjustAssocArrayKeyCase( ioHistory, match[0]);
+                                var histObj = ioHistory[ histKeyToUse ];
 
+                                if ( histObj == null) {
+                                    ioHistory[ histKeyToUse ] = {node: spanNode, c: 1};
+
+                                    if (isHighlightFirstMode) {
+                                        spanNode.className = inTermsGroup.getHighlightClass();
+                                    }
+                                } else {
+                                    ioHistory[ histKeyToUse ].c = histObj.c + 1;
+
+                                    if (isHighlightFirstMode) {
+                                        spanNode.className = inTermsGroup.getHighlightClass() + '_ul';
+                                    }
+                                }
+
+                                // console.log("adding...", histKeyToUse);
+                        }
+
+                        if ( !isHighlightFirstMode && inHighlightOption !== 'disable') {
+                            spanNode.className = inTermsGroup.getHighlightClass();
+
+                            if (inHighlightOption === 'u_all') {
+                                spanNode.className = inTermsGroup.getHighlightClass() + '_ul';
+                            }
+                        }
+
+                        spanNode.title = inTermsGroup.getSpanTitle();
+
+		        if ( ioStats != null && inTermsGroup.getHighlightClass() != 'highlightIgnore') {
+				var keyToUse = adjustAssocArrayKeyCase( ioStats, match[0]);
 				var obj = ioStats[keyToUse];
+
 				if ( obj == null) {
 				    ioStats[keyToUse] = {t: ( inTermsGroup.getHighlightClass() == 'highlightCore' ? 'C': 'E'),c:1};
 				    ioStats['$meta'].uniqueTerms++;
@@ -64,11 +88,20 @@ jQuery.fn.highlight = function( ioStats, inDocUrl, inTermsGroup) {
 				ioStats['$meta'].totalMatches++;
 			}
 
-			var endBit = middleBit.splitText(match[0].length); // similarly split middleBit to 2 nodes
-			var middleClone = middleBit.cloneNode(true);
-			spanNode.appendChild(middleClone);
-			// parentNode ie. node, now has 3 nodes by 2 splitText()s, replace the middle with the highlighted spanNode:
-			middleBit.parentNode.replaceChild(spanNode, middleBit);
+                        if (inHighlightOption !== 'disable') {
+                            var endBit = middleBit.splitText(match[0].length); // similarly split middleBit to 2 nodes
+                            var middleClone = middleBit.cloneNode(true);
+                            spanNode.appendChild(middleClone);
+
+// var blobObj = document.createElement('span'); // $( document.createElement('span') ); blobObj.text('Hi');
+// blobObj.innerHTML = '+1979'; // Use '+1' for 'h_first'
+// blobObj.className = 'blob';
+
+                            // spanNode.appendChild(blobObj);
+
+                            // parentNode ie. node, now has 3 nodes by 2 splitText()s, replace the middle with the highlighted spanNode:
+                            middleBit.parentNode.replaceChild(spanNode, middleBit);
+                        }
                 }
 		skip = 1; // skip this middleBit, but still need to check endBit
             }
@@ -92,14 +125,14 @@ jQuery.fn.highlight = function( ioStats, inDocUrl, inTermsGroup) {
                     theStatsObjToUse = null;
                 }
 
-                i += innerHighlight( node.childNodes[i], theStatsObjToUse); // skip highlighted ones
+                i += innerHighlight( node.childNodes[i], theStatsObjToUse, ioHistory, theHighlightOption); // skip highlighted ones
             }
         }
         return skip;
     }
 
     return this.each(function() {
-        innerHighlight( this, ioStats);
+        innerHighlight( this, ioStats, ioHistory, theHighlightOption);
     });
 };
 
@@ -158,8 +191,5 @@ jQuery.fn.removeHighlight = function(inStyleRule) {
 };
 
 jQuery.fn.removeHighlights = function() {
-	this.removeHighlight("span.highlightCore");
-	this.removeHighlight("span.highlightExtra");
-	this.removeHighlight("span.highlightMgmt");
-	this.removeHighlight("span.highlightReplaced");
+	this.removeHighlight("span.highlightCore, span.highlightExtra, span.highlightMgmt, span.highlightShutUp, span.highlightCore_ul, span.highlightExtra_ul, span.highlightMgmt_ul, span.highlightShutUp_ul, span.highlightReplaced");
 }

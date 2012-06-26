@@ -200,6 +200,7 @@ optSuffixes('(The )?Most vulnerable',  'in society'),
 'Now,? more than ever',
 '\\S+ of the madhouse',
 'Omnishambles',
+'Omnishambolic',
 'On a collision course',
 'On a daily basis',
 optPrefixes('Only poll that matters',  'The'),
@@ -558,6 +559,7 @@ optPrefixes('Creative industries',  'The'),
 reqdPrefixes('Critical mass',  'Attained'),
 'Cross(ed|ing)? (a|the) Rubicon',
 optDashes('Crunch-time'),
+'cui bono',
 'Day of reckoning',
 'Dead man walking',
 'Deal or No Deal',
@@ -609,6 +611,7 @@ optDashes('Gold-plated'),
 optPrefixes('Good society',  'The'),
 'Good values',
 'Grand narrative',
+'Grasp the nettle',
 'Grassroots (movements?|supporters?)',
 'Growing (calls|consensus)',
 'Growth industries',
@@ -648,7 +651,6 @@ optSuffixes('Job of work',  'To do'),
 optPrefixes('Jury is still out',  'The'),
 reqdPrefixes('Justice',  'Gender','Social'),
 'Kick in the teeth',
-'Knee-jerk',
 'Kulturkampf',
 'Laid the foundations',
 'Lamented',
@@ -672,6 +674,7 @@ reqdSuffixes('Let.s be',  'Honest','Realistic'),
 'May or may not',
 'Meaning(ful|less)',
 'Mechanisms',
+'Media moguls?',
 'Mentality shift',
 'Message discipline',
 'Me-too approach',
@@ -887,6 +890,7 @@ optDashes('Economic dead-end'),
 'Economic madhouse',
 'Evidence-free',
 'Failed (policy|policies) of the past',
+'Familiar litany',
 'From another time',
 reqdPrefixes('Fundamentalis(m|ts?)',  'Free-market','Market'),
 optDashes('Half-baked'),
@@ -909,6 +913,7 @@ reqdPrefixes('Ideology',  'Discredited','Misguided'),
 'Insignificant',
 'invidious',
 /* 'Irrationa(l|lly)', */
+'Knee-jerk',
 'Laughable',
 'Law of the jungle',
 'Lurch to the \\S+',
@@ -919,6 +924,7 @@ reqdPrefixes('Mantras?',  'Free-market'),
 'Messianic',
 'Mutual back-slapping',
 'Neocons?',
+optDashes('Neo-conservatives?'),
 'Oldest trick in the (\\S+ )?book',
 'Old-fashioned views?',
 optPrefixes('Orthodox(y|ies)',  'Economic','Failed','Free-market','Keynesian','Market','Old','Past','Political','Right-?wing','Stale','Tired','Wrong'),
@@ -992,7 +998,7 @@ var coreTerms = [
 
 var extraTerms = [
     new BannedListTermSet({terms: theExtraTerms, className:'highlightExtra', title:'#BannedList Extras: dodgy political language'}),
-    new BannedListTermSet({terms: theExtraShutUpTerms, className:'highlightExtra', title:'#BannedList Extras: "Shut Up" terms'}),
+    new BannedListTermSet({terms: theExtraShutUpTerms, className:'highlightShutUp', title:'#BannedList Extras: "Shut Up" terms'}),
     new BannedListTermSet({terms: theExtraWeaselTerms, className:'highlightExtra', title:'#BannedList Extras: weasel terms'}),
     new BannedListTermSet({terms: theSociologyTerms, className:'highlightExtra', title:'#BannedList Extras: dodgy sociological terms'}),
     new BannedListTermSet({terms: theExtraHealthTerms, className:'highlightExtra', title:'#BannedList Extras: dodgy Health language'}),
@@ -1011,7 +1017,9 @@ chrome.extension.onRequest.addListener(
     function( inReq, inSender, inSendResponse) {
         if ( inReq.method == "getOptions") {
             $('body').removeHighlights();
-            refreshBannedStuff( inReq.options, null, null);
+            var theHistory = {};
+            refreshBannedStuff( inReq.options, null, null, theHistory);
+            insertTermCounts( theHistory, inReq.options);
         } else if ( inReq.method == "showSubmitOptions") {
             showSubmissionDialog( inReq, inSendResponse);
         }
@@ -1019,13 +1027,14 @@ chrome.extension.onRequest.addListener(
 );
 
 function processPage( inOptions ) {
+    var theHistory = {};
     if (shouldNotSubmitStatsFor( document.URL )) {
         chrome.extension.sendRequest({ method: "resetBadge"} );
-        refreshBannedStuff( inOptions, document.URL, null);
+        refreshBannedStuff( inOptions, document.URL, null, theHistory);
     } else {
         var theStats = {};
         theStats['$meta'] = {url: trimUrlForStats( document.URL ), title: getPageTitle(), uniqueTerms: 0, totalMatches: 0};
-        refreshBannedStuff( inOptions, document.URL, theStats);
+        refreshBannedStuff( inOptions, document.URL, theStats, theHistory);
 
         var unqs = theStats['$meta'].uniqueTerms;
         var score = ( unqs == 0) ? 0 : Math.round( Math.pow( unqs, 1.4) * Math.pow( theStats['$meta'].totalMatches / unqs, 0.7) );
@@ -1034,10 +1043,12 @@ function processPage( inOptions ) {
         submitAnonymousStats( theStats, score);
     }
 
+    insertTermCounts( theHistory, inOptions);
+
     callChurnalism( document.URL );
 }
 
-function refreshBannedStuff( inOptions, inDocUrl, ioStats) {
+function refreshBannedStuff( inOptions, inDocUrl, ioStats, ioHistory) {
     if ( inOptions["extras.special.goodOrBad"] == 'true') {
         $('body').replaceHighlight( '\\b(Blair|Brown|New Labour)ites\\b', 'some Labour people', 'highlightReplaced', '#BannedList Replacement');
         $('body').replaceHighlight( '\\b(Blairite|Brownite)\\b', 'Labour', 'highlightReplaced', '#BannedList Replacement');
@@ -1052,12 +1063,12 @@ function refreshBannedStuff( inOptions, inDocUrl, ioStats) {
     }
 
     for ( var i = 0; i < coreTerms.length; i++) {
-        $('body').highlight( ioStats, inDocUrl, coreTerms[i]);
+        $('body').highlight( ioStats, ioHistory, inDocUrl, coreTerms[i], inOptions);
     }
 
     if ( inOptions["extras.politics.andrew1"] == 'true') {
         for ( var i = 0; i < extraTerms.length; i++) {
-            $('body').highlight( ioStats, inDocUrl, extraTerms[i]);
+            $('body').highlight( ioStats, ioHistory, inDocUrl, extraTerms[i], inOptions);
         }
     }
 }
