@@ -1,4 +1,4 @@
-.highlightCore, .highlightExtra, .highlightReplaced, .highlightMgmt, .highlightShutUp {
+.highlightCore, .highlightExtra, .highlightReplaced, .highlightMgmt, .highlightShutUp, .highlightHooray {
     font-weight: bold;
     padding: .2em .5em;
     border: 1px solid #CCC;
@@ -26,13 +26,16 @@
 }
 
 .highlightShutUp {
-    background-color: rgb(255,195,0); /* rgb(215,215,215);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(204,136,135)), to(rgb(225,225,225))); */
+    background-color: rgb(255,195,0);
+}
+
+.highlightHooray {
+    background-color: rgb(226,253,227);
 }
 
 /**********/
 
-.highlightCore_ul, .highlightExtra_ul, .highlightReplaced_ul, .highlightMgmt_ul, .highlightShutUp_ul {
+.highlightCore_ul, .highlightExtra_ul, .highlightReplaced_ul, .highlightMgmt_ul, .highlightShutUp_ul, .highlightHooray_ul {
     font-weight: bold;
     border-bottom: 2px solid;
 }
@@ -57,6 +60,9 @@
     border-bottom-color: rgb(255,195,0);
 }
 
+.highlightHooray_ul {
+    border-bottom-color: rgb(226,253,227);
+}
 
 /**********/
 

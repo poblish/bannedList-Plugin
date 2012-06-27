@@ -19,7 +19,7 @@ Johann Burkard
 
 */
 
-var theIgnoreClassesArray = ['highlightCore','highlightExtra','highlightReplaced','highlightIgnore','highlightMgmt','highlightShutUp'];
+var theIgnoreClassesArray = ['highlightCore','highlightExtra','highlightReplaced','highlightIgnore','highlightMgmt','highlightShutUp','highlightHooray'];
 
 jQuery.fn.highlight = function( ioStats, ioHistory, inDocUrl, inTermsGroup, inOptions) {
 
@@ -191,5 +191,5 @@ jQuery.fn.removeHighlight = function(inStyleRule) {
 };
 
 jQuery.fn.removeHighlights = function() {
-	this.removeHighlight("span.highlightCore, span.highlightExtra, span.highlightMgmt, span.highlightShutUp, span.highlightCore_ul, span.highlightExtra_ul, span.highlightMgmt_ul, span.highlightShutUp_ul, span.highlightReplaced");
+	this.removeHighlight("span.highlightCore, span.highlightExtra, span.highlightMgmt, span.highlightShutUp, span.highlightHooray, span.highlightCore_ul, span.highlightExtra_ul, span.highlightMgmt_ul, span.highlightShutUp_ul, span.highlightHooray_ul, span.highlightReplaced");
 }
