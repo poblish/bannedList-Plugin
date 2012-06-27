@@ -273,8 +273,8 @@ function insertTermCounts( inHistory, inOptions ) {
     }
 }
 
-function optDashes(inStr) {
-    return replaceAll( inStr, '-', '(-| )');
+function optDashes(inStr) { // Hard-working, Hard working, or Hardworking
+    return replaceAll( inStr, '-', '(-| |)');
 }
 
 $.fn.serializeObject = function()

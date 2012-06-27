@@ -23,6 +23,7 @@ Test-cases
 * http://www.guardian.co.uk/local-government-network/2012/mar/29/uk-riots-resilience-community-tensions
 * http://wordlywisdom.net/Tautology%3A-Doubletalk.php
 * http://wordlywisdom.net/Boo-and-Hooray.php
+* http://en.wikipedia.org/wiki/Glittering_generality
 
 Issues and Bugs
 ----------------
