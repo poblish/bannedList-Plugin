@@ -116,6 +116,7 @@ reqdSuffixes('Flagship',  'Hospital','News','Policy','(\\S+ )?Programmes?','(\\S
 'Flexicurity',
 'Fog of war',
 reqdPrefixes('Footprint',  'Carbon','Digital','Energy','Environmental'),
+'Footprinted',
 'Foregone conclusion',
 optDashes('Front-line'),
 'Gamely',
@@ -462,7 +463,8 @@ reqdPrefixes('Vision',  'Cogent','coherent','coherent and compelling','compellin
 
 
 /* Abused sociological terms */
-var theSociologyTerms = ['Eliciting meaning',
+var theSociologyTerms = ['Disciplinarity',
+'Eliciting meaning',
 'Fact Pattern',
 'Intersectionality',
 'Meaning-(based|centered)',
@@ -986,7 +988,10 @@ reqdPrefixes('Types',  'Compass','Progress'),
 'Zombie arguments?'];
 
 
-var theCaseSensitiveExtraTerms = ['[A-Z]\\S+' + 'ite spin'];
+var theCaseSensitiveExtraTerms = ['[A-Z]\\S+' + 'ite spin',
+'militant (cells?|groups?|organisations?)',
+'militants?'
+];
 
 
 var theExtraHealthTerms = [
