@@ -1044,6 +1044,8 @@ chrome.extension.onRequest.addListener(
             insertTermCounts( theHistory, inReq.options);
         } else if ( inReq.method == "showSubmitOptions") {
             showSubmissionDialog( inReq, inSendResponse);
+        } else if ( inReq.method == "showSubmitFallacyOptions") {
+            showSubmitFallacyDialog( inReq, inSendResponse);
         }
     }
 );

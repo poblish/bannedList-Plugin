@@ -16,7 +16,7 @@ function showSubmissionDialog( inReq, inSendResponse) {
 	<form action="/" class="bannedList modal-body" style="margin-bottom:0;" id="submitPhrase">\
 	    <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
 	    <div class="blLine"><label for="name" class="bannedList">Your Name:</label><input id="name" name="name" type="text" class="bannedList blText" value="Andrew Regan" /></div>\
-	    <div class="blLine"><label for="email" class="bannedList">Your Email:</label><input id="email" name="email" type="text" class="bannedList blText" value="aregan@gmail.com" /></div>\
+	    <div class="blLine"><label for="email" class="bannedList">Your Email:</label><input id="email" name="email" type="text" class="bannedList blText" value="" /></div>\
 	    <div class="blLine"><label for="terms" class="bannedList">Submitted Phrase:</label><input id="terms" name="terms" type="text" class="bannedList" style="width: 280px" value="' + inReq.phrase + '" /></div>\
 	    <div class="blLine"><label for="explanation" class="bannedList">Why should we add this? <span class="blGrey">(optional):</span></label><textarea id="explanation" name="explanation" type="text" class="bannedList" style="width: 280px" value="" /></div>\
 	</form>\
@@ -52,6 +52,69 @@ function submitPhrase() {
     }
 
     $.post("http://1.bannedlist-stats.appspot.com/newTerms", {inputs: JSON.stringify( $("#submitPhrase").serializeObject() )}, function(inData) {
+        alert('Thank you for your submission!');
+    }).error( function() { /* Ignore! */ });
+
+    return true;
+}
+
+function showSubmitFallacyDialog( inReq, inSendResponse) {
+    var theAdjSel = replaceAll( $('<div />').text( trimFallacyString( inReq.selection, 2000) ).html(), '"', '&quot;');
+    var newDialog = $('<div class="modal" id="MenuDialog">\
+     	<style type="text/css">\
+            a.bannedList,a.bannedList:hover { text-decoration:none !important; }\
+            input,label,textarea,a.btn,.modal-header,h3 { font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; }\
+            label.bannedList { font-weight: bold; float: left; width: 140px; padding: 5px 8px 0 0;}\
+            input.blText { width: 200px; }\
+            span.blGrey { color: #999; }\
+            div.blLine { color:#333; clear:both; text-align:left; line-height: 18px; }\
+            h3.blHeader { color:#333; line-height: 27px; font-size:18px; margin:0; padding:0 }\
+    	</style>\
+   	<div class="modal-header" style="text-align:left">\
+    	    <a class="close bannedList" data-dismiss="modal">×</a>\
+    	    <h3 class="blHeader">Submit Logical Fallacy</h3>\
+    	</div>\
+	<form action="/" class="bannedList modal-body" style="margin-bottom:0;" id="submitFallacy">\
+	    <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
+	    <input name="fallacy" type="hidden" value="' + theAdjSel + '" />\
+	    <input name="fallacyHash" type="hidden" value="' + inReq.selectionHash + '" />\
+	    <div class="blLine"><label for="name" class="bannedList">Your Name:</label><input id="name" name="name" type="text" class="bannedList blText" value="Andrew Regan" /></div>\
+	    <div class="blLine"><label for="email" class="bannedList">Your Email:</label><input id="email" name="email" type="text" class="bannedList blText" value="" /></div>\
+	    <div class="blLine"><label for="fallacyCode" class="bannedList">Which fallacy:</label><input id="terms" name="fallacyCode" type="text" class="bannedList" style="width: 280px" value="strawman" /></div>\
+	    <div class="blLine"><label for="comments" class="bannedList">Comments:</label><textarea id="explanation" name="comments" type="text" class="bannedList" style="width: 280px" value="" /></div>\
+	</form>\
+	<div class="modal-footer">\
+	    <a href="#" class="btn bannedList cancelSubmit" style="color: #333">Cancel</a>\
+	    <a href="#" class="btn btn-primary bannedList doSubmit" style="color: white">Submit</a>\
+	</div>\
+    </div>');
+
+    newDialog.modal('show');
+
+    newDialog.on("click", function(event) {
+        var theTarget = $(event.target);
+        if (theTarget.hasClass('doSubmit') || theTarget.hasClass('cancelSubmit')) {
+            if (theTarget.hasClass('doSubmit')) {
+                if (!submitLogicalFallacy()) {
+                    return;
+                }
+            }
+
+            newDialog.modal('hide');
+            newDialog.remove();
+            inSendResponse({ok: "true"});
+        }
+    });
+}
+
+function submitLogicalFallacy() {
+    var theSubmittedSel = $("#submitFallacy").serializeArray()[1].value;  // yuk!
+    if ( theSubmittedSel == '') {
+        alert('Selection may not be blank - please enter one.');
+        return false;
+    }
+
+    $.post("http://1.bannedlist-stats.appspot.com/submitFallacy", {inputs: JSON.stringify( $("#submitFallacy").serializeObject() )}, function(inData) {
         alert('Thank you for your submission!');
     }).error( function() { /* Ignore! */ });
 
@@ -314,6 +377,24 @@ function replaceAll(string,text,by) {  // http://www.irt.org/script/771.htm
 
     return newstr;
 }
+
+var g_JunkFallacyPrefix = /^[\s\.,;:][\s\.,;:]*/;
+var g_JunkFallacySuffix = /[\s\.,;:][\s\.,;:]*$/;
+
+function trimFallacyString( inStr, inMaxLength) {
+    // So, cut to leave reasonable slop, then trim. If some slop left, cut to right size and re-trim right-hand side.
+    var firstTrim = inStr.slice(0, inMaxLength + 100).replace( g_JunkFallacyPrefix, '').replace( g_JunkFallacySuffix, '');
+    return firstTrim.slice(0,inMaxLength).replace( g_JunkFallacySuffix, '');
+}
+
+/* console.log('"' + trimFallacyString('Hello there, world', 1000) + '"');
+console.log('"' + trimFallacyString(' Hello there, world', 1000) + '"');
+console.log('"' + trimFallacyString(' Hello there, world ', 4) + '"');
+console.log('"' + trimFallacyString('       ;  . Hello there, world  .   ,  ;  :     ', 5) + '"');
+console.log('"' + trimFallacyString('       ;  . Hello there, world  .   ,  ;  :     ', 6) + '"');
+console.log('"' + trimFallacyString('       ;  . Hello there, world  .   ,  ;  :     ', 7) + '"');
+console.log('"' + trimFallacyString('       ;  . Hello there, world  .   ,  ;  :     ', 8) + '"');
+console.log('"' + trimFallacyString('       ;  . Hello there, world  .   ,  ;  :     ', 9) + '"'); */
 
 function optPrefixes() {
     return handlePrefixes( Array.prototype.slice.apply(arguments), true);
