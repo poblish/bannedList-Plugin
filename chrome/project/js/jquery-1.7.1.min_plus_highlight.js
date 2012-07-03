@@ -93,12 +93,6 @@ jQuery.fn.highlight = function( ioStats, ioHistory, inDocUrl, inTermsGroup, inOp
                             var middleClone = middleBit.cloneNode(true);
                             spanNode.appendChild(middleClone);
 
-// var blobObj = document.createElement('span'); // $( document.createElement('span') ); blobObj.text('Hi');
-// blobObj.innerHTML = '+1979'; // Use '+1' for 'h_first'
-// blobObj.className = 'blob';
-
-                            // spanNode.appendChild(blobObj);
-
                             // parentNode ie. node, now has 3 nodes by 2 splitText()s, replace the middle with the highlighted spanNode:
                             middleBit.parentNode.replaceChild(spanNode, middleBit);
                         }
