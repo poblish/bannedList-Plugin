@@ -77,6 +77,31 @@
 	    });
         }
 
+        function submitFallacy( inInfo, inTab) {
+            chrome.tabs.sendRequest( inTab.id, {
+                method: "showSubmitFallacyOptions",
+                pageUrl: inInfo.pageUrl.split('#')[0],
+                selection: inInfo.selectionText,
+                selectionHash: inInfo.selectionText.hashCode()
+            }, function (response) {
+                if ( response.ok != "true") {
+                    alert('Error!');
+                }
+            });
+        }
+
+        String.prototype.hashCode = function(){ // See: http://bit.ly/KUqGwI
+            var hash = 0;
+            if (this.length == 0) return hash;
+            var numCharsToCheck = /* (AGR) Restrict to first... */ ( this.length > 200) ? 200 : this.length;
+            for (i = 0; i < numCharsToCheck; i++) {
+                c = this.charCodeAt(i);
+                hash = ((hash<<5)-hash)+c;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return hash;
+        }
+
         function resetBadge(inSender) {
             chrome.browserAction.setBadgeText({ text: '', tabId: inSender.tab.id});
             chrome.browserAction.setTitle({ title: 'BannedList Score for this page: 0', tabId: inSender.tab.id});
@@ -91,7 +116,8 @@
         var theHOVal = localStorage['highlightOptions'];
         var optValues = ['h_all', 'h_first', 'u_all', 'disable'];
 
-        var menuId = chrome.contextMenus.create({"title": 'Submit phrase "%s"...', "contexts":['selection'], "onclick": clickSubmit});
+        chrome.contextMenus.create({"title": 'Submit phrase "%s"...', "contexts":['selection'], "onclick": clickSubmit});
+        // chrome.contextMenus.create({"title": 'Submit as Logical Fallacy...', "contexts":['selection'], "onclick": submitFallacy});
         chrome.contextMenus.create({"type": 'separator', "contexts":['page','selection']});
         var firstHighlightMenuId = chrome.contextMenus.create({"title": 'Highlight all matches', "type": 'radio', "checked": (theHOVal === optValues[0]), "contexts":['page','selection'], "onclick": setHighlightOptions});
         chrome.contextMenus.create({"title": 'Highlight first match, underline the rest', "type": 'radio', "checked": (theHOVal == null || theHOVal === optValues[1]), "contexts":['page','selection'], "onclick": setHighlightOptions});
