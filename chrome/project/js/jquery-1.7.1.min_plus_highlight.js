@@ -48,17 +48,23 @@ jQuery.fn.highlight = function( ioStats, ioHistory, inDocUrl, inTermsGroup, inOp
                                 var histObj = ioHistory[ histKeyToUse ];
 
                                 if ( histObj == null) {
-                                    ioHistory[ histKeyToUse ] = {node: spanNode, c: 1};
+                                    if (inTermsGroup.getHighlightClass() === 'highlightIgnore') {
+                                        ioHistory[ histKeyToUse ] = /* Poison: */ {node: null, c: -999};
+                                    } else {
+                                        ioHistory[ histKeyToUse ] = {node: spanNode, c: 1};
+                                    }
 
                                     if (isHighlightFirstMode) {
                                         spanNode.className = inTermsGroup.getHighlightClass();
                                     }
-                                } else {
+                                } else if ( histObj.c > 0) {
                                     ioHistory[ histKeyToUse ].c = histObj.c + 1;
 
                                     if (isHighlightFirstMode) {
                                         spanNode.className = inTermsGroup.getHighlightClass() + '_ul';
                                     }
+                                } else {
+                                    // Ignore poison - don't deal with ignored terms!
                                 }
 
                                 // console.log("adding...", histKeyToUse);
