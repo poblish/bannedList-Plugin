@@ -193,3 +193,91 @@ jQuery.fn.removeHighlight = function(inStyleRule) {
 jQuery.fn.removeHighlights = function() {
 	this.removeHighlight("span.highlightCore, span.highlightExtra, span.highlightMgmt, span.highlightShutUp, span.highlightHooray, span.highlightCore_ul, span.highlightExtra_ul, span.highlightMgmt_ul, span.highlightShutUp_ul, span.highlightHooray_ul, span.highlightReplaced");
 }
+
+var g_CurrStartPos;
+
+jQuery.fn.findMultiNodeText = function( inTextToFind ) {
+
+    function findInner( node, inTextToFind, ioCurrentMatchingNodes) {
+        if (node.nodeType === 3) { // 3 - Text node
+
+        if ( node.data.length <= 1 /* node.data === '' */ ) {
+                return;
+        }
+
+        var trimmedNodeData = node.data.trim(); // Yikes, expensive??
+        if ( trimmedNodeData.length === 0) {
+                return;
+        }
+        // console.log('Got ', trimmedNodeData);
+
+        var charsLeftToMatch = inTextToFind.length - g_CurrStartPos;
+        var maxLen = ( trimmedNodeData.length > charsLeftToMatch ? charsLeftToMatch : trimmedNodeData.length);
+        var bitToMatch = inTextToFind.slice( g_CurrStartPos, g_CurrStartPos + maxLen).trim();  // Really only need to trim left-hand side
+        if ( bitToMatch === '') {
+                return;
+        }
+
+        var matchIdx = trimmedNodeData.indexOf(bitToMatch);
+        if ( matchIdx < 0) {
+                if ( g_CurrStartPos > 0) {
+                        alert('Cancel search run!');
+                        g_CurrStartPos = 0;
+                        ioCurrentMatchingNodes.length = 0; // clear the array
+                }
+
+                return;
+        }
+
+        // console.log('Trying ', matchIdx, trimmedNodeData);
+        ioCurrentMatchingNodes.push(node);
+        g_CurrStartPos += bitToMatch.length + /* Bodge!! .. */ 1;
+
+        if ( g_CurrStartPos >= inTextToFind.length) {
+                // console.log('Found all ' + inTextToFind.length + ' chars: ', ioCurrentMatchingNodes);
+
+                for (var i=0; i < ioCurrentMatchingNodes.length; i++) {
+
+                var highlightedNode = document.createElement('span');
+                highlightedNode.className = 'highlightHooray';
+               highlightedNode.appendChild( document.createTextNode( ioCurrentMatchingNodes[i].data ) );
+         //        highlightedNode.appendChild( ioCurrentMatchingNodes[i].data );
+                ioCurrentMatchingNodes[i].parentNode.replaceChild( highlightedNode, ioCurrentMatchingNodes[i]);
+/*
+                var spanNode = $(ioCurrentMatchingNodes[i]).clone(); // document.createElement('span');
+                spanNode.addClass('highlightHooray');
+                // spanNode.appendChild( document.createTextNode('sexxx') );
+                ioCurrentMatchingNodes[i].parentNode.replaceChild( spanNode[0], ioCurrentMatchingNodes[i]);
+*/
+                    // x.css( "background-color", 'red');
+                    var y = 1;
+                }
+        }
+
+/*
+            var pos = node.data.search(regex);
+            if (pos >= 0 && node.data.length > 0) { // .* matching "" causes infinite loop
+                var match = node.data.match(regex); // get the match(es), but we would only handle the 1st one, hence /g is not recommended
+                var spanNode = document.createElement('span');
+                spanNode.className = inHiliteClassName;
+                spanNode.title = inSpanTitle;
+                var middleBit = node.splitText(pos); // split to 2 nodes, node contains the pre-pos text, middleBit has the post-pos
+                var endBit = middleBit.splitText(match[0].length); // similarly split middleBit to 2 nodes
+                spanNode.appendChild( document.createTextNode(inReplacement) );
+                // parentNode ie. node, now has 3 nodes by 2 splitText()s, replace the middle with the highlighted spanNode:
+                middleBit.parentNode.replaceChild(spanNode, middleBit);
+            }
+*/
+        } else if (node.nodeType === 1 && node.childNodes && !/(script|style|textarea)/i.test(node.tagName)) { // 1 - Element node
+            for (var i = 0; i < node.childNodes.length; i++) { // highlight all children
+                findInner( node.childNodes[i], inTextToFind, ioCurrentMatchingNodes);
+            }
+        }
+    }
+
+    return this.each(function() {
+        g_CurrStartPos = 0;
+        var theCurrentMatchingNodes = new Array();
+        findInner( this, inTextToFind, theCurrentMatchingNodes);
+    });
+};
