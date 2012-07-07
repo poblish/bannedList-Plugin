@@ -66,6 +66,7 @@ function showSubmitFallacyDialog( inReq, inSendResponse) {
             input,label,textarea,a.btn,.modal-header,h3 { font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; }\
             label.bannedList { font-weight: bold; float: left; width: 140px; padding: 5px 8px 0 0;}\
             input.blText { width: 200px; }\
+            select.fallacyCode { width: 200px; }\
             span.blGrey { color: #999; }\
             div.blLine { color:#333; clear:both; text-align:left; line-height: 18px; }\
             h3.blHeader { color:#333; line-height: 27px; font-size:18px; margin:0; padding:0 }\
@@ -80,7 +81,7 @@ function showSubmitFallacyDialog( inReq, inSendResponse) {
 	    <input name="fallacyHash" type="hidden" value="' + inReq.selectionHash + '" />\
 	    <div class="blLine"><label for="name" class="bannedList">Your Name:</label><input id="name" name="name" type="text" class="bannedList blText" value="Andrew Regan" /></div>\
 	    <div class="blLine"><label for="email" class="bannedList">Your Email:</label><input id="email" name="email" type="text" class="bannedList blText" value="" /></div>\
-	    <div class="blLine"><label for="fallacyCode" class="bannedList">Which fallacy:</label><input id="terms" name="fallacyCode" type="text" class="bannedList" style="width: 280px" value="strawman" /></div>\
+	    <div class="blLine"><label for="fallacyCode" class="bannedList">Which fallacy:</label><select name="fallacyCode" name="fallacyCode"><option value="ad-hominem">Ad Hominem</option><option value="ambiguity">Ambiguity</option><option value="anecdotal">Anecdotal</option><option value="appeal-to-authority">Appeal to Authority</option><option value="appeal-to-emotion">Appeal to Emotion</option><option value="appeal-to-nature">Appeal to Nature</option><option value="bandwagon">Bandwagon</option><option value="begging-the-question">Begging The Question</option><option value="black-or-white">Black Or White</option><option value="burden-of-proof">Burden Of Proof</option><option value="composition-division">Composition Division</option><option value="false-cause">False Cause</option><option value="genetic">Genetic</option><option value="loaded-question">Loaded Question</option><option value="middle-ground">Middle Ground</option><option value="no-true-scotsman">No True Scotsman</option><option value="personal-incredulity">Personal Incredulity</option><option value="slippery-slope">Slippery Slope</option><option value="special-pleading">Special Pleading</option><option value="strawman">Strawman</option><option value="the-fallacy-fallacy">The Fallacy Fallacy</option><option value="the-gamblers-fallacy">The Gamblers Fallacy</option><option value="the-texas-sharpshooter">The Texas Sharpshooter</option><option value="tu-quoque">Tu Quoque</option></select></div>\
 	    <div class="blLine"><label for="comments" class="bannedList">Comments:</label><textarea id="explanation" name="comments" type="text" class="bannedList" style="width: 280px" value="" /></div>\
 	</form>\
 	<div class="modal-footer">\
