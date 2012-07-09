@@ -513,7 +513,8 @@ reqdPrefixes('Would Argue',  'Many','Some')
 /* Extra political terms, added by Andrew Regan */
 var theExtraTerms = ['Abundantly clear',
 'A Capitalism that',
-'Accelerating' + someWords(1,3) + ' change',
+'Accelerating' + someWords(1,2) + ' change',
+'Accelerating \\S+ and \\S+ change',
 'Accelerating rapidly',
 'A concept of what it means',
 'A dynamic of',
