@@ -201,88 +201,65 @@ jQuery.fn.findMultiNodeText = function( inRec ) {
     function findInner( node, inRec, ioCurrentMatchingNodes) {
         if (node.nodeType === 3) { // 3 - Text node
 
-        if ( node.data.length <= 1 /* node.data === '' */ ) {
+            if ( node.data.length <= 1 /* node.data === '' */ ) {
                 return;
-        }
-
-        var trimmedNodeData = node.data.trim(); // Yikes, expensive??
-        if ( trimmedNodeData.length === 0) {
-                return;
-        }
-        // console.log('Got ', trimmedNodeData);
-
-        var theTextToFind = inRec.selection;
-
-        var charsLeftToMatch = theTextToFind.length - g_CurrStartPos;
-        var maxLen = ( trimmedNodeData.length > charsLeftToMatch ? charsLeftToMatch : trimmedNodeData.length);
-        var bitToMatch = theTextToFind.slice( g_CurrStartPos, g_CurrStartPos + maxLen).trim();  // Really only need to trim left-hand side
-        if ( bitToMatch === '') {
-                return;
-        }
-
-        var matchIdx = trimmedNodeData.indexOf(bitToMatch);
-        if ( matchIdx < 0) {
-                if ( g_CurrStartPos > 0) {
-                        alert('Cancel search run!');
-                        g_CurrStartPos = 0;
-                        ioCurrentMatchingNodes.length = 0; // clear the array
-                }
-
-                return;
-        }
-
-        // console.log('Trying ', matchIdx, trimmedNodeData);
-        ioCurrentMatchingNodes.push(node);
-        g_CurrStartPos += bitToMatch.length + /* Bodge!! .. */ 1;
-
-        if ( g_CurrStartPos >= theTextToFind.length) {
-                // console.log('Found all ' + theTextToFind.length + ' chars: ', ioCurrentMatchingNodes);
-
-                for (var i=0; i < ioCurrentMatchingNodes.length; i++) {
-
-                var highlightedNode = document.createElement('span');
-                highlightedNode.className = (i === 0) ? 'highlightFallacy-first' : 'highlightFallacy-later';
-                highlightedNode.appendChild( document.createTextNode( ioCurrentMatchingNodes[i].data ) );
-         //     highlightedNode.appendChild( ioCurrentMatchingNodes[i].data );
-         var pp = ioCurrentMatchingNodes[i].parentNode;
-                pp.replaceChild( highlightedNode, ioCurrentMatchingNodes[i]);
-
-         /* */      if (i === 0) {
-                        var fallacyImg = document.createElement('img');
-                        fallacyImg.src = chrome.extension.getURL('img/blank.png');    // 'img/blank.png';   // http://yourlogicalfallacyis.com/assets/icons.png';
-                        fallacyImg.title = 'By ' + inRec.submitter + ' @ ' + inRec.time;
-                        fallacyImg.className = 'highlightFallacyImg';
-                        // fallacyImg.style.background-position = ( -44 * parseInt(inRec.fallacyIdx)) + 'px 0';
-                        $(fallacyImg).css('background-position',( -44 * parseInt(inRec.fallacyIdx)) + 'px 0');
-                        // highlightedNode.parentNode.insertBefore( fallacyImg, highlightedNode);
-                        $(fallacyImg).insertBefore( $(highlightedNode) );
-                }
-
-/*
-                var spanNode = $(ioCurrentMatchingNodes[i]).clone(); // document.createElement('span');
-                spanNode.addClass('highlightHooray');
-                // spanNode.appendChild( document.createTextNode('sexxx') );
-                ioCurrentMatchingNodes[i].parentNode.replaceChild( spanNode[0], ioCurrentMatchingNodes[i]);
-*/
-                    // x.css( "background-color", 'red');
-                    // var y = 1;
-                }
-        }
-
-/*
-            var pos = node.data.search(regex);
-            if (pos >= 0 && node.data.length > 0) { // .* matching "" causes infinite loop
-                var match = node.data.match(regex); // get the match(es), but we would only handle the 1st one, hence /g is not recommended
-                var spanNode = document.createElement('span');
-                spanNode.className = inHiliteClassName;
-                spanNode.title = inSpanTitle;
-                var middleBit = node.splitText(pos); // split to 2 nodes, node contains the pre-pos text, middleBit has the post-pos
-                var endBit = middleBit.splitText(match[0].length); // similarly split middleBit to 2 nodes
-                spanNode.appendChild( document.createTextNode(inReplacement) );
-                // parentNode ie. node, now has 3 nodes by 2 splitText()s, replace the middle with the highlighted spanNode:
-                middleBit.parentNode.replaceChild(spanNode, middleBit);
             }
+
+            var trimmedNodeData = node.data.trim(); // Yikes, expensive??
+            if ( trimmedNodeData.length === 0) {
+                return;
+            }
+            // console.log('Got ', trimmedNodeData);
+
+            var theTextToFind = inRec.selection;
+
+            var charsLeftToMatch = theTextToFind.length - g_CurrStartPos;
+            var maxLen = ( trimmedNodeData.length > charsLeftToMatch ? charsLeftToMatch : trimmedNodeData.length);
+            var bitToMatch = theTextToFind.slice( g_CurrStartPos, g_CurrStartPos + maxLen).trim();	// Really only need to trim left-hand side
+            if ( bitToMatch === '') {
+                return;
+            }
+
+            var matchIdx = trimmedNodeData.indexOf(bitToMatch);
+            if ( matchIdx < 0) {
+                if ( g_CurrStartPos > 0) {
+                    alert('Cancel search run!');
+                    g_CurrStartPos = 0;
+                    ioCurrentMatchingNodes.length = 0; // clear the array
+                }
+
+                return;
+            }
+
+		// console.log('Trying ', matchIdx, trimmedNodeData);
+		ioCurrentMatchingNodes.push(node);
+		g_CurrStartPos += bitToMatch.length + /* Bodge!! .. */ 1;
+
+		if ( g_CurrStartPos >= theTextToFind.length) {
+			// console.log('Found all ' + theTextToFind.length + ' chars: ', ioCurrentMatchingNodes);
+
+			for (var i=0; i < ioCurrentMatchingNodes.length; i++) {
+				var highlightedNode = document.createElement('span');
+				highlightedNode.className = (i === 0) ? 'highlightFallacy-first' : 'highlightFallacy-later';
+				highlightedNode.appendChild( document.createTextNode( ioCurrentMatchingNodes[i].data ) );
+				ioCurrentMatchingNodes[i].parentNode.replaceChild( highlightedNode, ioCurrentMatchingNodes[i]);
+
+				if (i === 0) {
+					var fallacyImg = document.createElement('img');
+					fallacyImg.src = chrome.extension.getURL('img/blank.png');
+					fallacyImg.title = inRec.fName + ' submitted by ' + inRec.submitter + ' @ ' + inRec.time;
+					fallacyImg.className = 'highlightFallacyImg';
+					$(fallacyImg).css('background-position',( -44 * parseInt(inRec.fIdx)) + 'px 0');
+					$(fallacyImg).insertBefore( $(highlightedNode) );
+				}
+
+/*				var spanNode = $(ioCurrentMatchingNodes[i]).clone(); // document.createElement('span');
+				spanNode.addClass('highlightHooray');
+				ioCurrentMatchingNodes[i].parentNode.replaceChild( spanNode[0], ioCurrentMatchingNodes[i]);
 */
+			}
+		}
+
         } else if (node.nodeType === 1 && node.childNodes && !/(script|style|textarea)/i.test(node.tagName)) { // 1 - Element node
             for (var i = 0; i < node.childNodes.length; i++) { // highlight all children
                 findInner( node.childNodes[i], inRec, ioCurrentMatchingNodes);
