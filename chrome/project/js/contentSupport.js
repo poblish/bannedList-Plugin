@@ -122,6 +122,27 @@ function submitLogicalFallacy() {
     return true;
 }
 
+function hilightFallacies( inURL, inNodeToSearch) {
+    if (!/guardian\.co\.uk/.test(inURL)) {
+        return;
+    }
+
+    $.get("http://1.bannedlist-stats.appspot.com/listFallacies?url=" + encodeURIComponent( inURL.split('#')[0] ))
+        .error( function(xhr) { /* Anything? */ } )
+        .success( function(obj) {
+            try {
+                if ( obj.results != null) {
+                    for ( var i = 0; i < obj.results.length; i++) {
+                        var eachRes = obj.results[i];
+
+                        inNodeToSearch.findMultiNodeText(eachRes);
+                        // inNodeToSearch.findMultiNodeText('There is, however, a problem tallying this theory with the empirical evidence. A highly inconvenient fact for their thesis, and one that they fully acknowledge, is that over the time-scale under consideration self-esteem as well as anxiety ‘‘showed a very clear long-term upward trend. It looked as if, despite the rising anxiety levels, people were also taking a more positive view of themselves over time’’ (SL, 36). Surely, it would seem, anxiety about status should be reﬂected in lower, not higher, self-esteem. Wilkinson and Pickett’s solution is to distinguish ‘‘healthy’’ self-esteem from the defensive kind found in those prone to violence, racism, and insensitivity to others. This latter kind is fragile and more akin to ‘‘whistling in the dark’’ (SL, 37); we might compare this analysis with Ruth Cigman’s discussion of ‘psychological fraudsters.’’  In the context this looks like a rather desperate strategy');
+                    }
+                }
+            } catch (e) { /* Just ignore */ }
+        });
+}
+
 function submitAnonymousStats( ioStats, inStatsScore) {
     if ( ioStats != null && inStatsScore >= 10) {
 

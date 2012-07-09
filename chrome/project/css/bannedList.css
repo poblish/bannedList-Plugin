@@ -1,4 +1,4 @@
-.highlightCore, .highlightExtra, .highlightReplaced, .highlightMgmt, .highlightShutUp, .highlightHooray {
+.highlightCore, .highlightExtra, .highlightReplaced, .highlightMgmt, .highlightShutUp, .highlightHooray, .highlightFallacy-first, .highlightFallacy-later {
     font-weight: bold;
     padding: .2em .5em;
     border: 1px solid #CCC;
@@ -31,6 +31,51 @@
 
 .highlightHooray {
     background-color: rgb(226,253,227);
+}
+
+/* .highlightFallacy-first:before {
+    content:"";
+    float:left;
+    width:44px; height:44px;
+    margin:0 6px 0 0;
+    padding: 0;
+    background: url('http://yourlogicalfallacyis.com/assets/icons.png') -0px 0;
+} */
+
+img.highlightFallacyImg {
+    float:left;
+    width:44px; height:44px;
+    margin:0 6px 0 0;
+    padding: 0;
+    background-image: url('http://yourlogicalfallacyis.com/assets/icons.png');
+    /* background-position: -88px 0; */
+}
+
+.highlightFallacy-first {
+    font-weight: bold;
+    padding: .2em .5em;
+    /* border: 1px solid rgb(115,60,133); */
+    border: 1px solid #999;
+    border-radius: 0;
+    /* background-color: rgb(240,240,240); */
+    /* background: -webkit-linear-gradient(1 yellow, 2 yellow 50%, 3 red 50%, 4 red); */
+    background: -webkit-linear-gradient( 45deg, #E3D3F2, #E3D3F2 50%, #D5C3E6 50%, #D5C3E6);
+    /* background: -webkit-linear-gradient( 45deg, #EAEAEA, #EAEAEA 50%, #F9F9F9 50%, #F9F9F9); */
+    background-size: 12px;
+}
+
+.highlightFallacy-later {
+    font-weight: bold;
+    padding: .2em .5em;
+    /* border: 1px solid rgb(115,60,133); */
+    border: 1px solid #999;
+    border-radius: 0;
+    /* background-color: rgb(240,240,240); */
+    /* background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(yellow), color-stop(0.5, yellow), color-stop(0.5, red), to(red)); */
+    /* background: -webkit-linear-gradient(blue, yellow 50%, red 50%, red); */
+    /* background: -webkit-linear-gradient( 45deg, #EAEAEA, #EAEAEA 50%, #F9F9F9 50%, #F9F9F9); */
+    background: -webkit-linear-gradient( 45deg, #E3D3F2, #E3D3F2 50%, #D5C3E6 50%, #D5C3E6);
+    background-size: 12px;
 }
 
 /**********/

@@ -196,9 +196,9 @@ jQuery.fn.removeHighlights = function() {
 
 var g_CurrStartPos;
 
-jQuery.fn.findMultiNodeText = function( inTextToFind ) {
+jQuery.fn.findMultiNodeText = function( inRec ) {
 
-    function findInner( node, inTextToFind, ioCurrentMatchingNodes) {
+    function findInner( node, inRec, ioCurrentMatchingNodes) {
         if (node.nodeType === 3) { // 3 - Text node
 
         if ( node.data.length <= 1 /* node.data === '' */ ) {
@@ -211,9 +211,11 @@ jQuery.fn.findMultiNodeText = function( inTextToFind ) {
         }
         // console.log('Got ', trimmedNodeData);
 
-        var charsLeftToMatch = inTextToFind.length - g_CurrStartPos;
+        var theTextToFind = inRec.selection;
+
+        var charsLeftToMatch = theTextToFind.length - g_CurrStartPos;
         var maxLen = ( trimmedNodeData.length > charsLeftToMatch ? charsLeftToMatch : trimmedNodeData.length);
-        var bitToMatch = inTextToFind.slice( g_CurrStartPos, g_CurrStartPos + maxLen).trim();  // Really only need to trim left-hand side
+        var bitToMatch = theTextToFind.slice( g_CurrStartPos, g_CurrStartPos + maxLen).trim();  // Really only need to trim left-hand side
         if ( bitToMatch === '') {
                 return;
         }
@@ -233,16 +235,29 @@ jQuery.fn.findMultiNodeText = function( inTextToFind ) {
         ioCurrentMatchingNodes.push(node);
         g_CurrStartPos += bitToMatch.length + /* Bodge!! .. */ 1;
 
-        if ( g_CurrStartPos >= inTextToFind.length) {
-                // console.log('Found all ' + inTextToFind.length + ' chars: ', ioCurrentMatchingNodes);
+        if ( g_CurrStartPos >= theTextToFind.length) {
+                // console.log('Found all ' + theTextToFind.length + ' chars: ', ioCurrentMatchingNodes);
 
                 for (var i=0; i < ioCurrentMatchingNodes.length; i++) {
 
                 var highlightedNode = document.createElement('span');
-                highlightedNode.className = 'highlightHooray';
-               highlightedNode.appendChild( document.createTextNode( ioCurrentMatchingNodes[i].data ) );
-         //        highlightedNode.appendChild( ioCurrentMatchingNodes[i].data );
-                ioCurrentMatchingNodes[i].parentNode.replaceChild( highlightedNode, ioCurrentMatchingNodes[i]);
+                highlightedNode.className = (i === 0) ? 'highlightFallacy-first' : 'highlightFallacy-later';
+                highlightedNode.appendChild( document.createTextNode( ioCurrentMatchingNodes[i].data ) );
+         //     highlightedNode.appendChild( ioCurrentMatchingNodes[i].data );
+         var pp = ioCurrentMatchingNodes[i].parentNode;
+                pp.replaceChild( highlightedNode, ioCurrentMatchingNodes[i]);
+
+         /* */      if (i === 0) {
+                        var fallacyImg = document.createElement('img');
+                        fallacyImg.src = chrome.extension.getURL('img/blank.png');    // 'img/blank.png';   // http://yourlogicalfallacyis.com/assets/icons.png';
+                        fallacyImg.title = 'By ' + inRec.submitter + ' @ ' + inRec.time;
+                        fallacyImg.className = 'highlightFallacyImg';
+                        // fallacyImg.style.background-position = ( -44 * parseInt(inRec.fallacyIdx)) + 'px 0';
+                        $(fallacyImg).css('background-position',( -44 * parseInt(inRec.fallacyIdx)) + 'px 0');
+                        // highlightedNode.parentNode.insertBefore( fallacyImg, highlightedNode);
+                        $(fallacyImg).insertBefore( $(highlightedNode) );
+                }
+
 /*
                 var spanNode = $(ioCurrentMatchingNodes[i]).clone(); // document.createElement('span');
                 spanNode.addClass('highlightHooray');
@@ -250,7 +265,7 @@ jQuery.fn.findMultiNodeText = function( inTextToFind ) {
                 ioCurrentMatchingNodes[i].parentNode.replaceChild( spanNode[0], ioCurrentMatchingNodes[i]);
 */
                     // x.css( "background-color", 'red');
-                    var y = 1;
+                    // var y = 1;
                 }
         }
 
@@ -270,7 +285,7 @@ jQuery.fn.findMultiNodeText = function( inTextToFind ) {
 */
         } else if (node.nodeType === 1 && node.childNodes && !/(script|style|textarea)/i.test(node.tagName)) { // 1 - Element node
             for (var i = 0; i < node.childNodes.length; i++) { // highlight all children
-                findInner( node.childNodes[i], inTextToFind, ioCurrentMatchingNodes);
+                findInner( node.childNodes[i], inRec, ioCurrentMatchingNodes);
             }
         }
     }
@@ -278,6 +293,7 @@ jQuery.fn.findMultiNodeText = function( inTextToFind ) {
     return this.each(function() {
         g_CurrStartPos = 0;
         var theCurrentMatchingNodes = new Array();
-        findInner( this, inTextToFind, theCurrentMatchingNodes);
+        findInner( this, inRec, theCurrentMatchingNodes);
+        theCurrentMatchingNodes.length = 0; // clear the array
     });
 };
