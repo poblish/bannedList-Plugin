@@ -245,9 +245,11 @@ jQuery.fn.findMultiNodeText = function( inRec ) {
 				ioCurrentMatchingNodes[i].parentNode.replaceChild( highlightedNode, ioCurrentMatchingNodes[i]);
 
 				if (i === 0) {
+					var theMsg = inRec.fName + ' submitted by ' + inRec.submitter + ' @ ' + inRec.time;
+
 					var fallacyImg = document.createElement('img');
 					fallacyImg.src = chrome.extension.getURL('img/blank.png');
-					fallacyImg.title = inRec.fName + ' submitted by ' + inRec.submitter + ' @ ' + inRec.time;
+					fallacyImg.title = ( inRec.comment !== '') ? ( theMsg  + ': "' + inRec.comment + '"') : theMsg;
 					fallacyImg.className = 'highlightFallacyImg';
 					$(fallacyImg).css('background-position',( -44 * parseInt(inRec.fIdx)) + 'px 0');
 					$(fallacyImg).insertBefore( $(highlightedNode) );
