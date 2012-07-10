@@ -409,15 +409,6 @@ function trimFallacyString( inStr, inMaxLength) {
     return firstTrim.slice(0,inMaxLength).replace( g_JunkFallacySuffix, '');
 }
 
-/* console.log('"' + trimFallacyString('Hello there, world', 1000) + '"');
-console.log('"' + trimFallacyString(' Hello there, world', 1000) + '"');
-console.log('"' + trimFallacyString(' Hello there, world ', 4) + '"');
-console.log('"' + trimFallacyString('       ;  . Hello there, world  .   ,  ;  :     ', 5) + '"');
-console.log('"' + trimFallacyString('       ;  . Hello there, world  .   ,  ;  :     ', 6) + '"');
-console.log('"' + trimFallacyString('       ;  . Hello there, world  .   ,  ;  :     ', 7) + '"');
-console.log('"' + trimFallacyString('       ;  . Hello there, world  .   ,  ;  :     ', 8) + '"');
-console.log('"' + trimFallacyString('       ;  . Hello there, world  .   ,  ;  :     ', 9) + '"'); */
-
 function optPrefixes() {
     return handlePrefixes( Array.prototype.slice.apply(arguments), true);
 }
