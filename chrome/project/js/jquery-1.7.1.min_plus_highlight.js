@@ -70,11 +70,17 @@ jQuery.fn.highlight = function( ioStats, ioHistory, inDocUrl, inTermsGroup, inOp
                                 // console.log("adding...", histKeyToUse);
                         }
 
-                        if ( !isHighlightFirstMode && inHighlightOption !== 'disable') {
-                            spanNode.className = inTermsGroup.getHighlightClass();
-
-                            if (inHighlightOption === 'u_all') {
-                                spanNode.className = inTermsGroup.getHighlightClass() + '_ul';
+                        if ( inHighlightOption !== 'disable') {
+                            if ( inTermsGroup.getHighlightClass() === 'highlightIgnore') {
+                                spanNode.className = inTermsGroup.getHighlightClass();
+                            }
+                            else if (!isHighlightFirstMode) {
+                                if (inHighlightOption === 'u_all') {
+                                    spanNode.className = inTermsGroup.getHighlightClass() + '_ul';
+                                }
+                                else /* if (inHighlightOption === 'h_all') */ {
+                                    spanNode.className = inTermsGroup.getHighlightClass();
+                                }
                             }
                         }
 
@@ -98,6 +104,10 @@ jQuery.fn.highlight = function( ioStats, ioHistory, inDocUrl, inTermsGroup, inOp
                             /* var endBit = */ middleBit.splitText(match[0].length); // similarly split middleBit in two @ http://mzl.la/S7KA7V
                             var middleClone = middleBit.cloneNode(true);
                             spanNode.appendChild(middleClone);
+
+                            /* if ( spanNode.className == null) {
+                                alert('Error');
+                            } */
 
                             // parentNode ie. node, now has 3 nodes by 2 splitText()s, replace the middle with the highlighted spanNode:
                             middleBit.parentNode.replaceChild(spanNode, middleBit);
