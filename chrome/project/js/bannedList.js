@@ -356,7 +356,7 @@ var theCaseSensitiveNotJustWordsTerms = ['\\b' + 'As a [A-Z]\\S+' + someWords(0,
 var theSpecialIgnoreTerms = ['(Points|Pulls?|Way) Ahead of',
 'Common sense',
 reqdSuffixes('Communities',  'Secretary'),
-reqdSuffixes('Community',  'Hospital','Order','School'),
+reqdSuffixes('Community',  'Cent(er|re)s?','Hospital','Order','School'),
 'Equality Act',
 'Hackathon',
 'Jonathon',
@@ -364,7 +364,7 @@ reqdSuffixes('Community',  'Hospital','Order','School'),
 'Progressive (Space )?Rock',
 '(Russian|Greek) Orthodoxy?' /* So all Orthodoxies are banned apart from these ones */,
 'Sense of' + someWords(0,1) + ' humour',
-'Team Blog',
+'Team (Blog|Building|Meeting)',
 reqdSuffixes('Toxic', 'Chemicals?','Gas(es)?','Nuclear','\\S+ Radioactive','Substances?'),
 'Vital (organ|signs)',
 'Was met with'
@@ -840,8 +840,8 @@ optPrefixes('With a human face',  'Capitalism','Politics'),
 'Won.t happen by accident',
 'Works for the many',
 optSuffixes('Worship at the altar( of)?',  'Commercialism','Technology'),
-'Year zero',
-'Young people'];
+'Year zero'
+/* 'Young people' */];
 
 
 /* 'Hooray' terms: the writer wants you to like something, e.g. Justice, Equality, People before Profit, etc. @ http://wordlywisdom.net/Boo-and-Hooray.php */
