@@ -95,7 +95,7 @@ jQuery.fn.highlight = function( ioStats, ioHistory, inDocUrl, inTermsGroup, inOp
 			}
 
                         if (inHighlightOption !== 'disable') {
-                            var endBit = middleBit.splitText(match[0].length); // similarly split middleBit to 2 nodes
+                            /* var endBit = */ middleBit.splitText(match[0].length); // similarly split middleBit in two @ http://mzl.la/S7KA7V
                             var middleClone = middleBit.cloneNode(true);
                             spanNode.appendChild(middleClone);
 
@@ -148,7 +148,7 @@ jQuery.fn.replaceHighlight = function( pattern, inReplacement, inHiliteClassName
                 spanNode.className = inHiliteClassName;
                 spanNode.title = inSpanTitle;
                 var middleBit = node.splitText(pos); // split to 2 nodes, node contains the pre-pos text, middleBit has the post-pos
-                var endBit = middleBit.splitText(match[0].length); // similarly split middleBit to 2 nodes
+                /* var endBit = */ middleBit.splitText(match[0].length); // similarly split middleBit in two @ http://mzl.la/S7KA7V
                 spanNode.appendChild( document.createTextNode(inReplacement) );
                 // parentNode ie. node, now has 3 nodes by 2 splitText()s, replace the middle with the highlighted spanNode:
                 middleBit.parentNode.replaceChild(spanNode, middleBit);
