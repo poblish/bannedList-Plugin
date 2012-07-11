@@ -1034,6 +1034,8 @@ var extraTerms = [
 ////////////////////////////////////////////////////////////////////////////////
 
 $(function() {
+    hilightFallacies( document.URL, $('body'));
+
     chrome.extension.sendRequest({ method: "getOptions"}, function(inResp) {
         processPage( inResp.options );
     });

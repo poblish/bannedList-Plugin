@@ -117,7 +117,7 @@
         var optValues = ['h_all', 'h_first', 'u_all', 'disable'];
 
         chrome.contextMenus.create({"title": 'Submit phrase "%s"...', "contexts":['selection'], "onclick": clickSubmit});
-        // chrome.contextMenus.create({"title": 'Submit as Logical Fallacy...', "contexts":['selection'], "onclick": submitFallacy});
+        chrome.contextMenus.create({"title": 'Submit as Logical Fallacy...', "contexts":['selection'], "onclick": submitFallacy});
         chrome.contextMenus.create({"type": 'separator', "contexts":['page','selection']});
         var firstHighlightMenuId = chrome.contextMenus.create({"title": 'Highlight all matches', "type": 'radio', "checked": (theHOVal === optValues[0]), "contexts":['page','selection'], "onclick": setHighlightOptions});
         chrome.contextMenus.create({"title": 'Highlight first match, underline the rest', "type": 'radio', "checked": (theHOVal == null || theHOVal === optValues[1]), "contexts":['page','selection'], "onclick": setHighlightOptions});
