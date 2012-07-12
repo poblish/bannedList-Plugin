@@ -15,7 +15,7 @@ function showSubmissionDialog( inReq, inSendResponse) {
     	</div>\
 	<form action="/" class="bannedList modal-body" style="margin-bottom:0;" id="submitPhrase">\
 	    <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
-	    <div class="blLine"><label for="name" class="bannedList">Your Name:</label><input id="name" name="name" type="text" class="bannedList blText" value="Andrew Regan" /></div>\
+	    <div class="blLine"><label for="name" class="bannedList">Your Name:</label><input id="name" name="name" type="text" class="bannedList blText" value="" /></div>\
 	    <div class="blLine"><label for="email" class="bannedList">Your Email:</label><input id="email" name="email" type="text" class="bannedList blText" value="" /></div>\
 	    <div class="blLine"><label for="terms" class="bannedList">Submitted Phrase:</label><input id="terms" name="terms" type="text" class="bannedList" style="width: 280px" value="' + inReq.phrase + '" /></div>\
 	    <div class="blLine"><label for="explanation" class="bannedList">Why should we add this? <span class="blGrey">(optional):</span></label><textarea id="explanation" name="explanation" type="text" class="bannedList" style="width: 280px" value="" /></div>\
@@ -79,7 +79,7 @@ function showSubmitFallacyDialog( inReq, inSendResponse) {
 	    <input name="url" type="hidden" value="' + inReq.pageUrl + '" />\
 	    <input name="fallacy" type="hidden" value="' + theAdjSel + '" />\
 	    <input name="fallacyHash" type="hidden" value="' + inReq.selectionHash + '" />\
-	    <div class="blLine"><label for="name" class="bannedList">Your Name:</label><input id="name" name="name" type="text" class="bannedList blText" value="Andrew Regan" /></div>\
+	    <div class="blLine"><label for="name" class="bannedList">Your Name:</label><input id="name" name="name" type="text" class="bannedList blText" value="" /></div>\
 	    <div class="blLine"><label for="email" class="bannedList">Your Email:</label><input id="email" name="email" type="text" class="bannedList blText" value="" /></div>\
 	    <div class="blLine"><label for="fallacyCode" class="bannedList">Which fallacy:</label><select name="fallacyCode" name="fallacyCode"><option value="5">Ad Hominem</option><option value="11">Ambiguity</option><option value="21">Anecdotal</option><option value="14">Appeal to Authority</option><option value="2">Appeal to Emotion</option><option value="20">Appeal to Nature</option><option value="13">Bandwagon</option><option value="19">Begging The Question</option><option value="18">Black Or White</option><option value="10">Burden Of Proof</option><option value="15">Composition Division</option><option value="1">False Cause</option><option value="17">Genetic</option><option value="9">Loaded Question</option><option value="23">Middle Ground</option><option value="16">No True Scotsman</option><option value="7">Personal Incredulity</option><option value="4">Slippery Slope</option><option value="8">Special Pleading</option><option value="0">Strawman</option><option value="3">The Fallacy Fallacy</option><option value="12">The Gamblers Fallacy</option><option value="22">The Texas Sharpshooter</option><option value="6">Tu Quoque</option></select></div>\
 	    <div class="blLine"><label for="comments" class="bannedList">Comments:</label><textarea id="explanation" name="comments" type="text" class="bannedList" style="width: 280px" value="" /></div>\
@@ -265,7 +265,7 @@ function getContentStatsBlackListFor( inDocURL ) {
         return $('div.comments-content, div.module-category-cloud, div.recentPosts');
     }
 
-    return $('header, footer, div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#r_sidebar, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#reader-comments, div#beta, div#bottom, div#departments, div#promo, div#secondaryColumn, div#breadcrumb, div#related, ul#menus, ul.sf-menu, .primary-links, .widget-container, .commentContainer, .comments_block_holder, div.comments-container, .comment_item, .rightbox, .top-index-stories, div.sidebar, div.widget-content, div.comment, div.comment-body, div#comments-wrapper, li.cat-item, div.suf-tiles, div.suf-widget, .tagcloud, div.related, div#breadcrumbs, div#twitter-reactions, div.twtr-widget, div#sidebar_secondary, .related-content, ol.commentlist, .dna-comments_module, section#comments-area');
+    return $('header, footer, div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#r_sidebar, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#reader-comments, div#beta, div#bottom, div#departments, div#promo, div#secondaryColumn, div#breadcrumb, div#related, ul#menus, ul.sf-menu, .primary-links, .widget-container, .commentContainer, .comments_block_holder, div.comments-container, .comment_item, .rightbox, .top-index-stories, div.sidebar, div.widget-content, div.comment, div.comment-body, div#comments-wrapper, .commentdata, li.cat-item, div.suf-tiles, div.suf-widget, .tagcloud, div.related, div#breadcrumbs, div#twitter-reactions, div.twtr-widget, div#sidebar_secondary, .related-content, ol.commentlist, .dna-comments_module, section#comments-area');
 }
 
 function getContentStatsWhiteListFor( inDocURL ) {
