@@ -255,7 +255,7 @@ jQuery.fn.findMultiNodeText = function( inRec ) {
 				ioCurrentMatchingNodes[i].parentNode.replaceChild( highlightedNode, ioCurrentMatchingNodes[i]);
 
 				if (i === 0) {
-					var theMsg = inRec.fName + ' submitted by ' + inRec.submitter + ' @ ' + inRec.time;
+					var theMsg = inRec.fName + ' submitted by ' + inRec.submitter + ' @ ' + /* date only will be fine */ new Date( inRec.time ).toDateString();
 
 					var fallacyImg = document.createElement('img');
 					fallacyImg.src = chrome.extension.getURL('img/blank.png');
