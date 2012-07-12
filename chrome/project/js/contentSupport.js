@@ -123,7 +123,7 @@ function submitLogicalFallacy() {
 }
 
 function hilightFallacies( inURL, inNodeToSearch) {
-    /* Only allow these for now... */ if (!/guardian\.co\.uk/.test(inURL) && !/telegraph\.co\.uk/.test(inURL) && !/blogspot\.co\.uk/.test(inURL) && !/blogspot\.com/.test(inURL)) {
+    /* Only allow these for now... */ if (!/http:\/\/www\.guardian\.co\.uk/.test(inURL) && !/http:\/\/www\.telegraph\.co\.uk/.test(inURL) && !/blogspot\.co\.uk/.test(inURL) && !/blogspot\.com/.test(inURL)) {
         return;
     }
 
