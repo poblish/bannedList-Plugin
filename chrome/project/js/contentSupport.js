@@ -258,7 +258,7 @@ function getContentStatsBlackListFor( inDocURL ) {
     }
 
     if (/telegraph\.co\.uk/.test(inDocURL)) {
-        return $('.outbrain_column, .mostPopular, div.summary, div.summaryMedium, .footercolumn, div#tmglMenu, div#tmglHotTopics, div#disqus_thread');
+        return $('.outbrain_column, .mostPopular, div.summary, div.summaryMedium, .footercolumn, div#tmglMenu, div#tmglHotTopics, div#disqus_thread, div.summaryMediumToSmall');
     }
 
     if (/conservativehome\.blogs/.test(inDocURL)) {

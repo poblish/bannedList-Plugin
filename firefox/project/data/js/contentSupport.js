@@ -164,10 +164,14 @@ function getContentStatsBlackListFor( inDocURL ) {
     }
 
     if (/telegraph\.co\.uk/.test(inDocURL)) {
-        return $('.outbrain_column, .mostPopular, div.summary, div.summaryMedium, .footercolumn, div#tmglMenu, div#tmglHotTopics, div#disqus_thread');
+        return $('.outbrain_column, .mostPopular, div.summary, div.summaryMedium, .footercolumn, div#tmglMenu, div#tmglHotTopics, div#disqus_thread, div.summaryMediumToSmall');
     }
 
-    return $('header, footer, div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#r_sidebar, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#reader-comments, div#beta, div#bottom, div#departments, div#promo, div#secondaryColumn, div#breadcrumb, div#related, ul#menus, ul.sf-menu, .primary-links, .widget-container, .commentContainer, .comments_block_holder, .comment_item, .rightbox, .top-index-stories, div.sidebar, div.widget-content, div.comment, div.comment-body, div#comments-wrapper, li.cat-item, div.suf-tiles, div.suf-widget, .tagcloud, div.related, div#breadcrumbs, div#twitter-reactions, div#sidebar_secondary, ol.commentlist, section#comments-area');
+    if (/conservativehome\.blogs/.test(inDocURL)) {
+        return $('div.comments-content, div.module-category-cloud, div.recentPosts');
+    }
+
+    return $('header, footer, div#comments, div#allcomments, div#disqus_thread, div#most-popular, div#sidebar, div#sidebar-right-1, div#r_sidebar, div#single-rightcolumn, div#sidebar-first, div#all-comments, div#discussion-comments, div#reader-comments, div#beta, div#bottom, div#departments, div#promo, div#secondaryColumn, div#breadcrumb, div#related, ul#menus, ul.sf-menu, .primary-links, .widget-container, .commentContainer, .comments_block_holder, div.comments-container, .comment_item, .rightbox, .top-index-stories, div.sidebar, div.widget-content, div.comment, div.comment-body, div#comments-wrapper, .commentdata, li.cat-item, div.suf-tiles, div.suf-widget, .tagcloud, div.related, div#breadcrumbs, div#twitter-reactions, div.twtr-widget, div#sidebar_secondary, .related-content, ol.commentlist, .dna-comments_module, section#comments-area');
 }
 
 function getContentStatsWhiteListFor( inDocURL ) {
