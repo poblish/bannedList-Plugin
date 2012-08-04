@@ -373,7 +373,7 @@ reqdSuffixes('Toxic', 'Chemicals?','Gas(es)?','Nuclear','\\S+ Radioactive','Subs
 ];
 
 
-var theIgnoredNotJustWordTerms = [ quoted('Honou?r killing')
+var theIgnoredNotJustWordTerms = [ quoted('Honou?r killings?')
 ];
 
 
@@ -653,7 +653,7 @@ reqdPrefixes('(Has|Have) (Her|His|Their) views',  'He','She','They'),
 'Hearts? ripped out',
 'Hegemonic',
 'Hell hath no fury',
-'Honou?r killing',
+'Honou?r killings?',
 'Hove,? Actually',
 'Human-scale',
 'Humanitarian space',
