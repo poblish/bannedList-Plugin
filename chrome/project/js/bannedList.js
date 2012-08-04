@@ -373,7 +373,7 @@ reqdSuffixes('Toxic', 'Chemicals?','Gas(es)?','Nuclear','\\S+ Radioactive','Subs
 ];
 
 
-var theIgnoredNotJustWordTerms = ['"Honou?r killing"'
+var theIgnoredNotJustWordTerms = [ quoted('Honou?r killing')
 ];
 
 
