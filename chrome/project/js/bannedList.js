@@ -354,7 +354,7 @@ var theCaseSensitiveNotJustWordsTerms = ['\\b' + 'As a [A-Z]\\S+' + someWords(0,
 '\\b' + 'Who knew\\?'];
 
 
-var theSpecialIgnoreTerms = ['(Points|Pulls?|Way) Ahead of',
+var theIgnoreTerms = ['(Points|Pulls?|Way) Ahead of',
 'Common sense',
 reqdSuffixes('Communities',  'Secretary'),
 reqdSuffixes('Community',  'Cent(er|re)s?','Hospital','Order','School'),
@@ -370,6 +370,10 @@ reqdSuffixes('Community',  'Cent(er|re)s?','Hospital','Order','School'),
 reqdSuffixes('Toxic', 'Chemicals?','Gas(es)?','Nuclear','\\S+ Radioactive','Substances?'),
 'Vital (organ|signs)',
 'Was met with'
+];
+
+
+var theIgnoredNotJustWordTerms = ['"Honou?r killing"'
 ];
 
 
@@ -649,6 +653,7 @@ reqdPrefixes('(Has|Have) (Her|His|Their) views',  'He','She','They'),
 'Hearts? ripped out',
 'Hegemonic',
 'Hell hath no fury',
+'Honou?r killing',
 'Hove,? Actually',
 'Human-scale',
 'Humanitarian space',
@@ -1049,7 +1054,8 @@ reqdPrefixes('Save (more than|over|up to) \\S+ lives( a year)?',  'Could','May',
 ////////////////////////////////////////////////////////////////////////////////
 
 var coreTerms = [
-    new BannedListTermSet({terms: theSpecialIgnoreTerms, className:'highlightIgnore', title:''}),
+    new BannedListTermSet({terms: theIgnoreTerms, className:'highlightIgnore', title:''}),
+    new BannedListTermSet({terms: theIgnoredNotJustWordTerms, ignoreWordBoundaries:true, className:'highlightIgnore', title:''}),
     new BannedListTermSet({terms: theCaseSensitiveCoreTerms, className:'highlightCore', title:'#BannedList entry', caseInsensitive:false}),
     new BannedListTermSet({terms: theNotJustWordsTerms, ignoreWordBoundaries:true, className:'highlightCore', title:'#BannedList entry'}),
     new BannedListTermSet({terms: theCaseSensitiveNotJustWordsTerms, caseInsensitive:false, ignoreWordBoundaries:true, className:'highlightCore', title:'#BannedList entry'}),
