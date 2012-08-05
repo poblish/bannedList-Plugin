@@ -366,7 +366,7 @@ reqdSuffixes('Community',  'Cent(er|re)s?','Hospital','Order','School'),
 'Progressive (Space )?Rock',
 '(Russian|Greek) Orthodoxy?' /* So all Orthodoxies are banned apart from these ones */,
 'Sense of' + someWords(0,1) + ' humour',
-'Team (Blog|Building|Meeting)',
+'Team (Blog|Building|Championships?|Meeting|Pursuit)',
 reqdSuffixes('Toxic', 'Chemicals?','Gas(es)?','Nuclear','\\S+ Radioactive','Substances?'),
 'Vital (organ|signs)',
 'Was met with'
@@ -1079,12 +1079,12 @@ var extraTerms = [
 $(function() {
     hilightFallacies( document.URL, $('body'));
 
-    chrome.extension.sendRequest({ method: "getOptions"}, function(inResp) {
+    chrome.extension.sendMessage({ method: "getOptions"}, function(inResp) {
         processPage( inResp.options );
     });
 });
 
-chrome.extension.onRequest.addListener(
+chrome.extension.onMessage.addListener(
     function( inReq, inSender, inSendResponse) {
         if ( inReq.method == "getOptions") {
             $('body').removeHighlights();
@@ -1102,7 +1102,7 @@ chrome.extension.onRequest.addListener(
 function processPage( inOptions ) {
     var theHistory = {};
     if (shouldNotSubmitStatsFor( document.URL )) {
-        chrome.extension.sendRequest({ method: "resetBadge"} );
+        chrome.extension.sendMessage({ method: "resetBadge"} );
         refreshBannedStuff( inOptions, document.URL, null, theHistory);
     } else {
         var theStats = {};
@@ -1111,7 +1111,7 @@ function processPage( inOptions ) {
 
         var unqs = theStats['$meta'].uniqueTerms;
         var score = ( unqs == 0) ? 0 : Math.round( Math.pow( unqs, 1.4) * Math.pow( theStats['$meta'].totalMatches / unqs, 0.7) );
-        chrome.extension.sendRequest({ method: "setBadge", score: score, url: document.URL});
+        chrome.extension.sendMessage({ method: "setBadge", score: score, url: document.URL});
 
         submitAnonymousStats( theStats, score);
     }

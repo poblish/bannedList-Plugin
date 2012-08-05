@@ -1,28 +1,32 @@
-<html>
-<script src="../js/jquery-1.7.1.min_plus_highlight.js" type="text/javascript"></script>
-<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-28859929-1']);
-    _gaq.push(['_trackPageview']);
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-28859929-1']);
+_gaq.push(['_trackPageview']);
 
-    (function() { // See: http://code.google.com/chrome/extensions/tut_analytics.html
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = 'https://ssl.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-</script>
-<script type="text/javascript">
+(function() { // See: http://code.google.com/chrome/extensions/tut_analytics.html
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = 'https://ssl.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+var g_GlobalTwitterIntervalId = null;
+
     $(document).ready(function () {
-        chrome.extension.onRequest.addListener( function( request, sender, sendResponse) {
+        chrome.extension.onMessage.addListener( function( request, sender, sendResponse) {
             if (request.method == "getOptions") {
                 if ( localStorage.length == 0) {    // Set defaults!
                     localStorage["extras.politics.andrew1"] = true;
                 }
 
                 if (/http.*twitter.com/.test( sender.tab.url )) {
-                    setInterval( function() {
+                    g_GlobalTwitterIntervalId = setInterval( function() {
+                        if ( g_GlobalTwitterIntervalId != null) {
+                            // console.log('Clearing... ' + g_GlobalTwitterIntervalId);
+                            clearInterval(g_GlobalTwitterIntervalId);
+                        }
                         sendResponse({method: "getOptions", /* url: sender.tab.url, */ options: localStorage});
+                        // console.log('Sending... ' + g_GlobalTwitterIntervalId);
                     }, 2500);
+                    return true;  // "Return true from the event listener if you wish to call sendResponse after the event listener returns." @ http://bit.ly/OJge9v
                 }
                 else /* Non Twitter can update now! */ {
                     sendResponse({method: "getOptions", /* url: sender.tab.url, */ options: localStorage});
@@ -66,25 +70,29 @@
         });
 
         function clickSubmit( inInfo, inTab) {
-	    chrome.tabs.sendRequest( inTab.id, {
+	    chrome.tabs.sendMessage( inTab.id, {
 	        method: "showSubmitOptions",
 	        pageUrl: inInfo.pageUrl,
 		phrase: inInfo.selectionText
 	    }, function (response) {
-	        if ( response.ok != "true") {
+	        if ( response == null) {
+                    alert('Error, null response!');
+                } else if ( response.ok != "true") {
 	            alert('Error!');
 	        }
 	    });
         }
 
         function submitFallacy( inInfo, inTab) {
-            chrome.tabs.sendRequest( inTab.id, {
+            chrome.tabs.sendMessage( inTab.id, {
                 method: "showSubmitFallacyOptions",
                 pageUrl: inInfo.pageUrl.split('#')[0],
                 selection: inInfo.selectionText,
                 selectionHash: inInfo.selectionText.hashCode()
             }, function (response) {
-                if ( response.ok != "true") {
+                if ( response == null) {
+                    alert('Error, null response!');
+                } else if ( response.ok != "true") {
                     alert('Error!');
                 }
             });
@@ -128,13 +136,11 @@
 
         function setHighlightOptions( inInfo, inTab) {
             localStorage['highlightOptions'] = optValues[ inInfo.menuItemId - firstHighlightMenuId ];
-            chrome.tabs.sendRequest( inTab.id, {method: "getOptions", options: localStorage}, function (response) {});
+            chrome.tabs.sendMessage( inTab.id, {method: "getOptions", options: localStorage}, function (response) {});
         }
 
         function toggleDisplayTermCounts( inInfo, inTab) {
             localStorage['displayTermCount'] = !inInfo.wasChecked;
-            chrome.tabs.sendRequest( inTab.id, {method: "getOptions", options: localStorage}, function (response) {});
+            chrome.tabs.sendMessage( inTab.id, {method: "getOptions", options: localStorage}, function (response) {});
         }
     });
-</script>
-</html>

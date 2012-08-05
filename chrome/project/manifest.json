@@ -1,10 +1,13 @@
 {
     "name": "#BannedList Highlighter",
-    "version": "1.0.2.5",
+    "manifest_version": 2,
+    "version": "1.0.3.0",
     "description": "Highlight #BannedList phrases on every page you read.",
     "homepage_url": "https://chrome.google.com/webstore/detail/apegapfgkokdcmhlmofcbcplefcpflin",
     "options_page": "options/options.html",
-    "background_page": "background/background.html",
+    "background": {
+        "scripts": ["js/jquery-1.7.1.min_plus_highlight.js", "background/background.js"]
+    },
     "icons": {
         "16": "img/icon16.png",
         "48": "img/icon48.png",
@@ -32,7 +35,11 @@
             ]
         }
     ],
+    "web_accessible_resources": ["img/blank.png"],
     "permissions": [
-        "tabs", "contextMenus", "notifications"
-    ]
+        "tabs",
+        "contextMenus",
+        "notifications"
+    ],
+    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
 }
