@@ -1,7 +1,7 @@
 {
     "name": "#BannedList Highlighter",
     "manifest_version": 2,
-    "version": "1.0.3.0",
+    "version": "1.0.3.1",
     "description": "Highlight #BannedList phrases on every page you read.",
     "homepage_url": "https://chrome.google.com/webstore/detail/apegapfgkokdcmhlmofcbcplefcpflin",
     "options_page": "options/options.html",
