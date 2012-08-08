@@ -366,7 +366,7 @@ reqdSuffixes('Community',  'Cent(er|re)s?','Hospital','Order','School'),
 'Progressive (Space )?Rock',
 '(Russian|Greek) Orthodoxy?' /* So all Orthodoxies are banned apart from these ones */,
 'Sense of' + someWords(0,1) + ' humour',
-'Team (Blog|Building|Championships?|Meeting|Pursuit)',
+'Team (Blog|Building|Championships?|Leader|Meeting|Pursuit)',
 reqdSuffixes('Toxic', 'Chemicals?','Gas(es)?','Nuclear','\\S+ Radioactive','Substances?'),
 'Vital (organ|signs)',
 'Was met with'
