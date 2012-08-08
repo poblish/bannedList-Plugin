@@ -11,8 +11,8 @@
 .clearfix:after{clear:both;}
 .hide-text{overflow:hidden;text-indent:100%;white-space:nowrap;}
 .input-block-level{display:block;width:100%;min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;}
-.row{margin-left:-20px;*zoom:1;}.row:before,.row:after{display:table;content:"";}
-.row:after{clear:both;}
+/* (AGR) Remove troublesome selector. Was: .row{margin-left:-20px;*zoom:1;}.row:before,.row:after{display:table;content:"";}
+.row:after{clear:both;} */
 .container,.navbar-fixed-top .container,.navbar-fixed-bottom .container{width:940px;}
 .container{margin-left:auto;margin-right:auto;*zoom:1;}.container:before,.container:after{display:table;content:"";}
 .container:after{clear:both;}
