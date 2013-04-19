@@ -9,6 +9,7 @@ Test-cases
 * Where it all began: http://www.orwell.ru/library/essays/politics/english/e_polit
 * http://www.poblish.org/downloads/TheList.html (the biggest and best)
 * http://www.lssu.edu/banished/complete_list.php
+* http://www.independent.co.uk/opinion/commentators/fisk/robert-fisk-avoid-clich-like-the-plague-never-889296.html
 * http://managementconsulted.com/core-content/dictionary/
 * http://www.sustainablebrands.com/news_and_views/articles/beyond-behavior-change
 * https://gist.github.com/1580203
