@@ -7,10 +7,25 @@ describe("BannedList", function() {
     // song = new Song();
   });
 
+  it("attempt to test loaded output is formatted and matches expectation", function() {
+	  loadFixtures('samples/TheList.html');
+
+	  var node = document.getElementById('jasmine-fixtures');
+	  // ... call your code with node
+	  // Totally does not work... expect(node).toContain("information");
+
+	/*
+	    $("#after").load("samples/after.html", function() {
+		var x = ( $("#after") == $(node));
+		// assert!
+	    });
+	*/
+  });
+
   it("tracks that the spy was called", function() {
-    // expect(chrome.extension.sendMessage).toHaveBeenCalledWith({ method: "resetBadge"});
+    // Events don't work, so this never works... expect(chrome.extension.sendMessage).toHaveBeenCalledWith({ method: "resetBadge"});
     expect(chrome.extension.sendMessage).toHaveBeenCalledWith( { method : 'getOptions' }, jasmine.any(Function));
-    // expect(chrome.extension.sendMessage).toHaveBeenCalledWith({ method: "setBadge", score: 213, url: ''});
+    // Events don't work, so this never works... expect(chrome.extension.sendMessage).toHaveBeenCalledWith({ method: "setBadge", score: 213, url: ''});
     expect(chrome.extension.onMessage.addListener).toHaveBeenCalledWith( jasmine.any(Function) );
   });
 

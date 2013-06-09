@@ -6,20 +6,12 @@
 
   <link rel="shortcut icon" type="image/png" href="lib/jasmine-1.3.1/jasmine_favicon.png">
   <link rel="stylesheet" type="text/css" href="lib/jasmine-1.3.1/jasmine.css">
-  <!-- <script type="text/javascript" src="lib/require_2.1.6.js"></script> -->
-
-<script type="text/javascript">
-  (function() {
-    require = require.config({
-      baseUrl: "../"
-    });
-
-    var jasmineEnv = jasmine.getEnv();
-   })
-</script>
 
   <script type="text/javascript" src="lib/jasmine-1.3.1/jasmine.js"></script>
   <script type="text/javascript" src="lib/jasmine-1.3.1/jasmine-html.js"></script>
+  <script type="text/javascript" src="lib/jasmine-dom-fixtures.js"></script>
+  <script type="text/javascript" src="lib/jasmine-dom-matchers.js"></script>
+
 
 <script type="text/javascript">
 chrome.extension = {
@@ -67,9 +59,9 @@ chrome.extension = {
 
     })();
   </script>
-
 </head>
 
 <body>
+  <div id="after" />
 </body>
 </html>
