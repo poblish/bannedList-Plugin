@@ -120,7 +120,7 @@ jQuery.fn.highlight = function( ioStats, ioHistory, inDocUrl, inTermsGroup, inOp
 
                 var theJQNode = $(node.childNodes[i]);
 
-                if ( theJQNode.css('display') === 'none' /* && theJQNode.css('z-index') > 0 */) {
+                if ( /* Check it's an element */ theJQNode.get(0).nodeType == 1 && theJQNode.css('display') === 'none' /* && theJQNode.css('z-index') > 0 */) {
                     continue;	// Skip what we believe to be a panel that only appears when you hover over it.
                 }
 
