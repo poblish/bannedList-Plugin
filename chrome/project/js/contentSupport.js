@@ -320,6 +320,7 @@ function trimUrlForStats( inURL ) {
 
 function adjustAssocArrayKeyCase( inArray, inKeyToFind) {
     var theLCaseMatch = inKeyToFind.toLowerCase();
+    var eachExistingTerm;
 
     for ( eachExistingTerm in inArray) {
         if (eachExistingTerm.toLowerCase() === theLCaseMatch) {
